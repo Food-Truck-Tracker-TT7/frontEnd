@@ -290,3 +290,33 @@ export const deleteFavoriteTruck = (dinerId, truckId, redirectTo) => {
       });
   };
 };
+
+//Fetch operator with a given operator id
+export const fetchOperator = operatorId => {
+  return dispatch => {
+    dispatch({ type: LOADING });
+
+    axiosWithAuth()
+      .get(`/operators/${operatorId}`)
+      .then(res => {
+        dispatch({ type: SET_USER, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+//Fetch trucks owned for operator with a given operator id
+export const fetchOperatorTruck = operatorId => {
+  return dispatch => {
+    axiosWithAuth()
+      .get(`/operators/${operatorId}/trucksOwned`)
+      .then(res => {
+        console.log(res); // update this
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
