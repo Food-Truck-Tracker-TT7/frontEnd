@@ -8,3 +8,9 @@ export const loading = () => {
     dispatch({ type: LOADING });
   };
 };
+
+export const error = errorMessage => {
+  return dispatch => {
+    dispatch({ type: ERROR, payload: errorMessage });
+  };
+};
