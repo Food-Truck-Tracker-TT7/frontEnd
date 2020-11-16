@@ -1,5 +1,4 @@
 import React from 'react';
-import stringifyLocation from '../utils/stringifyLocation';
 
 export default function Locate(props) {
   const { panTo } = props;
@@ -9,7 +8,6 @@ export default function Locate(props) {
       onClick={() => {
         navigator.geolocation.getCurrentPosition(
           position => {
-            console.log(stringifyLocation(position));
             panTo({
               lat: position.coords.latitude,
               lng: position.coords.longitude,
