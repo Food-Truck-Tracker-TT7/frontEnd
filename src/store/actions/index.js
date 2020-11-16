@@ -22,6 +22,7 @@ export const addDiner = (diner, redirectTo) => {
     axios
       .post(`${BASE_URL}/auth/register/diner`, diner)
       .then(res => {
+        console.log(res);
         redirectTo('/login');
       })
       .catch(err => {
