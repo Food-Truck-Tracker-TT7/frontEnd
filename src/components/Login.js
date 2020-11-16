@@ -85,13 +85,18 @@ export default function Login() {
   const formSubmit = (event) => {
     event.preventDefault();
     //post takes url and what we want to post to the api
-    axios.post("https://reqres.in/api/users", formState).then((response) => {
-      console.log(response.data);
-      setFormSate({
-        username: "",
-        password: "",
+    axios
+      .post("https://reqres.in/api/users", formState)
+      .then((response) => {
+        console.log(response.data);
+        setFormSate({
+          username: "",
+          password: "",
+        });
+      })
+      .catch((errors) => {
+        console.log(errors);
       });
-    });
   };
 
   return (
