@@ -1,9 +1,12 @@
 import {
   LOADING,
+  ERROR,
   SET_TRUCKS,
   SET_TRUCK,
-  SET_USER,
   ADD_TRUCK,
+  SET_USER,
+  SET_MENU,
+  ADD_MENU_ITEM,
 } from '../actions';
 
 const initialState = {
@@ -34,23 +37,41 @@ const initialState = {
     },
   ],
   currentTruck: {},
+  menu: [],
 };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case LOADING:
       return { ...state, isLoading: true };
+    case ERROR:
+      return { ...state, error: action.payload, isLoading: false };
     case SET_USER:
-      return { ...state, user: action.payload, isLoading: false };
+      return { ...state, user: action.payload, isLoading: false, error: '' };
     case SET_TRUCKS:
-      return { ...state, trucks: action.payload, isLoading: false };
-    case SET_TRUCK:
-      return { ...state, currentTruck: action.payload, isLoading: false };
+      return { ...state, trucks: action.payload, isLoading: false, error: '' };
     case ADD_TRUCK:
       return {
         ...state,
-        trucks: [...trucks, action.payload],
+        trucks: [...state.trucks, action.payload],
         isLoading: false,
+        error: '',
+      };
+    case SET_TRUCK:
+      return {
+        ...state,
+        currentTruck: action.payload,
+        isLoading: false,
+        error: '',
+      };
+    case SET_MENU:
+      return { ...state, menu: action.payload, isLoading: false, error: '' };
+    case ADD_MENU_ITEM:
+      return {
+        ...state,
+        menu: [state.menu, action.payload],
+        isLoading: false,
+        error: '',
       };
     default:
       return state;

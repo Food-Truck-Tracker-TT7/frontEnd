@@ -7,27 +7,14 @@ const BASE_URL = 'https://food-truck-trackr-api.herokuapp.com/api';
 // Action Types
 export const LOADING = 'LOADING';
 export const ERROR = 'ERROR';
-export const ADD_DINER = 'ADD_DINER';
 export const SET_TRUCKS = 'SET_TRUCKS';
 export const SET_TRUCK = 'SET_TRUCK';
-export const SET_USER = 'SET_USER';
 export const ADD_TRUCK = 'ADD_TRUCK';
+export const SET_USER = 'SET_USER';
+export const SET_MENU = 'SET_MENU';
+export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
 
 // Action creators
-
-//Sets the loading state
-export const loading = () => {
-  return dispatch => {
-    dispatch({ type: LOADING });
-  };
-};
-
-//Sets any network error messages
-export const error = errorMessage => {
-  return dispatch => {
-    dispatch({ type: ERROR, payload: errorMessage });
-  };
-};
 
 //Adds a new diner to the backend
 export const addDiner = (diner, redirectTo) => {
@@ -47,7 +34,7 @@ export const addDiner = (diner, redirectTo) => {
 export const addOperator = (operator, redirectTo) => {
   return dispatch => {
     axios
-      .post(`${BASE_URL}/auth/register/operator`)
+      .post(`${BASE_URL}/auth/register/operator`, operator)
       .then(res => {
         redirectTo('/login');
       })
@@ -93,7 +80,6 @@ export const fetchTrucks = () => {
 //Fetches a single truck's information based on truck ID
 export const fetchTruck = truckId => {
   return dispatch => {
-    dispatch({ type: LOADING });
     axiosWithAuth()
       .get(`/trucks/${truckId}`)
       .then(res => {
@@ -109,7 +95,6 @@ export const fetchTruck = truckId => {
 export const addTruck = truckInfo => {
   return dispatch => {
     dispatch({ type: LOADING });
-
     axiosWithAuth()
       .post('/trucks', truckInfo)
       .then(res => {
@@ -122,14 +107,12 @@ export const addTruck = truckInfo => {
 };
 
 //Updates a truck with a given turck ID
-export const updateTruck = (truckId, truckInfo) => {
+export const updateTruck = (truckId, truckInfo, redirectTo) => {
   return dispatch => {
-    dispatch({ type: LOADING });
-
     axiosWithAuth()
       .put(`/truck/${truckId}`, truckInfo)
       .then(res => {
-        console.log(res); // not sure what this returns yet
+        redirectTo(`/truck/${truckId}`);
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -137,14 +120,170 @@ export const updateTruck = (truckId, truckInfo) => {
   };
 };
 
-export const deleteTruck = truckId => {
+//Delete a truck with a given truck ID
+export const deleteTruck = (truckId, redirectTo) => {
+  return dispatch => {
+    axiosWithAuth()
+      .delete(`/trucks/${truckId}`)
+      .then(res => {
+        redirectTo('/dashboard');
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+//Fetches the menu for a given truck ID
+export const fetchMenu = truckId => {
   return dispatch => {
     dispatch({ type: LOADING });
 
     axiosWithAuth()
-      .delete(`/trucks/${truckId}`)
+      .get(`/trucks/${truckId}/menu`)
       .then(res => {
-        console.log(res); // not sure what this return yet
+        dispatch({ type: SET_MENU, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+//Adds a item to the truck's menu
+export const addMenuItem = (truckId, menuItem, redirectTo) => {
+  return dispatch => {
+    axiosWithAuth()
+      .post(`/trucks/${truckId}/menu`, menuItem)
+      .then(res => {
+        dispatch({ type: ADD_MENU_ITEM, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+//Updates an item with the given menu item id for the given truck id
+export const updateMenuItem = (truckId, menuItemId, menuItem, redirectTo) => {
+  return dispatch => {
+    axiosWithAuth()
+      .put(`/trucks/${truckId}/menu/${menuItemId}`, menuItem)
+      .then(res => {
+        redirectTo(`/trucks/${truckId}`);
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+//Deletes an item with the given menu item id for the given truck id
+export const deleteMenuItem = (truckId, menuItemId, redirectTo) => {
+  return dispatch => {
+    axiosWithAuth()
+      .delete(`/trucks/${truckId}/menu/${menuItemId}`)
+      .then(res => {
+        redirectTo(`/trucks/${truckId}`);
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+// Adds (or replaces) a customer rating from a customer with a given diner id to a truck with a given truck id
+export const addCustomerRating = (truckId, dinerId, rating, redirectTo) => {
+  return dispatch => {
+    axiosWithAuth()
+      .post(`/trucks/${truckId}/customerRatings/${dinerId}`, rating)
+      .then(res => {
+        redirectTo(`/trucks/${truckId}`);
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+// Adds a photo for a given menu item id for a given truck id
+export const addItemPhoto = (truckId, menuItemId, photoURL, redirectTo) => {
+  return dispatch => {
+    axiosWithAuth()
+      .post(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`, photoURL)
+      .then(res => {
+        redirectTo(`/trucks/${truckId}`);
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+// Deletes a photo for a given menu item id for a given truck id
+export const deleteItemPhoto = (truckId, menuItemId, redirectTo) => {
+  return dispatch => {
+    axiosWithAuth()
+      .delete(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`)
+      .then(res => {
+        redirectTo(`/trucks/${truckId}`);
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+// Fetches the diner information for a diner with the given diner id
+export const fetchDiner = dinerId => {
+  return dispatch => {
+    dispatch({ type: LOADING });
+    axiosWithAuth()
+      .get(`/diners/${dinerId}`)
+      .then(res => {
+        dispatch({ type: SET_USER, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+// Updates a diner information for a diner with the given diner id
+export const updateDiner = (dinerId, dinerInfo, redirectTo) => {
+  return dispatch => {
+    axiosWithAuth()
+      .put(`/diners/${dinerId}`, dinerInfo)
+      .then(res => {
+        redirectTo('/dashboard');
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+// Add a truck to a diner's list of favorite trucks
+export const addFavoriteTruck = (dinerId, truck, redirectTo) => {
+  return dispatch => {
+    axiosWithAuth()
+      .post(`/diners/${dinerId}/favoriteTrucks`, truck)
+      .then(res => {
+        redirectTo(`/trucks/${truck.id}`);
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+// Removes a favorite truck with a given truck id from a diner with a given diner id
+export const deleteFavoriteTruck = (dinerId, truckId, redirectTo) => {
+  return dispatch => {
+    axiosWithAuth()
+      .delete(`/diners/${dinerId}/favoriteTrucks`, truckId)
+      .then(res => {
+        redirectTo(`trucks/${truckId}`);
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
