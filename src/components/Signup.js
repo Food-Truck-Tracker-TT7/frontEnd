@@ -1,16 +1,15 @@
-//* set up yup validation and type to submitBTN
 //* create state for error messages
 //* populate informative error message
-
+//* set up yup validation and type to submitBTN
 
 import React, {useState} from 'react';
 import * as yup from 'yup';
 
 export default function Signup() {
   const initialState = { username: '', password: '', email: '', usertype: ''};
-  const [radioBtnState,setRadioBtnState] = useState(true); 
   const [signupInput, setSignupInput] = useState(initialState);
-  const [ submitBtn, setSubmitBtn] = useState(false);
+  const [validationError, setValidationError] = useState(initialState);
+  const [submitBtn, setSubmitBtn] = useState(false);
   console.log(signupInput);
 
   const onChangeFunc = (e) => {
@@ -23,22 +22,23 @@ export default function Signup() {
     setSignupInput(initialState);
   }
 
-  // //TODO: yup error state 
-  // const formSchema = yup.object().shape({
-  //   username: yup.string().required(),
-  //   password: yup.string().required(),
-  //   email: yup.string().email().required(),
-  // })
+  //*Yup validation
+  const formSchema = yup.object().shape({
+    username: yup.string().required(),
+    password: yup.string().required(),
+    email: yup.string().email().required(),
+    usertype: yup.boolean().oneOf([true]).required()
+  });
 
   return (
     <>
       <div>Signup Page</div>
       <form onSubmit={onSubmitFunc}>
         <label htmlFor="usertype"> Diner
-          <input type="radio" name='usertype' id='diner' value={radioBtnState} checked={signupInput.usertype === 'diner' ? true : false} onChange={onChangeFunc}/>
+          <input type="radio" name='usertype' id='diner' value='diner' checked={signupInput.usertype === 'diner' ? true : false} onChange={onChangeFunc}/>
         </label> {}
         <label htmlFor="usertype"> Operator
-          <input type="radio" name='usertype' id='operator' value={radioBtnState} checked={signupInput.usertype === 'operator' ? true : false} onChange={onChangeFunc}/>
+          <input type="radio" name='usertype' id='operator' value='operator' checked={signupInput.usertype === 'operator' ? true : false} onChange={onChangeFunc}/>
         </label>
         <br />
         <label htmlFor="username">
