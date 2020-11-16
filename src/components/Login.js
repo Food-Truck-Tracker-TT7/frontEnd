@@ -9,15 +9,41 @@ export default function Login() {
     password: "",
     // accountType: "",
   });
+  //managing error state
+  const [errors, setErrors] = useState({
+    username: "",
+    password: "",
+    // accountType: "",
+  });
 
   //submit state checks whether the form can be submited
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
-  //inline validation on key/value pair at a time
-  const validateChange = (event) => {};
+  //inline validation on one key/value pair at a time
+  const validateChange = (event) => {
+    //.reach is in the yup library
+    //returns a promise
+    yup
+      .reach(formSchema, event.target.name)
+      .validate(event.target.value)
+      .then((valid) => {
+        //value from valid comes from .validate
+        //if the input is passing formSchema
+        setErrors({ ...errors, [event.target.name]: "" });
+      })
+      .catch((error) => {
+        //if the input is breakign formSchema
+        //capture the error message
+        setErrors({ ...errors, [event.target.name]: error.errors[0] });
+      });
+
+    //need to call this function the onChange function = inputChnage
+  };
 
   //onChange function
   const inputChange = (event) => {
+    //allows us to pass around synthertic events
+    event.persist();
     console.log(event.target.name);
     console.log(event.target.value);
 
@@ -25,6 +51,10 @@ export default function Login() {
       ...formState,
       [event.target.name]: event.target.value,
     };
+
+    //event is being passed in to the validateChange function i created
+    validateChange(event);
+
     setFormSate(newFormState);
   };
 
@@ -66,6 +96,7 @@ export default function Login() {
             placeholder="USERNAME"
             onChange={inputChange}
           />
+          {errors.username.length > 0 ? <p>{errors.username}</p> : null}
         </label>
         <label htmlFor="password">
           Password
@@ -77,6 +108,7 @@ export default function Login() {
             placeholder="PASSWORD"
             onChange={inputChange}
           />
+          {errors.password.length > 0 ? <p>{errors.password}</p> : null}
         </label>
         {/* not sure if log in page needs to a section for either diner or operator */}
         {/* <label htmlFor="accountType">
