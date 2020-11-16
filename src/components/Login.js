@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 
+import axios from "axios";
+
 export default function Login() {
   //manage state for the form inputs
   const [formState, setFormSate] = useState({
@@ -80,7 +82,17 @@ export default function Login() {
   //do something every time formState changes
 
   //onSubmit function
-  const formSubmit = (event) => {};
+  const formSubmit = (event) => {
+    event.preventDefault();
+    //post takes url and what we want to post to the api
+    axios.post("https://reqres.in/api/users", formState).then((response) => {
+      console.log(response.data);
+      setFormSate({
+        username: "",
+        password: "",
+      });
+    });
+  };
 
   return (
     <div>
