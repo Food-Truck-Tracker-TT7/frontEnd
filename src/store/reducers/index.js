@@ -1,3 +1,5 @@
+import { LOADING } from '../actions';
+
 const initialState = {
   isLoading: false,
   error: '',
@@ -29,6 +31,8 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOADING:
+      return { ...state, isLoading: true };
     default:
       return state;
   }

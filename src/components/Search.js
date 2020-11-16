@@ -11,12 +11,11 @@ import {
   ComboboxList,
   ComboboxOption,
 } from '@reach/combobox';
+import parseLocation from '../utils/parseLocation';
 
 const Search = props => {
   const { user, panTo } = props;
-  const [userLat, userLng] = user.currentLocation.split(',');
-  const lat = Number(userLat);
-  const lng = Number(userLng);
+  const userLocation = parseLocation(user.currentLocation);
 
   const {
     ready,
@@ -26,7 +25,7 @@ const Search = props => {
     clearSuggestions,
   } = usePlacesAutocomplete({
     requestOptions: {
-      location: { lat: () => lat, lng: () => lng },
+      location: { lat: () => userLocation.lat, lng: () => userLocation.lng },
       radius: 200 * 1000,
     },
   });

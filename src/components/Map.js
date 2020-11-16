@@ -7,9 +7,11 @@ import {
   useLoadScript,
 } from '@react-google-maps/api';
 
-import FoodTruckMarker from '../images/foodtruckmarker.png';
 import Search from './Search';
 import Locate from './Locate';
+import parseLocation from '../utils/parseLocation'; //takes in location string and returns a location object
+
+import FoodTruckMarker from '../images/foodtruckmarker.png';
 
 const libraries = ['places'];
 const mapContainerStyle = {
@@ -25,12 +27,7 @@ const options = {
 const Map = props => {
   const { user, trucks } = props;
 
-  const [userLat, userLng] = user.currentLocation.split(',');
-
-  const center = {
-    lat: Number(userLat),
-    lng: Number(userLng),
-  };
+  const [center, setCenter] = useState(parseLocation(user.currentLocation));
 
   const mapRef = useRef();
   const onMapLoad = useCallback(map => {
@@ -40,8 +37,8 @@ const Map = props => {
   // pans the map to the target location
   const panTo = useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
-    mapRef.current.setZoom(14);
-  });
+    mapRef.current.setZoom(15);
+  }, []);
 
   //selected truck information
   const [selected, setSelected] = useState(null);
@@ -60,14 +57,13 @@ const Map = props => {
       <Locate panTo={panTo} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        zoom={15}
+        zoom={10}
         center={center}
         options={options}
         onLoad={onMapLoad}
       >
         {/* Create markers for each truck */}
         {trucks.map(truck => {
-          const [lat, lng] = truck.currentLocation.split(',');
           return (
             <Marker
               icon={{
@@ -77,12 +73,10 @@ const Map = props => {
                 anchor: new window.google.maps.Point(25, 25),
               }}
               key={truck.id}
-              position={{ lat: Number(lat), lng: Number(lng) }}
+              position={parseLocation(truck.currentLocation)}
               onClick={() => {
-                setSelected({
-                  ...truck,
-                  currentLocation: { lat: Number(lat), lng: Number(lng) },
-                });
+                setCenter(parseLocation(truck.currentLocation));
+                setSelected(truck);
               }}
             />
           );
@@ -90,10 +84,7 @@ const Map = props => {
 
         {selected ? (
           <InfoWindow
-            position={{
-              lat: selected.currentLocation.lat,
-              lng: selected.currentLocation.lng,
-            }}
+            position={parseLocation(selected.currentLocation)}
             onCloseClick={() => {
               setSelected(null);
             }}
