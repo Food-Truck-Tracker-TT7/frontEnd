@@ -57,7 +57,7 @@ const Map = props => {
       <Locate panTo={panTo} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        zoom={10}
+        zoom={15}
         center={center}
         options={options}
         onLoad={onMapLoad}
