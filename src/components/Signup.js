@@ -1,15 +1,21 @@
+//* set up yup validation and type to submitBTN
+//* create state for error messages
+//* populate informative error message
+
+
 import React, {useState} from 'react';
+import * as yup from 'yup';
 
 export default function Signup() {
   const initialState = { username: '', password: '', email: '', usertype: ''};
+  const [radioBtnState,setRadioBtnState] = useState(true); 
   const [signupInput, setSignupInput] = useState(initialState);
   const [ submitBtn, setSubmitBtn] = useState(false);
-  console.log(signupInput); //!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  console.log(signupInput);
 
   const onChangeFunc = (e) => {
-    setSignupInput({ ...signupInput, [e.target.name]: e.target.value });
-    console.log(e.target.name);
-    console.log(e.target.value);
+    const typeOfValue = e.target.type === 'radio' ? e.target.id : e.target.value
+    setSignupInput({ ...signupInput, [e.target.name]: typeOfValue });
   };
 
   const onSubmitFunc = (e) => {
@@ -17,17 +23,23 @@ export default function Signup() {
     setSignupInput(initialState);
   }
 
-  //TODO Validate w/Yup
+  // //TODO: yup error state 
+  // const formSchema = yup.object().shape({
+  //   username: yup.string().required(),
+  //   password: yup.string().required(),
+  //   email: yup.string().email().required(),
+  // })
+
   return (
     <>
       <div>Signup Page</div>
       <form onSubmit={onSubmitFunc}>
-        <label htmlFor="usertype"> Operator
-          <input type="radio" name='usertype' id='operator' value={signupInput.usertype} onChange={onChangeFunc}/>
-        </label>
         <label htmlFor="usertype"> Diner
-          <input type="radio" name='usertype' id='diner' value={signupInput.usertype} onChange={onChangeFunc}/>
-        </label> 
+          <input type="radio" name='usertype' id='diner' value={radioBtnState} checked={signupInput.usertype === 'diner' ? true : false} onChange={onChangeFunc}/>
+        </label> {}
+        <label htmlFor="usertype"> Operator
+          <input type="radio" name='usertype' id='operator' value={radioBtnState} checked={signupInput.usertype === 'operator' ? true : false} onChange={onChangeFunc}/>
+        </label>
         <br />
         <label htmlFor="username">
           {"Username"}
@@ -35,7 +47,7 @@ export default function Signup() {
             type="text"
             id="username"
             name="username"
-            value={signupInput.username} //*what is the value of this?<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+            value={signupInput.username}
             onChange={onChangeFunc}
           />
         </label>
