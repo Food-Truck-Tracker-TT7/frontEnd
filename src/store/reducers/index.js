@@ -21,7 +21,6 @@ const initialState = {
   userType: userType ? userType : '',
   trucks: [],
   currentTruck: {},
-  menu: [],
   isLoggedIn: user ? true : false,
 };
 

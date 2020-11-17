@@ -10,6 +10,7 @@ import Map from './components/Map';
 import PrivateRoute from './components/PrivateRoute';
 import DinerDashboard from './components/DinerDashboard';
 import OperatorDashboard from './components/OperatorDashboard';
+import Truck from './components/Truck';
 
 import './styles/App.css';
 
@@ -27,6 +28,7 @@ function App(props) {
           path='/dashboard'
           component={userType === 'diner' ? DinerDashboard : OperatorDashboard}
         />
+        <PrivateRoute path='/truck/:id' component={Truck} />
         <Route path='/' component={Welcome} />
       </Switch>
     </>
