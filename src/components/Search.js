@@ -14,8 +14,11 @@ import {
 import parseLocation from '../utils/parseLocation';
 
 const Search = props => {
-  const { user, panTo } = props;
-  const userLocation = parseLocation(user.currentLocation);
+  const { user, userType, panTo } = props;
+  const userLocation =
+    userType === 'diner'
+      ? parseLocation(user.currentLocation)
+      : parseLocation('43.6034958,-110.7363361');
 
   const {
     ready,
@@ -72,6 +75,7 @@ const Search = props => {
 const mapStateToProps = state => {
   return {
     user: state.user,
+    userType: state.userType,
   };
 };
 

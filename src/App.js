@@ -11,6 +11,8 @@ import PrivateRoute from './components/PrivateRoute';
 import DinerDashboard from './components/DinerDashboard';
 import OperatorDashboard from './components/OperatorDashboard';
 import Truck from './components/Truck';
+import AddTruck from './components/AddTruck';
+import MenuItem from './components/MenuItem';
 
 import './styles/App.css';
 
@@ -29,6 +31,8 @@ function App(props) {
           component={userType === 'diner' ? DinerDashboard : OperatorDashboard}
         />
         <PrivateRoute path='/truck/:id' component={Truck} />
+        <PrivateRoute path='/addtruck/' component={AddTruck} />
+        <PrivateRoute path='/addmenuitem/' component={MenuItem} />
         <Route path='/' component={Welcome} />
       </Switch>
     </>

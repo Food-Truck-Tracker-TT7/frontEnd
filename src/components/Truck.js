@@ -1,22 +1,35 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchTruck } from '../store/actions';
-import { useParams } from 'react-router-dom';
+import { fetchTruck, addFavoriteTruck } from '../store/actions';
+import { useParams, Link } from 'react-router-dom';
 import DisplayMenuItems from '../components/DisplayMenuItem';
 
 function Truck(props) {
   const { id } = useParams();
-  const { user, userType, isLoading, currentTruck, fetchTruck } = props;
+  const {
+    user,
+    userType,
+    isLoading,
+    currentTruck,
+    fetchTruck,
+    addFavoriteTruck,
+    error,
+  } = props;
 
   useEffect(() => {
     fetchTruck(id);
   }, []);
+
+  const addFavorite = () => {
+    addFavoriteTruck(user.dinerId, currentTruck.id);
+  };
 
   if (isLoading) return <h2>Loading...</h2>;
   if (currentTruck)
     return (
       <>
         <h2>{currentTruck.name}</h2>
+        <img src={currentTruck.imageOfTruck} alt='food truck' />
         <p>Cuisine Type: {currentTruck.cuisineType}</p>
         <p>Customer Rating: {currentTruck.customerRatingsAvg}/5</p>
         <p>
@@ -25,8 +38,16 @@ function Truck(props) {
             ? currentTruck.customerRatings.length
             : null}
         </p>
+        <p>{error}</p>
+        {userType === 'diner' ? (
+          <button onClick={addFavorite}>Add To Favorites</button>
+        ) : null}
         <div>
           <h3>Menu</h3>
+          {userType === 'operator' &&
+          user.operatorId === currentTruck.operatorId ? (
+            <Link to='/addmenuitem'>Add A Menu Item</Link>
+          ) : null}
           {currentTruck.menu
             ? currentTruck.menu.map(menuItem => (
                 <DisplayMenuItems menuItem={menuItem} />
@@ -43,7 +64,10 @@ const mapStateToProps = state => {
     currentTruck: state.currentTruck,
     isLoading: state.isLoading,
     userType: state.userType,
+    error: state.error,
   };
 };
 
-export default connect(mapStateToProps, { fetchTruck })(Truck);
+export default connect(mapStateToProps, { fetchTruck, addFavoriteTruck })(
+  Truck
+);
