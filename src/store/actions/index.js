@@ -13,6 +13,7 @@ export const ADD_TRUCK = 'ADD_TRUCK';
 export const SET_USER = 'SET_USER';
 export const SET_MENU = 'SET_MENU';
 export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
+export const LOGOUT_USER = 'LOGOUT_USER';
 
 // Action creators
 
@@ -46,18 +47,24 @@ export const addOperator = (operator, redirectTo) => {
 };
 
 //Logs the user in, sets the JWT to local store and updates the user in state
-export const login = loginInfo => {
+export const loginUser = (loginInfo, redirectTo) => {
   return dispatch => {
     dispatch({ type: LOADING });
     axios
-      .get(`${BASE_URL}/auth/login`, loginInfo)
+      .post(`${BASE_URL}/auth/login`, loginInfo)
       .then(res => {
         localStorage.setItem('token', res.data.token);
-        res.data.type === 'diner'
-          ? dispatch({ type: SET_USER, payload: res.data.diner })
-          : dispatch({ type: SET_USER, payload: res.data.operator });
+        if (res.data.type === 'diner') {
+          localStorage.setItem('dinerId', res.data.diner.dinerId);
+          dispatch({ type: SET_USER, payload: res.data.diner });
+        } else {
+          localStorage.setItem('operatorId', res.data.operator.operatorId);
+          dispatch({ type: SET_USER, payload: res.data.operator });
+        }
+        redirectTo('/map');
       })
       .catch(err => {
+        console.log('Error:', err);
         dispatch({ type: ERROR, payload: err.message });
       });
   };
@@ -319,5 +326,11 @@ export const fetchOperatorTruck = operatorId => {
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
       });
+  };
+};
+
+export const logoutUser = () => {
+  return dispatch => {
+    dispatch({ type: LOGOUT_USER });
   };
 };

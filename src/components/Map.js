@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   GoogleMap,
@@ -10,6 +10,7 @@ import {
 import Search from './Search';
 import Locate from './Locate';
 import parseLocation from '../utils/parseLocation'; //takes in location string and returns a location object
+import { fetchTrucks } from '../store/actions';
 
 import FoodTruckMarker from '../images/foodtruckmarker.png';
 
@@ -25,7 +26,10 @@ const options = {
 };
 
 const Map = props => {
-  const { user, trucks } = props;
+  const { user, trucks, fetchTrucks } = props;
+  useEffect(() => {
+    fetchTrucks();
+  }, []);
 
   const [center, setCenter] = useState(parseLocation(user.currentLocation));
 
@@ -108,4 +112,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {})(Map);
+export default connect(mapStateToProps, { fetchTrucks })(Map);

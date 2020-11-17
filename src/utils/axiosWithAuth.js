@@ -5,7 +5,7 @@ const axiosWithAuth = () => {
   return axios.create({
     baseURL: 'https://food-truck-trackr-api.herokuapp.com/api',
     headers: {
-      authorization: token,
+      authorization: `Bearer ${token}`,
     },
   });
 };
