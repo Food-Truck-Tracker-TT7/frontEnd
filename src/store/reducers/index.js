@@ -7,37 +7,22 @@ import {
   SET_USER,
   SET_MENU,
   ADD_MENU_ITEM,
+  LOGOUT_USER,
+  SET_USER_TYPE,
 } from '../actions';
+
+const userType = localStorage.getItem('userType');
+const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
   isLoading: false,
   error: '',
-  user: {
-    dinerId: 0,
-    username: 'Test User',
-    password: 'TestPassword',
-    email: 'test@test.com',
-    currentLocation: '37.46735,-82.75587',
-    favoriteTrucks: [],
-  },
-  trucks: [
-    {
-      id: 0,
-      name: 'Test Truck 1',
-      cuisineType: 'Mexican',
-      currentLocation: '37.472304,-82.753422',
-      customerRatingsAvg: 4.5,
-    },
-    {
-      id: 2,
-      name: 'Test Truck 2',
-      cuisineType: 'Italian',
-      currentLocation: '37.458270,-82.749088',
-      customerRatingsAvg: 4.2,
-    },
-  ],
+  user: user ? user : {},
+  userType: userType ? userType : '',
+  trucks: [],
   currentTruck: {},
   menu: [],
+  isLoggedIn: user ? true : false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -47,7 +32,21 @@ export const reducer = (state = initialState, action) => {
     case ERROR:
       return { ...state, error: action.payload, isLoading: false };
     case SET_USER:
-      return { ...state, user: action.payload, isLoading: false, error: '' };
+      return {
+        ...state,
+        user: action.payload,
+        isLoading: false,
+        isLoggedIn: true,
+        error: '',
+      };
+    case SET_USER_TYPE:
+      return { ...state, userType: action.payload };
+    case LOGOUT_USER:
+      return {
+        ...state,
+        user: {},
+        isLoggedIn: false,
+      };
     case SET_TRUCKS:
       return { ...state, trucks: action.payload, isLoading: false, error: '' };
     case ADD_TRUCK:

@@ -1,0 +1,15 @@
+export default {
+  primaryColor: '12685E',
+  secondColor: '#656839',
+  thirdColor: '#A68026',
+  CTAColor: '#780602',
+  blackColor: '#171311',
+  whiteColor: '#F1F0CC',
+  display: 'inline-block',
+  borderRadius: '3px',
+  padding: '0.5rem 0',
+  margin: '0.5rem 1rem',
+  width: '11rem',
+  background: 'transparent',
+  border: '2px solid black',
+};

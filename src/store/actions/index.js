@@ -11,8 +11,10 @@ export const SET_TRUCKS = 'SET_TRUCKS';
 export const SET_TRUCK = 'SET_TRUCK';
 export const ADD_TRUCK = 'ADD_TRUCK';
 export const SET_USER = 'SET_USER';
+export const SET_USER_TYPE = 'SET_USER_TYPE';
 export const SET_MENU = 'SET_MENU';
 export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
+export const LOGOUT_USER = 'LOGOUT_USER';
 
 // Action creators
 
@@ -22,7 +24,6 @@ export const addDiner = (diner, redirectTo) => {
     axios
       .post(`${BASE_URL}/auth/register/diner`, diner)
       .then(res => {
-        console.log(res);
         redirectTo('/login');
       })
       .catch(err => {
@@ -46,18 +47,26 @@ export const addOperator = (operator, redirectTo) => {
 };
 
 //Logs the user in, sets the JWT to local store and updates the user in state
-export const login = loginInfo => {
+export const loginUser = (loginInfo, redirectTo) => {
   return dispatch => {
     dispatch({ type: LOADING });
     axios
-      .get(`${BASE_URL}/auth/login`, loginInfo)
+      .post(`${BASE_URL}/auth/login`, loginInfo)
       .then(res => {
         localStorage.setItem('token', res.data.token);
-        res.data.type === 'diner'
-          ? dispatch({ type: SET_USER, payload: res.data.diner })
-          : dispatch({ type: SET_USER, payload: res.data.operator });
+        localStorage.setItem('userType', res.data.type);
+        dispatch({ type: SET_USER_TYPE, payload: res.data.type });
+        if (res.data.type === 'diner') {
+          localStorage.setItem('user', JSON.stringify(res.data.diner));
+          dispatch({ type: SET_USER, payload: res.data.diner });
+        } else {
+          localStorage.setItem('user', JSON.stringify(res.data.operator));
+          dispatch({ type: SET_USER, payload: res.data.operator });
+        }
+        redirectTo('/map');
       })
       .catch(err => {
+        console.log('Error:', err);
         dispatch({ type: ERROR, payload: err.message });
       });
   };
@@ -251,12 +260,12 @@ export const fetchDiner = dinerId => {
 };
 
 // Updates a diner information for a diner with the given diner id
-export const updateDiner = (dinerId, dinerInfo, redirectTo) => {
+export const updateDinerLocation = (dinerId, currentLocation) => {
   return dispatch => {
     axiosWithAuth()
-      .put(`/diners/${dinerId}`, dinerInfo)
+      .put(`/diners/${dinerId}`, currentLocation)
       .then(res => {
-        redirectTo('/dashboard');
+        dispatch({ type: SET_USER, payload: res.data });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -319,5 +328,11 @@ export const fetchOperatorTruck = operatorId => {
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
       });
+  };
+};
+
+export const logoutUser = () => {
+  return dispatch => {
+    dispatch({ type: LOGOUT_USER });
   };
 };

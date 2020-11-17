@@ -1,39 +1,40 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import * as yup from "yup";
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import * as yup from 'yup';
+import { connect } from 'react-redux';
+import { loginUser } from '../store/actions';
 
-import axios from "axios";
-
-export default function Login() {
+function Login(props) {
+  const { loginUser, error } = props;
+  const { push } = useHistory();
   //manage state for the form inputs
   const [formState, setFormSate] = useState({
-    username: "",
-    password: "",
-    // accountType: "",
+    username: '',
+    password: '',
   });
   //managing error state
   const [errors, setErrors] = useState({
-    username: "",
-    password: "",
-    // accountType: "",
+    username: '',
+    password: '',
   });
 
   //submit state checks whether the form can be submited
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
   //inline validation on one key/value pair at a time
-  const validateChange = (event) => {
+  const validateChange = event => {
+
     //.reach is in the yup library
     //returns a promise
     yup
       .reach(formSchema, event.target.name)
       .validate(event.target.value)
-      .then((valid) => {
+      .then(valid => {
         //value from valid comes from .validate
         //if the input is passing formSchema
-        setErrors({ ...errors, [event.target.name]: "" });
+        setErrors({ ...errors, [event.target.name]: '' });
       })
-      .catch((error) => {
+      .catch(error => {
         //if the input is breakign formSchema
         //capture the error message
         setErrors({ ...errors, [event.target.name]: error.errors[0] });
@@ -43,11 +44,10 @@ export default function Login() {
   };
 
   //onChange function
-  const inputChange = (event) => {
+ const inputChange = event => {
     //allows us to pass around synthertic events
     event.persist();
-    console.log(event.target.name);
-    console.log(event.target.value);
+
 
     const newFormState = {
       ...formState,
@@ -64,8 +64,8 @@ export default function Login() {
   //object is coming from yup library
   //shape function takes in an object {}
   const formSchema = yup.object().shape({
-    username: yup.string().required("Username is required"),
-    password: yup.string().required("Password is required"),
+    username: yup.string().required('Username is required'),
+    password: yup.string().required('Password is required'),
     // accountType: yup.string().oneOf(["diner", "operator"]),
   });
 
@@ -74,7 +74,8 @@ export default function Login() {
     //checking formSchema against formState
     //comparing the keys and the values
     //returns a promise
-    formSchema.isValid(formState).then((valid) => {
+    formSchema.isValid(formState).then(valid => {
+
       //we can check the process has been completed
       setButtonDisabled(!valid);
     });
@@ -82,71 +83,66 @@ export default function Login() {
   //do something every time formState changes
 
   //onSubmit function
-  const formSubmit = (event) => {
+  const formSubmit = event => {
     event.preventDefault();
-    //post takes url and what we want to post to the api
-    axios
-      .post("https://reqres.in/api/users", formState)
-      .then((response) => {
-        console.log(response.data);
-        setFormSate({
-          username: "",
-          password: "",
-        });
-      })
-      .catch((errors) => {
-        console.log(errors);
-      });
+    loginUser(
+      {
+        username: formState.username.trim(),
+        password: formState.password,
+      },
+      push
+    );
   };
 
   return (
     <div>
       <p>Log In</p>
+      <p>{error}</p>
       <form onSubmit={formSubmit}>
-        <label htmlFor="username">
-          Username
-          <input
-            id="username"
-            type="text"
-            name="username"
-            value={formState.username}
-            placeholder="USERNAME"
-            onChange={inputChange}
-          />
-          {errors.username.length > 0 ? <p>{errors.username}</p> : null}
-        </label>
-        <label htmlFor="password">
-          Password
-          <input
-            id="password"
-            type="password"
-            name="password"
-            value={formState.password}
-            placeholder="PASSWORD"
-            onChange={inputChange}
-          />
-          {errors.password.length > 0 ? <p>{errors.password}</p> : null}
-        </label>
-        {/* not sure if log in page needs to a section for either diner or operator */}
-        {/* <label htmlFor="accountType">
-          Diner or Operator
-          <select
-            name="accountType"
-            id="accountType"
-            value={formState.accountType}
-            onChange={inputChange}
-          >
-            <option value="">Select</option>
-            <option value="diner">Diner</option>
-            <option value="operator">Operator</option>
-          </select>
-        </label> */}
-        <button type="submit" disabled={buttonDisabled}>
+        <div>
+          <label htmlFor='username'>
+            Username
+            <input
+              id='username'
+              type='text'
+              name='username'
+              value={formState.username}
+              placeholder='USERNAME'
+              onChange={inputChange}
+            />
+            {errors.username.length > 0 ? <p>{errors.username}</p> : null}
+          </label>
+        </div>
+        <div>
+          <label htmlFor='password'>
+            Password
+            <input
+              id='password'
+              type='password'
+              name='password'
+              value={formState.password}
+              placeholder='PASSWORD'
+              onChange={inputChange}
+            />
+            {errors.password.length > 0 ? <p>{errors.password}</p> : null}
+          </label>
+        </div>
+        <button type='submit' disabled={buttonDisabled}>
           Log In
         </button>
-        <Link to="/signup">Not a member?</Link>
-        <Link to="/">Home Page</Link>
+        <p>
+          <Link to='/signup'>Not a member?</Link>
+        </p>
+        <p>
+          <Link to='/'>Home Page</Link>
+        </p>
       </form>
     </div>
   );
 }
+const mapStateToProps = state => {
+  return {
+    error: state.error,
+  };
+};
+export default connect(mapStateToProps, { loginUser })(Login);
