@@ -23,6 +23,7 @@ function Login(props) {
 
   //inline validation on one key/value pair at a time
   const validateChange = event => {
+
     //.reach is in the yup library
     //returns a promise
     yup
@@ -43,9 +44,10 @@ function Login(props) {
   };
 
   //onChange function
-  const inputChange = event => {
+ const inputChange = event => {
     //allows us to pass around synthertic events
     event.persist();
+
 
     const newFormState = {
       ...formState,
@@ -73,6 +75,7 @@ function Login(props) {
     //comparing the keys and the values
     //returns a promise
     formSchema.isValid(formState).then(valid => {
+
       //we can check the process has been completed
       setButtonDisabled(!valid);
     });
