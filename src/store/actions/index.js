@@ -90,6 +90,7 @@ export const fetchTrucks = () => {
 //Fetches a single truck's information based on truck ID
 export const fetchTruck = truckId => {
   return dispatch => {
+    dispatch({ type: LOADING });
     axiosWithAuth()
       .get(`/trucks/${truckId}`)
       .then(res => {
@@ -161,7 +162,7 @@ export const fetchMenu = truckId => {
 };
 
 //Adds a item to the truck's menu
-export const addMenuItem = (truckId, menuItem, redirectTo) => {
+export const addMenuItem = (truckId, menuItem) => {
   return dispatch => {
     axiosWithAuth()
       .post(`/trucks/${truckId}/menu`, menuItem)

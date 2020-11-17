@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   GoogleMap,
@@ -31,11 +32,11 @@ const Map = props => {
 
   useEffect(() => {
     fetchTrucks();
-    if (userType === 'diner') {
-      navigator.geolocation.getCurrentPosition(position => {
-        updateDinerLocation(user.dinerId, stringifyLocation(position));
-      });
-    }
+    // if (userType === 'diner') {
+    //   navigator.geolocation.getCurrentPosition(position => {
+    //     updateDinerLocation(user.dinerId, stringifyLocation(position));
+    //   });
+    // }
   }, []);
 
   const [center, setCenter] = useState(parseLocation(user.currentLocation));
@@ -68,7 +69,7 @@ const Map = props => {
       <Locate panTo={panTo} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        zoom={15}
+        zoom={10}
         center={center}
         options={options}
         onLoad={onMapLoad}
@@ -101,7 +102,9 @@ const Map = props => {
             }}
           >
             <div>
-              <h2>{selected.name}</h2>
+              <h2>
+                <Link to={`/truck/${selected.id}`}>{selected.name}</Link>
+              </h2>
               <p>Food Type: {selected.cuisineType}</p>
               <p>Average Rating: {selected.customerRatingsAvg}/5</p>
             </div>

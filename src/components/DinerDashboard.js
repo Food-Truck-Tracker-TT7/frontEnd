@@ -9,15 +9,18 @@ function DinerDashboard(props) {
       <div>
         <h2>{user.username}</h2>
         <p>email: {user.email}</p>
-        <button>Update Information</button>
       </div>
       <div>
-        {/* <h3>Favorite Trucks</h3>
-        <ul>
-          {user.favoriteTrucks.map(truck => {
-            <li>{truck.name}</li>;
-          })}
-        </ul> */}
+        <h3>Favorite Trucks</h3>
+        {user.favoriteTrucks ? (
+          <ul>
+            {user.favoriteTrucks.map(truck => {
+              <li>{truck.name}</li>;
+            })}
+          </ul>
+        ) : (
+          <p>No favorite trucks yet!</p>
+        )}
       </div>
     </>
   );
