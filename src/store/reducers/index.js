@@ -9,6 +9,7 @@ import {
   ADD_MENU_ITEM,
   LOGOUT_USER,
   SET_USER_TYPE,
+  FETCH_TRUCKS_OWNED,
 } from '../actions';
 
 const userType = localStorage.getItem('userType');
@@ -21,6 +22,7 @@ const initialState = {
   userType: userType ? userType : '',
   trucks: [],
   currentTruck: {},
+  trucksOwned: [],
   isLoggedIn: user ? true : false,
 };
 
@@ -68,6 +70,13 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         menu: [state.menu, action.payload],
+        isLoading: false,
+        error: '',
+      };
+    case FETCH_TRUCKS_OWNED:
+      return {
+        ...state,
+        trucksOwned: action.payload,
         isLoading: false,
         error: '',
       };

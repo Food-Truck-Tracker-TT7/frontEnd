@@ -15,6 +15,7 @@ export const SET_USER_TYPE = 'SET_USER_TYPE';
 export const SET_MENU = 'SET_MENU';
 export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
 export const LOGOUT_USER = 'LOGOUT_USER';
+export const FETCH_TRUCKS_OWNED = 'FETCH_TRUCKS_OWNED';
 
 // Action creators
 
@@ -103,13 +104,14 @@ export const fetchTruck = truckId => {
 };
 
 //Adds a new truck
-export const addTruck = truckInfo => {
+export const addTruck = (truckInfo, redirectTo) => {
   return dispatch => {
     dispatch({ type: LOADING });
     axiosWithAuth()
       .post('/trucks', truckInfo)
       .then(res => {
         dispatch({ type: ADD_TRUCK, payload: res.data });
+        redirectTo('/dashboard');
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -162,12 +164,12 @@ export const fetchMenu = truckId => {
 };
 
 //Adds a item to the truck's menu
-export const addMenuItem = (truckId, menuItem) => {
+export const addMenuItem = (truckId, menuItem, redirectTo) => {
   return dispatch => {
     axiosWithAuth()
       .post(`/trucks/${truckId}/menu`, menuItem)
       .then(res => {
-        dispatch({ type: ADD_MENU_ITEM, payload: res.data });
+        redirectTo(`/truck/${truckId}`);
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -275,12 +277,12 @@ export const updateDinerLocation = (dinerId, currentLocation) => {
 };
 
 // Add a truck to a diner's list of favorite trucks
-export const addFavoriteTruck = (dinerId, truck, redirectTo) => {
+export const addFavoriteTruck = (dinerId, truck) => {
   return dispatch => {
     axiosWithAuth()
       .post(`/diners/${dinerId}/favoriteTrucks`, truck)
       .then(res => {
-        redirectTo(`/trucks/${truck.id}`);
+        console.log(res);
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -324,7 +326,7 @@ export const fetchOperatorTruck = operatorId => {
     axiosWithAuth()
       .get(`/operators/${operatorId}/trucksOwned`)
       .then(res => {
-        console.log(res); // update this
+        dispatch({ type: FETCH_TRUCKS_OWNED, payload: res.data });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });

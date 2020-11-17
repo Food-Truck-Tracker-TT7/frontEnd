@@ -32,14 +32,18 @@ const Map = props => {
 
   useEffect(() => {
     fetchTrucks();
-    // if (userType === 'diner') {
-    //   navigator.geolocation.getCurrentPosition(position => {
-    //     updateDinerLocation(user.dinerId, stringifyLocation(position));
-    //   });
-    // }
+    if (userType === 'diner') {
+      navigator.geolocation.getCurrentPosition(position => {
+        updateDinerLocation(user.dinerId, stringifyLocation(position));
+      });
+    }
   }, []);
 
-  const [center, setCenter] = useState(parseLocation(user.currentLocation));
+  const [center, setCenter] = useState(
+    userType === 'diner'
+      ? parseLocation(user.currentLocation)
+      : parseLocation('43.6034958,-110.7363361')
+  );
 
   const mapRef = useRef();
   const onMapLoad = useCallback(map => {
