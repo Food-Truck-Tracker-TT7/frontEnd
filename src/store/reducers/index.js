@@ -8,39 +8,21 @@ import {
   SET_MENU,
   ADD_MENU_ITEM,
   LOGOUT_USER,
+  SET_USER_TYPE,
 } from '../actions';
+
+const userType = localStorage.getItem('userType');
+const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
   isLoading: false,
   error: '',
-  user: {
-    dinerId: 0,
-    username: 'Test User',
-    password: 'TestPassword',
-    email: 'test@test.com',
-    currentLocation: '37.46735,-82.75587',
-    favoriteTrucks: [],
-  },
-  userType: '',
-  trucks: [
-    {
-      id: 0,
-      name: 'Test Truck 1',
-      cuisineType: 'Mexican',
-      currentLocation: '37.472304,-82.753422',
-      customerRatingsAvg: 4.5,
-    },
-    {
-      id: 2,
-      name: 'Test Truck 2',
-      cuisineType: 'Italian',
-      currentLocation: '37.458270,-82.749088',
-      customerRatingsAvg: 4.2,
-    },
-  ],
+  user: user ? user : {},
+  userType: userType ? userType : '',
+  trucks: [],
   currentTruck: {},
   menu: [],
-  isLoggedIn: false,
+  isLoggedIn: user ? true : false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -57,6 +39,8 @@ export const reducer = (state = initialState, action) => {
         isLoggedIn: true,
         error: '',
       };
+    case SET_USER_TYPE:
+      return { ...state, userType: action.payload };
     case LOGOUT_USER:
       return {
         ...state,
