@@ -66,11 +66,11 @@ export default function AddTruck() {
   //object is coming from yup library
   //shape function takes in an object {}
   const formSchema = yup.object().shape({
-    name: yup.string().required("Username is required"),
-    imageOfTruck: yup.string().required("Password is required"),
-    cuisineType: yup.string().required("Add an image for your truck"),
-    currentLocation: yup.string().required("Add your trucks location"),
-    operatorId: yup.string().required("Add your operator ID"),
+    name: yup.string().required("Name is required"),
+    imageOfTruck: yup.string().required("URL Link required"),
+    cuisineType: yup.string().required("Cuisine type is required"),
+    currentLocation: yup.string().required("Location is required"),
+    operatorId: yup.string().required("ID is required"),
   });
 
   useEffect(() => {
@@ -94,8 +94,11 @@ export default function AddTruck() {
       .then((response) => {
         console.log(response.data);
         setFormSate({
-          username: "",
-          password: "",
+          name: "",
+          imageOfTruck: "",
+          cuisineType: "",
+          currentLocation: "",
+          operatorId: "",
         });
       })
       .catch((errors) => {
@@ -117,7 +120,61 @@ export default function AddTruck() {
             placeholder="Trucks Name"
             onChange={inputChange}
           />
+          {errors.name.length > 0 ? <p>{errors.name}</p> : null}
         </label>
+        <label htmlFor="imageOfTruck">
+          Picture of Truck
+          <input
+            id="imageOfTruck"
+            type="text"
+            name="imageOfTruck"
+            value={formState.imageOfTruck}
+            placeholder="Add URL Link of your picture"
+            onChange={inputChange}
+          />
+          {errors.imageOfTruck.length > 0 ? <p>{errors.imageOfTruck}</p> : null}
+        </label>
+        <label htmlFor="cuisineType">
+          Cuisine Type
+          <input
+            id="cuisineType"
+            type="text"
+            name="cuisineType"
+            value={formState.cuisineType}
+            placeholder="Type of Cuisine"
+            onChange={inputChange}
+          />
+          {errors.cuisineType.length > 0 ? <p>{errors.cuisineType}</p> : null}
+        </label>
+        <label htmlFor="currentLocation">
+          Truck's Location
+          <input
+            id="currentLocation"
+            type="text"
+            name="currentLocation"
+            value={formState.currentLocation}
+            placeholder="Location"
+            onChange={inputChange}
+          />
+          {errors.currentLocation.length > 0 ? (
+            <p>{errors.currentLocation}</p>
+          ) : null}
+        </label>
+        <label htmlFor="operatorId">
+          Operator ID
+          <input
+            id="operatorId"
+            type="text"
+            name="operatorId"
+            value={formState.operatorId}
+            placeholder="Your ID number"
+            onChange={inputChange}
+          />
+          {errors.operatorId.length > 0 ? <p>{errors.operatorId}</p> : null}
+        </label>
+        <button type="submit" disabled={buttonDisabled}>
+          Add Truck
+        </button>
       </form>
     </div>
   );
