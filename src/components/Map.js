@@ -10,7 +10,8 @@ import {
 import Search from './Search';
 import Locate from './Locate';
 import parseLocation from '../utils/parseLocation'; //takes in location string and returns a location object
-import { fetchTrucks } from '../store/actions';
+import stringifyLocation from '../utils/stringifyLocation';
+import { fetchTrucks, updateDinerLocation } from '../store/actions';
 
 import FoodTruckMarker from '../images/foodtruckmarker.png';
 
@@ -26,9 +27,15 @@ const options = {
 };
 
 const Map = props => {
-  const { user, trucks, fetchTrucks } = props;
+  const { user, userType, trucks, fetchTrucks, updateDinerLocation } = props;
+
   useEffect(() => {
     fetchTrucks();
+    if (userType === 'diner') {
+      navigator.geolocation.getCurrentPosition(position => {
+        updateDinerLocation(user.dinerId, stringifyLocation(position));
+      });
+    }
   }, []);
 
   const [center, setCenter] = useState(parseLocation(user.currentLocation));
@@ -108,8 +115,11 @@ const Map = props => {
 const mapStateToProps = state => {
   return {
     user: state.user,
+    userType: state.userType,
     trucks: state.trucks,
   };
 };
 
-export default connect(mapStateToProps, { fetchTrucks })(Map);
+export default connect(mapStateToProps, { fetchTrucks, updateDinerLocation })(
+  Map
+);
