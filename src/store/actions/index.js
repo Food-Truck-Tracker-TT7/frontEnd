@@ -139,7 +139,7 @@ export const deleteTruck = (truckId, redirectTo) => {
     axiosWithAuth()
       .delete(`/trucks/${truckId}`)
       .then(res => {
-        redirectTo('/dashboard');
+        redirectTo('/map');
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
