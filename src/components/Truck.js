@@ -27,7 +27,10 @@ function Truck(props) {
       : false;
 
   const addFavorite = () => {
-    addFavoriteTruck(user.dinerId, currentTruck.id);
+    addFavoriteTruck(user.dinerId, {
+      ...currentTruck,
+      truckId: currentTruck.id,
+    });
   };
 
   if (isLoading) return <h2>Loading...</h2>;

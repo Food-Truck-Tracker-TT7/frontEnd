@@ -4,23 +4,21 @@ const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid black;
-  font-size: 1.6rem;
-  background-color: ${props => props.theme.blackColor};
-
+  border-bottom: 0.1rem solid ${props => props.theme.accentColor};
+  font-size: 2rem;
+  background-color: ${props => props.theme.backgroundColor};
   a {
     text-decoration: none;
-    color: ${props => props.theme.whiteColor};
+    color: ${props => props.theme.textColor};
   }
 
   h1 {
     width: 50%;
-    padding: 0 1%;
-    margin: 0;
+    margin: 1%;
     font-size: 4rem;
   }
   nav {
-    width: 15%;
+    width: 20%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -30,7 +28,7 @@ const StyledHeader = styled.header`
 
   nav a {
     display: inline-block;
-    margin: 0 1%;
+    margin: 0 3%;
   }
 `;
 
