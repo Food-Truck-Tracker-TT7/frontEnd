@@ -1,7 +1,7 @@
 export default {
-  primaryColor: '#12685E',
-  secondColor: '#656839',
-  thirdColor: '#A68026',
+  backgroundColor: '#12685E',
+  textColor: '#656839',
+  accentColor: '#A68026',
   CTAColor: '#780602',
   blackColor: '#171311',
   whiteColor: '#F1F0CC',
