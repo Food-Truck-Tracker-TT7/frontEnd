@@ -7,6 +7,7 @@ const BASE_URL = 'https://food-truck-trackr-api.herokuapp.com/api';
 // Action Types
 export const LOADING = 'LOADING';
 export const ERROR = 'ERROR';
+export const UPDATE = 'UPDATE';
 export const SET_USER = 'SET_USER';
 export const SET_USER_TYPE = 'SET_USER_TYPE';
 export const SET_FAVORITE_TRUCKS = 'SET_FAVORITE_TRUCKS';
@@ -229,20 +230,8 @@ export const deleteMenuItem = (truckId, menuItemId) => {
   return dispatch => {
     axiosWithAuth()
       .delete(`/trucks/${truckId}/menu/${menuItemId}`)
-      .then(res => {})
-      .catch(err => {
-        dispatch({ type: ERROR, payload: err.message });
-      });
-  };
-};
-
-// Adds (or replaces) a customer rating from a customer with a given diner id to a truck with a given truck id
-export const addCustomerRating = (truckId, dinerId, rating, redirectTo) => {
-  return dispatch => {
-    axiosWithAuth()
-      .post(`/trucks/${truckId}/customerRatings/${dinerId}`, rating)
       .then(res => {
-        redirectTo(`/trucks/${truckId}`);
+        dispatch({ type: UPDATE });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -251,15 +240,14 @@ export const addCustomerRating = (truckId, dinerId, rating, redirectTo) => {
 };
 
 // Adds a photo for a given menu item id for a given truck id
-export const addItemPhoto = (truckId, menuItemId, photoURL, redirectTo) => {
+export const addItemPhoto = (truckId, menuItemId, photoURL) => {
   return dispatch => {
     axiosWithAuth()
       .post(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`, {
         url: photoURL,
       })
       .then(res => {
-        console.log('response', res);
-        redirectTo(`/truck/${truckId}`);
+        dispatch({ type: UPDATE });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -268,12 +256,16 @@ export const addItemPhoto = (truckId, menuItemId, photoURL, redirectTo) => {
 };
 
 // Deletes a photo for a given menu item id for a given truck id
-export const deleteItemPhoto = (truckId, menuItemId, redirectTo) => {
+export const deleteItemPhoto = (truckId, menuItemId, photoURL) => {
+  console.log('from action creator', photoURL);
   return dispatch => {
     axiosWithAuth()
-      .delete(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`)
+      .delete(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`, {
+        url: photoURL,
+      })
       .then(res => {
-        redirectTo(`/trucks/${truckId}`);
+        console.log(res);
+        dispatch({ type: UPDATE });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -350,12 +342,51 @@ export const fetchFavoriteTrucks = dinerId => {
 };
 
 // Removes a favorite truck with a given truck id from a diner with a given diner id
-export const deleteFavoriteTruck = (dinerId, truckId, redirectTo) => {
+export const deleteFavoriteTruck = (dinerId, truckId) => {
   return dispatch => {
     axiosWithAuth()
       .delete(`/diners/${dinerId}/favoriteTrucks`, truckId)
       .then(res => {
-        redirectTo(`trucks/${truckId}`);
+        dispatch({ type: SET_FAVORITE_TRUCKS, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+// Adds (or replaces) a customer rating from a customer with a given diner id to a truck with a given truck id
+export const addCustomerRating = (truckId, dinerId, rating) => {
+  return dispatch => {
+    axiosWithAuth()
+      .post(`/trucks/${truckId}/customerRatings/${dinerId}`, {
+        customerRating: rating,
+      })
+      .then(res => {
+        dispatch({ type: UPDATE });
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+export const addCustomerMenuItemRating = (
+  truckId,
+  menuItemId,
+  dinerId,
+  rating
+) => {
+  return dispatch => {
+    axiosWithAuth()
+      .post(
+        `/trucks/${truckId}/menu/${menuItemId}/customerRatings/${dinerId}`,
+        {
+          customerRating: rating,
+        }
+      )
+      .then(res => {
+        dispatch({ type: UPDATE });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });

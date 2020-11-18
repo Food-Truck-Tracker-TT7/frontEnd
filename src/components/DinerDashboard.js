@@ -21,7 +21,9 @@ function DinerDashboard(props) {
       <div>
         <h3>Favorite Trucks</h3>
         {favoriteTrucks
-          ? favoriteTrucks.map(truck => <FavoriteTruckCard truck={truck} />)
+          ? favoriteTrucks.map(truck => (
+              <FavoriteTruckCard key={truck.id} truck={truck} />
+            ))
           : null}
       </div>
     </>
