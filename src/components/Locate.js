@@ -1,13 +1,14 @@
-import React from 'react';
+import React from "react";
+import { LocateBtn } from "../styles/LightModeStyles";
 
 export default function Locate(props) {
   const { panTo } = props;
   return (
-    <button
-      className='locate'
+    <LocateBtn
+      className="locate"
       onClick={() => {
         navigator.geolocation.getCurrentPosition(
-          position => {
+          (position) => {
             panTo({
               lat: position.coords.latitude,
               lng: position.coords.longitude,
@@ -18,6 +19,6 @@ export default function Locate(props) {
       }}
     >
       Locate Me
-    </button>
+    </LocateBtn>
   );
 }
