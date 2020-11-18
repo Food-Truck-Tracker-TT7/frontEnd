@@ -14,6 +14,7 @@ import {
   EDIT_TRUCK,
   TRUCK_UPDATED,
   SET_MENU_ITEM_TO_EDIT,
+  UPDATE,
 } from '../actions';
 
 const userType = localStorage.getItem('userType');
@@ -32,6 +33,7 @@ const initialState = {
   truckToEdit: false,
   menu: [],
   menuItemToEdit: false,
+  update: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -114,6 +116,11 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         menuItemToEdit: action.payload,
+      };
+    case UPDATE:
+      return {
+        ...state,
+        update: !state.update,
       };
     default:
       return state;

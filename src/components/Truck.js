@@ -19,6 +19,7 @@ function Truck(props) {
     addFavoriteTruck,
     error,
     addCustomerRating,
+    update,
   } = props;
   const diner = userType === 'diner' ? true : false;
   const truckOwner =
@@ -28,7 +29,7 @@ function Truck(props) {
 
   useEffect(() => {
     fetchTruck(id);
-  }, []);
+  }, [update]);
 
   const [customerRating, setCustomerRating] = useState('5');
 
@@ -50,29 +51,6 @@ function Truck(props) {
   if (isLoading) return <h2>Loading...</h2>;
   return (
     <>
-      {diner ? (
-        <div>
-          <button onClick={addFavorite}>Add To Favorites</button>
-          <form onSubmit={handleSubmit}>
-            <label>
-              Leave A Rating:
-              <select
-                name='customerrating'
-                value={customerRating}
-                onChange={handleChange}
-              >
-                <option value='5'>5</option>
-                <option value='4'>4</option>
-                <option value='3'>3</option>
-                <option value='2'>2</option>
-                <option value='1'>1</option>
-              </select>
-            </label>
-            <button>Submit</button>
-          </form>
-        </div>
-      ) : null}
-
       <h2>{currentTruck.name}</h2>
       <img src={currentTruck.imageOfTruck} alt='food truck' />
       <p>Cuisine Type: {currentTruck.cuisineType}</p>
@@ -85,6 +63,28 @@ function Truck(props) {
       </p>
       <p>{error}</p>
       <div>
+        {diner ? (
+          <div>
+            <button onClick={addFavorite}>Add To Favorites</button>
+            <form onSubmit={handleSubmit}>
+              <label>
+                Leave A Rating:
+                <select
+                  name='customerrating'
+                  value={customerRating}
+                  onChange={handleChange}
+                >
+                  <option value='5'>5</option>
+                  <option value='4'>4</option>
+                  <option value='3'>3</option>
+                  <option value='2'>2</option>
+                  <option value='1'>1</option>
+                </select>
+              </label>
+              <button>Submit</button>
+            </form>
+          </div>
+        ) : null}
         <h3>Menu</h3>
         {truckOwner ? <Link to='/addmenuitem'>Add A Menu Item</Link> : null}
         {currentTruck.menu
@@ -104,6 +104,7 @@ const mapStateToProps = state => {
     isLoading: state.isLoading,
     userType: state.userType,
     error: state.error,
+    update: state.update,
   };
 };
 

@@ -7,6 +7,7 @@ const BASE_URL = 'https://food-truck-trackr-api.herokuapp.com/api';
 // Action Types
 export const LOADING = 'LOADING';
 export const ERROR = 'ERROR';
+export const UPDATE = 'UPDATE';
 export const SET_USER = 'SET_USER';
 export const SET_USER_TYPE = 'SET_USER_TYPE';
 export const SET_FAVORITE_TRUCKS = 'SET_FAVORITE_TRUCKS';
@@ -229,7 +230,9 @@ export const deleteMenuItem = (truckId, menuItemId) => {
   return dispatch => {
     axiosWithAuth()
       .delete(`/trucks/${truckId}/menu/${menuItemId}`)
-      .then(res => {})
+      .then(res => {
+        dispatch({ type: UPDATE });
+      })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
       });
@@ -237,15 +240,14 @@ export const deleteMenuItem = (truckId, menuItemId) => {
 };
 
 // Adds a photo for a given menu item id for a given truck id
-export const addItemPhoto = (truckId, menuItemId, photoURL, redirectTo) => {
+export const addItemPhoto = (truckId, menuItemId, photoURL) => {
   return dispatch => {
     axiosWithAuth()
       .post(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`, {
         url: photoURL,
       })
       .then(res => {
-        console.log('response', res);
-        redirectTo(`/truck/${truckId}`);
+        dispatch({ type: UPDATE });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -254,12 +256,16 @@ export const addItemPhoto = (truckId, menuItemId, photoURL, redirectTo) => {
 };
 
 // Deletes a photo for a given menu item id for a given truck id
-export const deleteItemPhoto = (truckId, menuItemId, redirectTo) => {
+export const deleteItemPhoto = (truckId, menuItemId, photoURL) => {
+  console.log('from action creator', photoURL);
   return dispatch => {
     axiosWithAuth()
-      .delete(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`)
+      .delete(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`, {
+        url: photoURL,
+      })
       .then(res => {
-        redirectTo(`/trucks/${truckId}`);
+        console.log(res);
+        dispatch({ type: UPDATE });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -341,7 +347,6 @@ export const deleteFavoriteTruck = (dinerId, truckId) => {
     axiosWithAuth()
       .delete(`/diners/${dinerId}/favoriteTrucks`, truckId)
       .then(res => {
-        console.log(res);
         dispatch({ type: SET_FAVORITE_TRUCKS, payload: res.data });
       })
       .catch(err => {
@@ -358,7 +363,7 @@ export const addCustomerRating = (truckId, dinerId, rating) => {
         customerRating: rating,
       })
       .then(res => {
-        console.log(res);
+        dispatch({ type: UPDATE });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -381,7 +386,7 @@ export const addCustomerMenuItemRating = (
         }
       )
       .then(res => {
-        console.log(res);
+        dispatch({ type: UPDATE });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });

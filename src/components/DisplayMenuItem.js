@@ -4,8 +4,9 @@ import {
   deleteMenuItem,
   editMenuItem,
   addCustomerMenuItemRating,
+  deleteItemPhoto,
 } from '../store/actions';
-import { useHistory } from 'react-router-dom';
+
 import AddPhoto from './AddPhoto';
 
 function DisplayMenuItem(props) {
@@ -17,8 +18,8 @@ function DisplayMenuItem(props) {
     deleteMenuItem,
     editMenuItem,
     addCustomerMenuItemRating,
+    deleteItemPhoto,
   } = props;
-  const { push } = useHistory();
   const {
     id,
     itemName,
@@ -39,12 +40,10 @@ function DisplayMenuItem(props) {
 
   const handleDelete = () => {
     deleteMenuItem(currentTruck.id, id);
-    push(`/dashboard`);
   };
 
   const handleEdit = () => {
     editMenuItem(menuItem);
-    push('/editmenuitem');
   };
 
   const handleChange = e => {
@@ -63,6 +62,19 @@ function DisplayMenuItem(props) {
 
   return (
     <>
+      {itemPhotos.map(photo => (
+        <p key={photo}>
+          <img src={photo} alt='menu item' />
+          <button
+            onClick={() => {
+              console.log(photo);
+              deleteItemPhoto(currentTruck.id, id, photo);
+            }}
+          >
+            Remove Photo
+          </button>
+        </p>
+      ))}
       <h3>{itemName}</h3>
       <ul>
         <li>Price: ${itemPrice}</li>
@@ -70,11 +82,6 @@ function DisplayMenuItem(props) {
         <li>Number of Ratings: {customerRatings.length} </li>
         <li>Description: {itemDescription} </li>
       </ul>
-      {itemPhotos.map(photo => (
-        <p>
-          <img src={photo} />
-        </p>
-      ))}
       {truckOwner ? (
         <div>
           <button onClick={handleEdit}>Edit Menu Item</button>
@@ -118,4 +125,5 @@ export default connect(mapStateToProps, {
   deleteMenuItem,
   editMenuItem,
   addCustomerMenuItemRating,
+  deleteItemPhoto,
 })(DisplayMenuItem);

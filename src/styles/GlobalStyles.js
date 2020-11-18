@@ -52,9 +52,9 @@ html {
     font-size: 65.2%;
 }
 
-body {
+/* body {
 	background-color: ${props => props.theme.backgroundColor}
-}
+} */
 
 .search {
   position: absolute;
