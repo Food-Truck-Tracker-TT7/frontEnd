@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchDiner, fetchOperator } from '../store/actions';
+import WelcomeStyle from '../styles/StyledWelcome';
 
 function Welcome(props) {
   const { fetchDiner, fetchOperator, user, isLoggedIn } = props;
@@ -16,11 +17,11 @@ function Welcome(props) {
   }, []);
 
   return (
-    <h2>
+    <WelcomeStyle>
       {isLoggedIn
         ? `Welcome ${user.username}!`
         : 'Welcome To Food Truck Tracker!'}
-    </h2>
+    </WelcomeStyle>
   );
 }
 
