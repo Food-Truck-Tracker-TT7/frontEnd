@@ -7,20 +7,26 @@ const BASE_URL = 'https://food-truck-trackr-api.herokuapp.com/api';
 // Action Types
 export const LOADING = 'LOADING';
 export const ERROR = 'ERROR';
+export const UPDATE = 'UPDATE';
+export const SET_USER = 'SET_USER';
+export const SET_USER_TYPE = 'SET_USER_TYPE';
+export const SET_FAVORITE_TRUCKS = 'SET_FAVORITE_TRUCKS';
+export const LOGOUT_USER = 'LOGOUT_USER';
 export const SET_TRUCKS = 'SET_TRUCKS';
 export const SET_TRUCK = 'SET_TRUCK';
 export const ADD_TRUCK = 'ADD_TRUCK';
-export const SET_USER = 'SET_USER';
-export const SET_USER_TYPE = 'SET_USER_TYPE';
-export const SET_MENU = 'SET_MENU';
-export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
-export const LOGOUT_USER = 'LOGOUT_USER';
-export const FETCH_TRUCKS_OWNED = 'FETCH_TRUCKS_OWNED';
 export const EDIT_TRUCK = 'EDIT_TRUCK';
 export const TRUCK_UPDATED = 'TRUCK_UPDATED';
+export const FETCH_TRUCKS_OWNED = 'FETCH_TRUCKS_OWNED';
+export const SET_MENU = 'SET_MENU';
+export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
 export const SET_MENU_ITEM_TO_EDIT = 'SET_MENU_ITEM_TO_EDIT';
 
 // Action creators
+
+// ------------------------------------------------------
+// --------------- Auth ---------------------------------
+//-------------------------------------------------------
 
 //Adds a new diner to the backend
 export const addDiner = (diner, redirectTo) => {
@@ -75,6 +81,18 @@ export const loginUser = (loginInfo, redirectTo) => {
       });
   };
 };
+
+// logs the user out
+export const logoutUser = () => {
+  return dispatch => {
+    localStorage.clear();
+    dispatch({ type: LOGOUT_USER });
+  };
+};
+
+// --------------------------------------------------------------------
+//-------------------- Trucks ----------------------------------------
+// --------------------------------------------------------------------
 
 //Fetches array of trucks
 export const fetchTrucks = () => {
@@ -151,6 +169,18 @@ export const deleteTruck = (truckId, redirectTo) => {
   };
 };
 
+// Set the truck in state that we want to edit.
+export const editTruck = (truck, redirectTo) => {
+  return dispatch => {
+    dispatch({ type: EDIT_TRUCK, payload: truck });
+    redirectTo('/edittruck');
+  };
+};
+
+// -------------------------------------------------------------
+// -----------------------Menu Items ---------------------------
+// -------------------------------------------------------------
+
 //Fetches the menu for a given truck ID
 export const fetchMenu = truckId => {
   return dispatch => {
@@ -200,20 +230,8 @@ export const deleteMenuItem = (truckId, menuItemId) => {
   return dispatch => {
     axiosWithAuth()
       .delete(`/trucks/${truckId}/menu/${menuItemId}`)
-      .then(res => {})
-      .catch(err => {
-        dispatch({ type: ERROR, payload: err.message });
-      });
-  };
-};
-
-// Adds (or replaces) a customer rating from a customer with a given diner id to a truck with a given truck id
-export const addCustomerRating = (truckId, dinerId, rating, redirectTo) => {
-  return dispatch => {
-    axiosWithAuth()
-      .post(`/trucks/${truckId}/customerRatings/${dinerId}`, rating)
       .then(res => {
-        redirectTo(`/trucks/${truckId}`);
+        dispatch({ type: UPDATE });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -222,13 +240,14 @@ export const addCustomerRating = (truckId, dinerId, rating, redirectTo) => {
 };
 
 // Adds a photo for a given menu item id for a given truck id
-export const addItemPhoto = (truckId, menuItemId, photoURL, redirectTo) => {
+export const addItemPhoto = (truckId, menuItemId, photoURL) => {
   return dispatch => {
     axiosWithAuth()
-      .post(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`, photoURL)
+      .post(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`, {
+        url: photoURL,
+      })
       .then(res => {
-        console.log('response', res);
-        redirectTo(`/truck/${truckId}`);
+        dispatch({ type: UPDATE });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -237,18 +256,33 @@ export const addItemPhoto = (truckId, menuItemId, photoURL, redirectTo) => {
 };
 
 // Deletes a photo for a given menu item id for a given truck id
-export const deleteItemPhoto = (truckId, menuItemId, redirectTo) => {
+export const deleteItemPhoto = (truckId, menuItemId, photoURL) => {
+  console.log('from action creator', photoURL);
   return dispatch => {
     axiosWithAuth()
-      .delete(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`)
+      .delete(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`, {
+        url: photoURL,
+      })
       .then(res => {
-        redirectTo(`/trucks/${truckId}`);
+        console.log(res);
+        dispatch({ type: UPDATE });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
       });
   };
 };
+
+// Set the menu item in state that we want to edit.
+export const editMenuItem = menuItem => {
+  return dispatch => {
+    dispatch({ type: SET_MENU_ITEM_TO_EDIT, payload: menuItem });
+  };
+};
+
+// ----------------------------------------------------------------------
+// -------------------------- Diners ------------------------------------
+// ----------------------------------------------------------------------
 
 // Fetches the diner information for a diner with the given diner id
 export const fetchDiner = dinerId => {
@@ -280,10 +314,10 @@ export const updateDinerLocation = (dinerId, currentLocation) => {
 };
 
 // Add a truck to a diner's list of favorite trucks
-export const addFavoriteTruck = (dinerId, truckId) => {
+export const addFavoriteTruck = (dinerId, truck) => {
   return dispatch => {
     axiosWithAuth()
-      .post(`/api/diners/${dinerId}favoriteTrucks`, truckId)
+      .post(`/diners/${dinerId}/favoriteTrucks`, truck)
       .then(res => {
         console.log(res);
       })
@@ -293,19 +327,76 @@ export const addFavoriteTruck = (dinerId, truckId) => {
   };
 };
 
-// Removes a favorite truck with a given truck id from a diner with a given diner id
-export const deleteFavoriteTruck = (dinerId, truckId, redirectTo) => {
+export const fetchFavoriteTrucks = dinerId => {
   return dispatch => {
+    dispatch({ type: LOADING });
     axiosWithAuth()
-      .delete(`/diners/${dinerId}/favoriteTrucks`, truckId)
+      .get(`diners/${dinerId}/favoriteTrucks`)
       .then(res => {
-        redirectTo(`trucks/${truckId}`);
+        dispatch({ type: SET_FAVORITE_TRUCKS, payload: res.data });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
       });
   };
 };
+
+// Removes a favorite truck with a given truck id from a diner with a given diner id
+export const deleteFavoriteTruck = (dinerId, truckId) => {
+  return dispatch => {
+    axiosWithAuth()
+      .delete(`/diners/${dinerId}/favoriteTrucks`, truckId)
+      .then(res => {
+        dispatch({ type: SET_FAVORITE_TRUCKS, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+// Adds (or replaces) a customer rating from a customer with a given diner id to a truck with a given truck id
+export const addCustomerRating = (truckId, dinerId, rating) => {
+  return dispatch => {
+    axiosWithAuth()
+      .post(`/trucks/${truckId}/customerRatings/${dinerId}`, {
+        customerRating: rating,
+      })
+      .then(res => {
+        dispatch({ type: UPDATE });
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+export const addCustomerMenuItemRating = (
+  truckId,
+  menuItemId,
+  dinerId,
+  rating
+) => {
+  return dispatch => {
+    axiosWithAuth()
+      .post(
+        `/trucks/${truckId}/menu/${menuItemId}/customerRatings/${dinerId}`,
+        {
+          customerRating: rating,
+        }
+      )
+      .then(res => {
+        dispatch({ type: UPDATE });
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+// -------------------------------------------------------------------------
+// --------------------------- Operators -----------------------------------
+// -------------------------------------------------------------------------
 
 //Fetch operator with a given operator id
 export const fetchOperator = operatorId => {
@@ -334,27 +425,5 @@ export const fetchOperatorTruck = operatorId => {
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
       });
-  };
-};
-
-// Set the truck in state that we want to edit.
-export const editTruck = (truck, redirectTo) => {
-  return dispatch => {
-    dispatch({ type: EDIT_TRUCK, payload: truck });
-    redirectTo('/edittruck');
-  };
-};
-
-// Set the menu item in state that we want to edit.
-export const editMenuItem = menuItem => {
-  return dispatch => {
-    dispatch({ type: SET_MENU_ITEM_TO_EDIT, payload: menuItem });
-  };
-};
-
-// logs the user out
-export const logoutUser = () => {
-  return dispatch => {
-    dispatch({ type: LOGOUT_USER });
   };
 };

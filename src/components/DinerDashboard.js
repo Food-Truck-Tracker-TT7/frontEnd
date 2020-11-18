@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { fetchFavoriteTrucks } from '../store/actions';
+import FavoriteTruckCard from './FavoriteTruckCard';
 
 function DinerDashboard(props) {
-  const { user } = props;
+  const { user, fetchFavoriteTrucks, favoriteTrucks, isLoading } = props;
+
+  useEffect(() => {
+    fetchFavoriteTrucks(user.dinerId);
+  }, []);
+
+  if (isLoading) return <h2>Loading...</h2>;
 
   return (
     <>
@@ -12,15 +20,11 @@ function DinerDashboard(props) {
       </div>
       <div>
         <h3>Favorite Trucks</h3>
-        {user.favoriteTrucks ? (
-          <ul>
-            {user.favoriteTrucks.map(truck => {
-              <li>{truck.name}</li>;
-            })}
-          </ul>
-        ) : (
-          <p>No favorite trucks yet!</p>
-        )}
+        {favoriteTrucks
+          ? favoriteTrucks.map(truck => (
+              <FavoriteTruckCard key={truck.id} truck={truck} />
+            ))
+          : null}
       </div>
     </>
   );
@@ -29,7 +33,11 @@ function DinerDashboard(props) {
 const mapStateToProps = state => {
   return {
     user: state.user,
+    favoriteTrucks: state.favoriteTrucks,
+    isLoading: state.isLoading,
   };
 };
 
-export default connect(mapStateToProps, {})(DinerDashboard);
+export default connect(mapStateToProps, { fetchFavoriteTrucks })(
+  DinerDashboard
+);
