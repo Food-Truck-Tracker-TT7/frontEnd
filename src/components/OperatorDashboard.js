@@ -28,7 +28,7 @@ function OperatorDashboard(props) {
         {trucksOwned ? (
           <ul>
             {trucksOwned.map(truck => (
-              <li>
+              <li key={truck.id}>
                 <Link to={`/truck/${truck.id}`}>{truck.name}</Link>
                 <div>
                   <button

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '../store/actions';
 
+import StyledHeader from '../styles/StyledHeader';
+
 const Header = props => {
   const { user, isLoggedIn, logoutUser } = props;
 
@@ -11,7 +13,7 @@ const Header = props => {
     logoutUser();
   };
   return (
-    <header>
+    <StyledHeader>
       <h1>
         <Link to='/'>Food Truck Tracker</Link>
       </h1>
@@ -29,7 +31,7 @@ const Header = props => {
           <Link to='/signup'>Sign Up</Link>
         </nav>
       )}
-    </header>
+    </StyledHeader>
   );
 };
 const mapStateToProps = state => {

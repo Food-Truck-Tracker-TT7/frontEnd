@@ -15,6 +15,7 @@ function Truck(props) {
     addFavoriteTruck,
     error,
   } = props;
+  const diner = userType === 'diner' ? true : false;
 
   useEffect(() => {
     fetchTruck(id);
@@ -44,15 +45,13 @@ function Truck(props) {
             : null}
         </p>
         <p>{error}</p>
-        {userType === 'diner' ? (
-          <button onClick={addFavorite}>Add To Favorites</button>
-        ) : null}
+        {diner ? <button onClick={addFavorite}>Add To Favorites</button> : null}
         <div>
           <h3>Menu</h3>
           {truckOwner ? <Link to='/addmenuitem'>Add A Menu Item</Link> : null}
           {currentTruck.menu
             ? currentTruck.menu.map(menuItem => (
-                <DisplayMenuItems menuItem={menuItem} />
+                <DisplayMenuItems key={menuItem.id} menuItem={menuItem} />
               ))
             : null}
         </div>

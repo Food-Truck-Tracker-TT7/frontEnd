@@ -16,11 +16,11 @@ function Welcome(props) {
   }, []);
 
   return (
-    <div>
+    <h2>
       {isLoggedIn
-        ? `Welcome back ${user.username}!`
+        ? `Welcome ${user.username}!`
         : 'Welcome To Food Truck Tracker!'}
-    </div>
+    </h2>
   );
 }
 
