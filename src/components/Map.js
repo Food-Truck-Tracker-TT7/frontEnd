@@ -11,6 +11,7 @@ import {
 import Search from './Search';
 import Locate from './Locate';
 import parseLocation from '../utils/parseLocation'; //takes in location string and returns a location object
+import stringifyLocation from '../utils/stringifyLocation';
 import { fetchTrucks, updateDinerLocation } from '../store/actions';
 
 import FoodTruckMarker from '../images/foodtruckmarker.png';
@@ -18,7 +19,7 @@ import FoodTruckMarker from '../images/foodtruckmarker.png';
 const libraries = ['places'];
 const mapContainerStyle = {
   width: '100vw',
-  height: '94vh',
+  height: '90vh',
 };
 
 const options = {
@@ -27,7 +28,7 @@ const options = {
 };
 
 const Map = props => {
-  const { user, userType, trucks, fetchTrucks } = props;
+  const { user, userType, trucks, fetchTrucks, updateDinerLocation } = props;
   const [center, setCenter] = useState(
     parseLocation('43.6034958,-110.7363361')
   );
@@ -39,6 +40,11 @@ const Map = props => {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       });
+      if (userType === 'diner') {
+        updateDinerLocation(user.dinerId, {
+          currentLocation: stringifyLocation(position),
+        });
+      }
     });
   }, []);
 

@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { deleteMenuItem, editMenuItem } from '../store/actions';
-import { useHistory } from 'react-router-dom';
+import {
+  deleteMenuItem,
+  editMenuItem,
+  addCustomerMenuItemRating,
+  deleteItemPhoto,
+} from '../store/actions';
+
 import AddPhoto from './AddPhoto';
 
 function DisplayMenuItem(props) {
@@ -12,8 +17,9 @@ function DisplayMenuItem(props) {
     currentTruck,
     deleteMenuItem,
     editMenuItem,
+    addCustomerMenuItemRating,
+    deleteItemPhoto,
   } = props;
-  const { push } = useHistory();
   const {
     id,
     itemName,
@@ -29,18 +35,46 @@ function DisplayMenuItem(props) {
       ? true
       : false;
 
+  const diner = userType === 'diner' ? true : false;
+  const [customerRating, setCustomerRating] = useState('5');
+
   const handleDelete = () => {
     deleteMenuItem(currentTruck.id, id);
-    push(`/dashboard`);
   };
 
   const handleEdit = () => {
     editMenuItem(menuItem);
-    push('/editmenuitem');
+  };
+
+  const handleChange = e => {
+    setCustomerRating(e.target.value);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    addCustomerMenuItemRating(
+      currentTruck.id,
+      id,
+      user.dinerId,
+      customerRating
+    );
   };
 
   return (
     <>
+      {itemPhotos.map(photo => (
+        <p key={photo}>
+          <img src={photo} alt='menu item' />
+          <button
+            onClick={() => {
+              console.log(photo);
+              deleteItemPhoto(currentTruck.id, id, photo);
+            }}
+          >
+            Remove Photo
+          </button>
+        </p>
+      ))}
       <h3>{itemName}</h3>
       <ul>
         <li>Price: ${itemPrice}</li>
@@ -48,16 +82,32 @@ function DisplayMenuItem(props) {
         <li>Number of Ratings: {customerRatings.length} </li>
         <li>Description: {itemDescription} </li>
       </ul>
-      {itemPhotos.map(photo => (
-        <p>
-          <img src={photo} />
-        </p>
-      ))}
       {truckOwner ? (
         <div>
           <button onClick={handleEdit}>Edit Menu Item</button>
           <button onClick={handleDelete}>Delete Menu Item</button>
           <AddPhoto menuItem={menuItem} />
+        </div>
+      ) : null}
+      {diner ? (
+        <div>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Leave A Rating:
+              <select
+                name='customerrating'
+                value={customerRating}
+                onChange={handleChange}
+              >
+                <option value='5'>5</option>
+                <option value='4'>4</option>
+                <option value='3'>3</option>
+                <option value='2'>2</option>
+                <option value='1'>1</option>
+              </select>
+            </label>
+            <button>Submit</button>
+          </form>
         </div>
       ) : null}
     </>
@@ -71,6 +121,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { deleteMenuItem, editMenuItem })(
-  DisplayMenuItem
-);
+export default connect(mapStateToProps, {
+  deleteMenuItem,
+  editMenuItem,
+  addCustomerMenuItemRating,
+  deleteItemPhoto,
+})(DisplayMenuItem);

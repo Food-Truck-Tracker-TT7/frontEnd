@@ -17,7 +17,7 @@ const store = createStore(reducer, applyMiddleware(thunk, logger));
 
 ReactDOM.render(
   // you can change theme here for testing, both are already imported into this file
-  <ThemeProvider theme={lightmode}>
+  <ThemeProvider theme={darkmode}>
     <Provider store={store}>
       <Router>
         <App />
