@@ -192,13 +192,11 @@ export const updateMenuItem = (truckId, menuItemId, menuItem, redirectTo) => {
 };
 
 //Deletes an item with the given menu item id for the given truck id
-export const deleteMenuItem = (truckId, menuItemId, redirectTo) => {
+export const deleteMenuItem = (truckId, menuItemId) => {
   return dispatch => {
     axiosWithAuth()
       .delete(`/trucks/${truckId}/menu/${menuItemId}`)
-      .then(res => {
-        redirectTo(`/trucks/${truckId}`);
-      })
+      .then(res => {})
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
       });

@@ -24,6 +24,7 @@ const initialState = {
   currentTruck: {},
   trucksOwned: [],
   isLoggedIn: user ? true : false,
+  menu: [],
 };
 
 export const reducer = (state = initialState, action) => {
