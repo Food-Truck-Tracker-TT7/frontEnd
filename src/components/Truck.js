@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchTruck, addFavoriteTruck } from '../store/actions';
 import { useParams, Link } from 'react-router-dom';
 import DisplayMenuItems from '../components/DisplayMenuItem';
+import Truckstyles from '../styles/StyledTruck';
 
 function Truck(props) {
   const { id } = useParams();
@@ -33,29 +34,35 @@ function Truck(props) {
   if (isLoading) return <h2>Loading...</h2>;
   if (currentTruck)
     return (
-      <>
+      <Truckstyles>
         <h2>{currentTruck.name}</h2>
-        <img src={currentTruck.imageOfTruck} alt='food truck' />
+        <img src={currentTruck.imageOfTruck} alt="food truck" />
         <p>Cuisine Type: {currentTruck.cuisineType}</p>
-        <p>Customer Rating: {currentTruck.customerRatingsAvg}/5</p>
+        <p>Customer Rating: <span>{currentTruck.customerRatingsAvg}/5</span></p>
         <p>
-          Number of Reviews:{' '}
-          {currentTruck.customerRatings
-            ? currentTruck.customerRatings.length
-            : null}
+          Number of Reviews:{" "}
+          <span>
+            {currentTruck.customerRatings
+              ? currentTruck.customerRatings.length
+              : null}
+          </span>
         </p>
         <p>{error}</p>
-        {diner ? <button onClick={addFavorite}>Add To Favorites</button> : null}
+        <div className="buttondiv">
+          {diner ? (
+            <button onClick={addFavorite}>Add To Favorites</button>
+          ) : null}
+        </div>
         <div>
-          <h3>Menu</h3>
-          {truckOwner ? <Link to='/addmenuitem'>Add A Menu Item</Link> : null}
+          <h3 class="menuheader">Menu</h3>
+          {truckOwner ? <Link to="/addmenuitem">Add A Menu Item</Link> : null}
           {currentTruck.menu
-            ? currentTruck.menu.map(menuItem => (
+            ? currentTruck.menu.map((menuItem) => (
                 <DisplayMenuItems key={menuItem.id} menuItem={menuItem} />
               ))
             : null}
         </div>
-      </>
+      </Truckstyles>
     );
 }
 
