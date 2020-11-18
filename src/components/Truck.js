@@ -1,6 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { fetchTruck, addFavoriteTruck } from '../store/actions';
+import {
+  fetchTruck,
+  addFavoriteTruck,
+  addCustomerRating,
+} from '../store/actions';
 import { useParams, Link } from 'react-router-dom';
 import DisplayMenuItems from '../components/DisplayMenuItem';
 
@@ -14,17 +18,19 @@ function Truck(props) {
     fetchTruck,
     addFavoriteTruck,
     error,
+    addCustomerRating,
   } = props;
   const diner = userType === 'diner' ? true : false;
+  const truckOwner =
+    userType === 'operator' && user.operatorId === currentTruck.operatorId
+      ? true
+      : false;
 
   useEffect(() => {
     fetchTruck(id);
   }, []);
 
-  const truckOwner =
-    userType === 'operator' && user.operatorId === currentTruck.operatorId
-      ? true
-      : false;
+  const [customerRating, setCustomerRating] = useState('5');
 
   const addFavorite = () => {
     addFavoriteTruck(user.dinerId, {
@@ -32,34 +38,63 @@ function Truck(props) {
       truckId: currentTruck.id,
     });
   };
+  const handleChange = e => {
+    setCustomerRating(e.target.value);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    addCustomerRating(currentTruck.id, user.dinerId, customerRating);
+  };
 
   if (isLoading) return <h2>Loading...</h2>;
-  if (currentTruck)
-    return (
-      <>
-        <h2>{currentTruck.name}</h2>
-        <img src={currentTruck.imageOfTruck} alt='food truck' />
-        <p>Cuisine Type: {currentTruck.cuisineType}</p>
-        <p>Customer Rating: {currentTruck.customerRatingsAvg}/5</p>
-        <p>
-          Number of Reviews:{' '}
-          {currentTruck.customerRatings
-            ? currentTruck.customerRatings.length
-            : null}
-        </p>
-        <p>{error}</p>
-        {diner ? <button onClick={addFavorite}>Add To Favorites</button> : null}
+  return (
+    <>
+      {diner ? (
         <div>
-          <h3>Menu</h3>
-          {truckOwner ? <Link to='/addmenuitem'>Add A Menu Item</Link> : null}
-          {currentTruck.menu
-            ? currentTruck.menu.map(menuItem => (
-                <DisplayMenuItems key={menuItem.id} menuItem={menuItem} />
-              ))
-            : null}
+          <button onClick={addFavorite}>Add To Favorites</button>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Leave A Rating:
+              <select
+                name='customerrating'
+                value={customerRating}
+                onChange={handleChange}
+              >
+                <option value='5'>5</option>
+                <option value='4'>4</option>
+                <option value='3'>3</option>
+                <option value='2'>2</option>
+                <option value='1'>1</option>
+              </select>
+            </label>
+            <button>Submit</button>
+          </form>
         </div>
-      </>
-    );
+      ) : null}
+
+      <h2>{currentTruck.name}</h2>
+      <img src={currentTruck.imageOfTruck} alt='food truck' />
+      <p>Cuisine Type: {currentTruck.cuisineType}</p>
+      <p>Customer Rating: {currentTruck.customerRatingsAvg}/5</p>
+      <p>
+        Number of Reviews:{' '}
+        {currentTruck.customerRatings
+          ? currentTruck.customerRatings.length
+          : null}
+      </p>
+      <p>{error}</p>
+      <div>
+        <h3>Menu</h3>
+        {truckOwner ? <Link to='/addmenuitem'>Add A Menu Item</Link> : null}
+        {currentTruck.menu
+          ? currentTruck.menu.map(menuItem => (
+              <DisplayMenuItems key={menuItem.id} menuItem={menuItem} />
+            ))
+          : null}
+      </div>
+    </>
+  );
 }
 
 const mapStateToProps = state => {
@@ -72,6 +107,8 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { fetchTruck, addFavoriteTruck })(
-  Truck
-);
+export default connect(mapStateToProps, {
+  fetchTruck,
+  addFavoriteTruck,
+  addCustomerRating,
+})(Truck);

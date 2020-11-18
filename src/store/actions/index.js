@@ -236,20 +236,6 @@ export const deleteMenuItem = (truckId, menuItemId) => {
   };
 };
 
-// Adds (or replaces) a customer rating from a customer with a given diner id to a truck with a given truck id
-export const addCustomerRating = (truckId, dinerId, rating, redirectTo) => {
-  return dispatch => {
-    axiosWithAuth()
-      .post(`/trucks/${truckId}/customerRatings/${dinerId}`, rating)
-      .then(res => {
-        redirectTo(`/trucks/${truckId}`);
-      })
-      .catch(err => {
-        dispatch({ type: ERROR, payload: err.message });
-      });
-  };
-};
-
 // Adds a photo for a given menu item id for a given truck id
 export const addItemPhoto = (truckId, menuItemId, photoURL, redirectTo) => {
   return dispatch => {
@@ -350,12 +336,29 @@ export const fetchFavoriteTrucks = dinerId => {
 };
 
 // Removes a favorite truck with a given truck id from a diner with a given diner id
-export const deleteFavoriteTruck = (dinerId, truckId, redirectTo) => {
+export const deleteFavoriteTruck = (dinerId, truckId) => {
   return dispatch => {
     axiosWithAuth()
       .delete(`/diners/${dinerId}/favoriteTrucks`, truckId)
       .then(res => {
-        redirectTo(`trucks/${truckId}`);
+        console.log(res);
+        dispatch({ type: SET_FAVORITE_TRUCKS, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
+// Adds (or replaces) a customer rating from a customer with a given diner id to a truck with a given truck id
+export const addCustomerRating = (truckId, dinerId, rating) => {
+  return dispatch => {
+    axiosWithAuth()
+      .post(`/trucks/${truckId}/customerRatings/${dinerId}`, {
+        customerRating: rating,
+      })
+      .then(res => {
+        console.log(res);
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
