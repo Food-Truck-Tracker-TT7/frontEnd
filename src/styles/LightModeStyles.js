@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Login from "../components/Login";
 
 // Locate button
 export const LocateBtn = styled.button`
@@ -45,3 +46,16 @@ export const LoginBtn = styled(LocateBtn)`
   background-color: ${({ theme }) => theme.accentColor};
   color: ${({ theme }) => theme.whiteColor};
 `;
+
+// menu item page
+export const MenuBodyStyle = styled(LoginBodyStyle)`
+  .menuTitle {
+    font-size: ${({ theme }) => theme.fontSizes.large};
+    margin: ${({ theme }) => theme.margin};
+  }
+  .menuForm {
+    margin: ${({ theme }) => theme.margin};
+  }
+`;
+
+export const AddItemBtn = styled(LoginBtn)``;
