@@ -13,8 +13,8 @@ export default {
   background: "transparent",
   border: "2px solid black",
   fontSizes: {
-    small: "1.5rem",
-    medium: "2rem",
-    large: "3rem",
+    small: "1.5rem", //for buttons
+    medium: "2rem", //for regular text
+    large: "3rem", //for titles
   },
 };
