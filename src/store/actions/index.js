@@ -366,6 +366,29 @@ export const addCustomerRating = (truckId, dinerId, rating) => {
   };
 };
 
+export const addCustomerMenuItemRating = (
+  truckId,
+  menuItemId,
+  dinerId,
+  rating
+) => {
+  return dispatch => {
+    axiosWithAuth()
+      .post(
+        `/trucks/${truckId}/menu/${menuItemId}/customerRatings/${dinerId}`,
+        {
+          customerRating: rating,
+        }
+      )
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
+
 // -------------------------------------------------------------------------
 // --------------------------- Operators -----------------------------------
 // -------------------------------------------------------------------------

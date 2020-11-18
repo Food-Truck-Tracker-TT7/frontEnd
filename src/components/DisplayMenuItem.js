@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { deleteMenuItem, editMenuItem } from '../store/actions';
+import {
+  deleteMenuItem,
+  editMenuItem,
+  addCustomerMenuItemRating,
+} from '../store/actions';
 import { useHistory } from 'react-router-dom';
 import AddPhoto from './AddPhoto';
 
@@ -12,6 +16,7 @@ function DisplayMenuItem(props) {
     currentTruck,
     deleteMenuItem,
     editMenuItem,
+    addCustomerMenuItemRating,
   } = props;
   const { push } = useHistory();
   const {
@@ -29,6 +34,9 @@ function DisplayMenuItem(props) {
       ? true
       : false;
 
+  const diner = userType === 'diner' ? true : false;
+  const [customerRating, setCustomerRating] = useState('5');
+
   const handleDelete = () => {
     deleteMenuItem(currentTruck.id, id);
     push(`/dashboard`);
@@ -37,6 +45,20 @@ function DisplayMenuItem(props) {
   const handleEdit = () => {
     editMenuItem(menuItem);
     push('/editmenuitem');
+  };
+
+  const handleChange = e => {
+    setCustomerRating(e.target.value);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    addCustomerMenuItemRating(
+      currentTruck.id,
+      id,
+      user.dinerId,
+      customerRating
+    );
   };
 
   return (
@@ -60,6 +82,27 @@ function DisplayMenuItem(props) {
           <AddPhoto menuItem={menuItem} />
         </div>
       ) : null}
+      {diner ? (
+        <div>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Leave A Rating:
+              <select
+                name='customerrating'
+                value={customerRating}
+                onChange={handleChange}
+              >
+                <option value='5'>5</option>
+                <option value='4'>4</option>
+                <option value='3'>3</option>
+                <option value='2'>2</option>
+                <option value='1'>1</option>
+              </select>
+            </label>
+            <button>Submit</button>
+          </form>
+        </div>
+      ) : null}
     </>
   );
 }
@@ -71,6 +114,8 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { deleteMenuItem, editMenuItem })(
-  DisplayMenuItem
-);
+export default connect(mapStateToProps, {
+  deleteMenuItem,
+  editMenuItem,
+  addCustomerMenuItemRating,
+})(DisplayMenuItem);
