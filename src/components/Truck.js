@@ -7,6 +7,7 @@ import {
 } from '../store/actions';
 import { useParams, Link } from 'react-router-dom';
 import DisplayMenuItems from '../components/DisplayMenuItem';
+import Truckstyles from '../styles/StyledTruck';
 
 function Truck(props) {
   const { id } = useParams();
