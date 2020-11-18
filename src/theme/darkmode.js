@@ -1,5 +1,5 @@
 export default {
-  primaryColor: '12685E',
+  primaryColor: '#12685E',
   secondColor: '#656839',
   thirdColor: '#A68026',
   CTAColor: '#780602',

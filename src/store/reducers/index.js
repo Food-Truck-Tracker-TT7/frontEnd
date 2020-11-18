@@ -28,8 +28,8 @@ const initialState = {
   trucksOwned: [],
   isLoggedIn: user ? true : false,
   menu: [],
-  truckToEdit: {},
-  menuItemToEdit: {},
+  truckToEdit: false,
+  menuItemToEdit: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -61,7 +61,6 @@ export const reducer = (state = initialState, action) => {
         trucks: action.payload,
         isLoading: false,
         error: '',
-        truckToEdit: {},
       };
     case ADD_TRUCK:
       return {
@@ -69,7 +68,6 @@ export const reducer = (state = initialState, action) => {
         trucks: [...state.trucks, action.payload],
         isLoading: false,
         error: '',
-        truckToEdit: {},
       };
     case SET_TRUCK:
       return {
@@ -77,8 +75,8 @@ export const reducer = (state = initialState, action) => {
         currentTruck: action.payload,
         isLoading: false,
         error: '',
-        truckToEdit: {},
-        menuItemToEdit: {},
+        truckToEdit: false,
+        menuItemToEdit: false,
       };
     case SET_MENU:
       return { ...state, menu: action.payload, isLoading: false, error: '' };
@@ -95,7 +93,6 @@ export const reducer = (state = initialState, action) => {
         trucksOwned: action.payload,
         isLoading: false,
         error: '',
-        truckToEdit: {},
       };
     case EDIT_TRUCK:
       return {
@@ -107,7 +104,6 @@ export const reducer = (state = initialState, action) => {
     case TRUCK_UPDATED:
       return {
         ...state,
-        truckToEdit: {},
       };
     case SET_MENU_ITEM_TO_EDIT:
       return {

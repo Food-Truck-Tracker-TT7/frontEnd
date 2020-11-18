@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { deleteMenuItem, editMenuItem } from '../store/actions';
 import { useHistory } from 'react-router-dom';
+import AddPhoto from './AddPhoto';
 
 function DisplayMenuItem(props) {
   const {
@@ -37,6 +38,7 @@ function DisplayMenuItem(props) {
     editMenuItem(menuItem);
     push('/editmenuitem');
   };
+
   return (
     <>
       <h3>{itemName}</h3>
@@ -55,6 +57,7 @@ function DisplayMenuItem(props) {
         <div>
           <button onClick={handleEdit}>Edit Menu Item</button>
           <button onClick={handleDelete}>Delete Menu Item</button>
+          <AddPhoto menuItem={menuItem} />
         </div>
       ) : null}
     </>

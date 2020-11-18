@@ -227,7 +227,8 @@ export const addItemPhoto = (truckId, menuItemId, photoURL, redirectTo) => {
     axiosWithAuth()
       .post(`/trucks/${truckId}/menu/${menuItemId}/itemPhotos`, photoURL)
       .then(res => {
-        redirectTo(`/trucks/${truckId}`);
+        console.log('response', res);
+        redirectTo(`/truck/${truckId}`);
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -279,10 +280,10 @@ export const updateDinerLocation = (dinerId, currentLocation) => {
 };
 
 // Add a truck to a diner's list of favorite trucks
-export const addFavoriteTruck = (dinerId, truck) => {
+export const addFavoriteTruck = (dinerId, truckId) => {
   return dispatch => {
     axiosWithAuth()
-      .post(`/diners/${dinerId}/favoriteTrucks`, truck)
+      .post(`/api/diners/${dinerId}favoriteTrucks`, truckId)
       .then(res => {
         console.log(res);
       })

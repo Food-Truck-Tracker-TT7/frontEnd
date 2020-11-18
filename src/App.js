@@ -14,12 +14,14 @@ import Truck from './components/Truck';
 import AddTruck from './components/AddTruck';
 import MenuItem from './components/MenuItem';
 
-import './styles/App.css';
+import GlobalStyles from './styles/GlobalStyles';
+// import './styles/App.css';
 
 function App(props) {
   const { userType } = props;
   return (
     <>
+      <GlobalStyles />
       <Header />
 
       <Switch>
