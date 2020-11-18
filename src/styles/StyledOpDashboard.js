@@ -9,7 +9,7 @@ const StyledOpDashboard = styled.div`
     width: 98vw;
     /* border: 1px solid green; */
   }
-  h2 {
+  h2 { 
     text-align: center;
     font-size: 3.8rem;
     margin-bottom: 1rem;
