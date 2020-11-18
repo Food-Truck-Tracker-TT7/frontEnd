@@ -1,15 +1,16 @@
-//
 import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import { connect } from 'react-redux';
-import { addMenuItem } from '../store/actions';
+import { addMenuItem, updateMenuItem } from '../store/actions';
 import { useHistory } from 'react-router-dom';
 
 function MenuItem(props) {
-  const { currentTruck, addMenuItem } = props;
+  const { currentTruck, addMenuItem, menuItemToEdit, updateMenuItem } = props;
   const { push } = useHistory();
   const initialStateObj = { itemName: '', itemDescription: '', itemPrice: '' };
-  const [input, setInput] = useState(initialStateObj);
+  const [input, setInput] = useState(
+    menuItemToEdit ? menuItemToEdit : initialStateObj
+  );
   const [errorState, setErrorState] = useState({});
   const [btnState, setBtnState] = useState(true);
 
@@ -20,7 +21,9 @@ function MenuItem(props) {
       itemDescription: input.itemDescription.trim(),
       itemPrice: input.itemPrice,
     };
-    addMenuItem(currentTruck.id, newMenuItem, push);
+    menuItemToEdit
+      ? updateMenuItem(currentTruck.id, menuItemToEdit.id, newMenuItem, push)
+      : addMenuItem(currentTruck.id, newMenuItem, push);
     setInput(initialStateObj);
   };
 
@@ -54,8 +57,7 @@ function MenuItem(props) {
 
   return (
     <>
-      <div>Add Menu Item</div>
-      {errorState ? <p>hihihi</p> : null}
+      <div>{menuItemToEdit ? 'Edit' : 'Add'} Menu Item</div>
       <form onSubmit={onSubmitFunc}>
         <label htmlFor='itemName'>
           Item Name:
@@ -102,7 +104,10 @@ function MenuItem(props) {
 const mapStateToProps = state => {
   return {
     currentTruck: state.currentTruck,
+    menuItemToEdit: state.menuItemToEdit,
   };
 };
 
-export default connect(mapStateToProps, { addMenuItem })(MenuItem);
+export default connect(mapStateToProps, { addMenuItem, updateMenuItem })(
+  MenuItem
+);

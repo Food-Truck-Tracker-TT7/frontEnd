@@ -187,12 +187,12 @@ function Signup(props) {
           {validationError.email}
         </label>
         <br />
-        {signupInput.usertype === 'diner' ? (
+        {/* {signupInput.usertype === 'diner' ? (
           <div>
             <p>Current Location: {signupInput.currentLocation}</p>
             <button onClick={getLocation}>Get Current Location</button>
           </div>
-        ) : null}
+        ) : null} */}
         <button disabled={submitBtn} onClick={onSubmitFunc}>
           Submit
         </button>

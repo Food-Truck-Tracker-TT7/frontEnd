@@ -20,6 +20,11 @@ function Truck(props) {
     fetchTruck(id);
   }, []);
 
+  const truckOwner =
+    userType === 'operator' && user.operatorId === currentTruck.operatorId
+      ? true
+      : false;
+
   const addFavorite = () => {
     addFavoriteTruck(user.dinerId, currentTruck.id);
   };
@@ -44,10 +49,7 @@ function Truck(props) {
         ) : null}
         <div>
           <h3>Menu</h3>
-          {userType === 'operator' &&
-          user.operatorId === currentTruck.operatorId ? (
-            <Link to='/addmenuitem'>Add A Menu Item</Link>
-          ) : null}
+          {truckOwner ? <Link to='/addmenuitem'>Add A Menu Item</Link> : null}
           {currentTruck.menu
             ? currentTruck.menu.map(menuItem => (
                 <DisplayMenuItems menuItem={menuItem} />

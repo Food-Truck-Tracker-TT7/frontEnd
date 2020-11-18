@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import { connect } from 'react-redux';
-import { addTruck } from '../store/actions';
+import { addTruck, updateTruck } from '../store/actions';
 import { useHistory } from 'react-router-dom';
 import stringifyLocation from '../utils/stringifyLocation';
 
 function AddTruck(props) {
-  const { user, addTruck } = props;
+  const { user, addTruck, updateTruck, truckToEdit } = props;
   const { push } = useHistory();
   //manage state for the form inputs
-  const [formState, setFormSate] = useState({
-    name: '',
-    imageOfTruck: '',
-    cuisineType: '',
-    currentLocation: '',
-  });
+  const [formState, setFormSate] = useState(
+    truckToEdit
+      ? truckToEdit
+      : {
+          name: '',
+          imageOfTruck: '',
+          cuisineType: '',
+          currentLocation: '',
+        }
+  );
   //managing error state
   const [errors, setErrors] = useState({
     name: '',
@@ -98,8 +102,9 @@ function AddTruck(props) {
       currentLocation: formState.currentLocation,
       operatorId: user.operatorId,
     };
-
-    addTruck(newTruck, push);
+    truckToEdit
+      ? updateTruck(truckToEdit.id, newTruck, push)
+      : addTruck(newTruck, push);
   };
   const getLocation = e => {
     e.preventDefault();
@@ -113,7 +118,7 @@ function AddTruck(props) {
 
   return (
     <div>
-      <h2>Add truck page</h2>
+      <h2>{truckToEdit ? 'Edit' : 'Add'} A Truck</h2>
       <form onSubmit={formSubmit}>
         <div>
           <label htmlFor='name'>
@@ -177,7 +182,7 @@ function AddTruck(props) {
           <button onClick={getLocation}>Get Current Location</button>
         </div>
         <button type='submit' disabled={buttonDisabled}>
-          Add Truck
+          {truckToEdit ? 'Submit Edit' : 'Add Truck'}
         </button>
       </form>
     </div>
@@ -186,7 +191,8 @@ function AddTruck(props) {
 const mapStateToProps = state => {
   return {
     user: state.user,
+    truckToEdit: state.truckToEdit,
   };
 };
 
-export default connect(mapStateToProps, { addTruck })(AddTruck);
+export default connect(mapStateToProps, { addTruck, updateTruck })(AddTruck);

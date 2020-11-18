@@ -16,6 +16,9 @@ export const SET_MENU = 'SET_MENU';
 export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const FETCH_TRUCKS_OWNED = 'FETCH_TRUCKS_OWNED';
+export const EDIT_TRUCK = 'EDIT_TRUCK';
+export const TRUCK_UPDATED = 'TRUCK_UPDATED';
+export const SET_MENU_ITEM_TO_EDIT = 'SET_MENU_ITEM_TO_EDIT';
 
 // Action creators
 
@@ -123,8 +126,9 @@ export const addTruck = (truckInfo, redirectTo) => {
 export const updateTruck = (truckId, truckInfo, redirectTo) => {
   return dispatch => {
     axiosWithAuth()
-      .put(`/truck/${truckId}`, truckInfo)
+      .put(`/trucks/${truckId}`, truckInfo)
       .then(res => {
+        dispatch({ type: TRUCK_UPDATED });
         redirectTo(`/truck/${truckId}`);
       })
       .catch(err => {
@@ -139,7 +143,7 @@ export const deleteTruck = (truckId, redirectTo) => {
     axiosWithAuth()
       .delete(`/trucks/${truckId}`)
       .then(res => {
-        redirectTo('/dashboard');
+        redirectTo('/map');
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -183,7 +187,7 @@ export const updateMenuItem = (truckId, menuItemId, menuItem, redirectTo) => {
     axiosWithAuth()
       .put(`/trucks/${truckId}/menu/${menuItemId}`, menuItem)
       .then(res => {
-        redirectTo(`/trucks/${truckId}`);
+        redirectTo(`/truck/${truckId}`);
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -192,13 +196,11 @@ export const updateMenuItem = (truckId, menuItemId, menuItem, redirectTo) => {
 };
 
 //Deletes an item with the given menu item id for the given truck id
-export const deleteMenuItem = (truckId, menuItemId, redirectTo) => {
+export const deleteMenuItem = (truckId, menuItemId) => {
   return dispatch => {
     axiosWithAuth()
       .delete(`/trucks/${truckId}/menu/${menuItemId}`)
-      .then(res => {
-        redirectTo(`/trucks/${truckId}`);
-      })
+      .then(res => {})
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
       });
@@ -334,6 +336,22 @@ export const fetchOperatorTruck = operatorId => {
   };
 };
 
+// Set the truck in state that we want to edit.
+export const editTruck = (truck, redirectTo) => {
+  return dispatch => {
+    dispatch({ type: EDIT_TRUCK, payload: truck });
+    redirectTo('/edittruck');
+  };
+};
+
+// Set the menu item in state that we want to edit.
+export const editMenuItem = menuItem => {
+  return dispatch => {
+    dispatch({ type: SET_MENU_ITEM_TO_EDIT, payload: menuItem });
+  };
+};
+
+// logs the user out
 export const logoutUser = () => {
   return dispatch => {
     dispatch({ type: LOGOUT_USER });

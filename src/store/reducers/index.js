@@ -10,6 +10,9 @@ import {
   LOGOUT_USER,
   SET_USER_TYPE,
   FETCH_TRUCKS_OWNED,
+  EDIT_TRUCK,
+  TRUCK_UPDATED,
+  SET_MENU_ITEM_TO_EDIT,
 } from '../actions';
 
 const userType = localStorage.getItem('userType');
@@ -24,6 +27,9 @@ const initialState = {
   currentTruck: {},
   trucksOwned: [],
   isLoggedIn: user ? true : false,
+  menu: [],
+  truckToEdit: {},
+  menuItemToEdit: {},
 };
 
 export const reducer = (state = initialState, action) => {
@@ -39,6 +45,7 @@ export const reducer = (state = initialState, action) => {
         isLoading: false,
         isLoggedIn: true,
         error: '',
+        truckToEdit: {},
       };
     case SET_USER_TYPE:
       return { ...state, userType: action.payload };
@@ -49,13 +56,20 @@ export const reducer = (state = initialState, action) => {
         isLoggedIn: false,
       };
     case SET_TRUCKS:
-      return { ...state, trucks: action.payload, isLoading: false, error: '' };
+      return {
+        ...state,
+        trucks: action.payload,
+        isLoading: false,
+        error: '',
+        truckToEdit: {},
+      };
     case ADD_TRUCK:
       return {
         ...state,
         trucks: [...state.trucks, action.payload],
         isLoading: false,
         error: '',
+        truckToEdit: {},
       };
     case SET_TRUCK:
       return {
@@ -63,6 +77,8 @@ export const reducer = (state = initialState, action) => {
         currentTruck: action.payload,
         isLoading: false,
         error: '',
+        truckToEdit: {},
+        menuItemToEdit: {},
       };
     case SET_MENU:
       return { ...state, menu: action.payload, isLoading: false, error: '' };
@@ -79,6 +95,24 @@ export const reducer = (state = initialState, action) => {
         trucksOwned: action.payload,
         isLoading: false,
         error: '',
+        truckToEdit: {},
+      };
+    case EDIT_TRUCK:
+      return {
+        ...state,
+        truckToEdit: action.payload,
+        isLoading: false,
+        error: '',
+      };
+    case TRUCK_UPDATED:
+      return {
+        ...state,
+        truckToEdit: {},
+      };
+    case SET_MENU_ITEM_TO_EDIT:
+      return {
+        ...state,
+        menuItemToEdit: action.payload,
       };
     default:
       return state;
