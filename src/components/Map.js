@@ -18,7 +18,7 @@ import FoodTruckMarker from '../images/foodtruckmarker.png';
 const libraries = ['places'];
 const mapContainerStyle = {
   width: '100vw',
-  height: '94vh',
+  height: '90vh',
 };
 
 const options = {

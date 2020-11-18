@@ -51,6 +51,36 @@ blockquote, q {
 html {
     font-size: 65.2%;
 }
+
+body {
+	background-color: ${props => props.theme.backgroundColor}
+}
+
+.search {
+  position: absolute;
+  top: 10rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  z-index: 10;
+}
+
+.search input {
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+.locate {
+  position: absolute;
+  top: 10rem;
+  right: 1rem;
+  background: white;
+  border: 1px solid black;
+  z-index: 10;
+}
+
 `;
 
 export default GlobalStyles;

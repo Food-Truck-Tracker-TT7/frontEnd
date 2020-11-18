@@ -45,7 +45,6 @@ export const reducer = (state = initialState, action) => {
         isLoading: false,
         isLoggedIn: true,
         error: '',
-        truckToEdit: {},
       };
     case SET_USER_TYPE:
       return { ...state, userType: action.payload };
