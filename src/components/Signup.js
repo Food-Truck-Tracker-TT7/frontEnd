@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 
 import { addDiner, addOperator } from '../store/actions';
 import stringifyLocation from '../utils/stringifyLocation';
+import StyledSignup from '../styles/StyledSignup';
 
 function Signup(props) {
   const { error, addDiner, addOperator } = props;
@@ -121,72 +122,77 @@ function Signup(props) {
   });
 
   return (
-    <>
-      <div>Signup Page</div>
+    <StyledSignup>
+      <h2>Signup Page</h2>
       <div>{error}</div>
       <form>
-        <label htmlFor='usertype'>
-          {' '}
+        <div className="radio">
+        <label htmlFor="usertype">
+          {" "}
           Diner
           <input
-            type='radio'
-            name='usertype'
-            id='diner'
-            value='diner'
-            checked={signupInput.usertype === 'diner' ? true : false}
+            type="radio"
+            name="usertype"
+            id="diner"
+            value="diner"
+            checked={signupInput.usertype === "diner" ? true : false}
             onChange={onChangeFunc}
           />
-        </label>{' '}
+        </label>{" "}
         {}
-        <label htmlFor='usertype'>
-          {' '}
+        <label htmlFor="usertype">
+          {" "}
           Operator
           <input
-            type='radio'
-            name='usertype'
-            id='operator'
-            value='operator'
-            checked={signupInput.usertype === 'operator' ? true : false}
+            type="radio"
+            name="usertype"
+            id="operator"
+            value="operator"
+            checked={signupInput.usertype === "operator" ? true : false}
             onChange={onChangeFunc}
           />
         </label>
+        </div>
         <br />
-        <label htmlFor='username'>
-          {'Username'}
-          <input
-            type='text'
-            id='username'
-            name='username'
-            value={signupInput.username}
-            onChange={onChangeFunc}
-          />{' '}
-          {validationError.username}
-        </label>
-        <br />
-        <label htmlFor='password'>
-          {'Password'}
-          <input
-            type='text'
-            id='password'
-            name='password'
-            value={signupInput.password}
-            onChange={onChangeFunc}
-          />{' '}
-          {validationError.password}
-        </label>
-        <br />
-        <label htmlFor='email'>
-          {'Email'}
-          <input
-            type='email'
-            id='email'
-            name='email'
-            value={signupInput.email}
-            onChange={onChangeFunc}
-          />
-          {validationError.email}
-        </label>
-        <br />
+        <div className="inputs">
+          <label htmlFor="username">
+            {"Username"}
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={signupInput.username}
+              onChange={onChangeFunc}
+            />{" "}
+            <br/>
+            {validationError.username}
+          </label>
+          <br />
+          <label htmlFor="password">
+            {"Password"}
+            <input
+              type="text"
+              id="password"
+              name="password"
+              value={signupInput.password}
+              onChange={onChangeFunc}
+            />{" "}
+            {validationError.password}
+          </label>
+          <br />
+          <label htmlFor="email">
+            {"Email"}
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={signupInput.email}
+              onChange={onChangeFunc}
+            />
+            {validationError.email}
+          </label>
+          </div>
+          <br />
         {/* {signupInput.usertype === 'diner' ? (
           <div>
             <p>Current Location: {signupInput.currentLocation}</p>
@@ -197,7 +203,7 @@ function Signup(props) {
           Submit
         </button>
       </form>
-    </>
+    </StyledSignup>
   );
 }
 
