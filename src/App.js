@@ -31,8 +31,9 @@ function App(props) {
           component={userType === 'diner' ? DinerDashboard : OperatorDashboard}
         />
         <PrivateRoute path='/truck/:id' component={Truck} />
-        <PrivateRoute path='/addtruck/' component={AddTruck} />
-        <PrivateRoute path='/addmenuitem/' component={MenuItem} />
+        <PrivateRoute path='/addtruck' component={AddTruck} />
+        <PrivateRoute path='/addmenuitem' component={MenuItem} />
+        <PrivateRoute path='/edittruck' component={AddTruck} />
         <Route path='/' component={Welcome} />
       </Switch>
     </>

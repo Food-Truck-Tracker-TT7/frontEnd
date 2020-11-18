@@ -16,6 +16,8 @@ export const SET_MENU = 'SET_MENU';
 export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const FETCH_TRUCKS_OWNED = 'FETCH_TRUCKS_OWNED';
+export const EDIT_TRUCK = 'EDIT_TRUCK';
+export const TRUCK_UPDATED = 'TRUCK_UPDATED';
 
 // Action creators
 
@@ -123,8 +125,9 @@ export const addTruck = (truckInfo, redirectTo) => {
 export const updateTruck = (truckId, truckInfo, redirectTo) => {
   return dispatch => {
     axiosWithAuth()
-      .put(`/truck/${truckId}`, truckInfo)
+      .put(`/trucks/${truckId}`, truckInfo)
       .then(res => {
+        dispatch({ type: TRUCK_UPDATED });
         redirectTo(`/truck/${truckId}`);
       })
       .catch(err => {
@@ -329,6 +332,13 @@ export const fetchOperatorTruck = operatorId => {
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
       });
+  };
+};
+
+export const editTruck = (truck, redirectTo) => {
+  return dispatch => {
+    dispatch({ type: EDIT_TRUCK, payload: truck });
+    redirectTo('/edittruck');
   };
 };
 

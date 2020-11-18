@@ -1,10 +1,16 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { fetchOperatorTruck, deleteTruck } from '../store/actions';
+import { fetchOperatorTruck, deleteTruck, editTruck } from '../store/actions';
 
 function OperatorDashboard(props) {
-  const { user, trucksOwned, fetchOperatorTruck, deleteTruck } = props;
+  const {
+    user,
+    trucksOwned,
+    fetchOperatorTruck,
+    deleteTruck,
+    editTruck,
+  } = props;
   const { push } = useHistory();
   useEffect(() => {
     fetchOperatorTruck(user.operatorId);
@@ -24,13 +30,22 @@ function OperatorDashboard(props) {
             {trucksOwned.map(truck => (
               <li>
                 <Link to={`/truck/${truck.id}`}>{truck.name}</Link>
-                <button
-                  onClick={() => {
-                    deleteTruck(truck.id, push);
-                  }}
-                >
-                  Delete Truck
-                </button>
+                <div>
+                  <button
+                    onClick={() => {
+                      editTruck(truck, push);
+                    }}
+                  >
+                    Edit Truck
+                  </button>
+                  <button
+                    onClick={() => {
+                      deleteTruck(truck.id, push);
+                    }}
+                  >
+                    Delete Truck
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
@@ -49,6 +64,8 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { fetchOperatorTruck, deleteTruck })(
-  OperatorDashboard
-);
+export default connect(mapStateToProps, {
+  fetchOperatorTruck,
+  deleteTruck,
+  editTruck,
+})(OperatorDashboard);

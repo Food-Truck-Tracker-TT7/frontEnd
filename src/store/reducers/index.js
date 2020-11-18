@@ -10,6 +10,8 @@ import {
   LOGOUT_USER,
   SET_USER_TYPE,
   FETCH_TRUCKS_OWNED,
+  EDIT_TRUCK,
+  TRUCK_UPDATED,
 } from '../actions';
 
 const userType = localStorage.getItem('userType');
@@ -25,6 +27,7 @@ const initialState = {
   trucksOwned: [],
   isLoggedIn: user ? true : false,
   menu: [],
+  truckToEdit: {},
 };
 
 export const reducer = (state = initialState, action) => {
@@ -80,6 +83,18 @@ export const reducer = (state = initialState, action) => {
         trucksOwned: action.payload,
         isLoading: false,
         error: '',
+      };
+    case EDIT_TRUCK:
+      return {
+        ...state,
+        truckToEdit: action.payload,
+        isLoading: false,
+        error: '',
+      };
+    case TRUCK_UPDATED:
+      return {
+        ...state,
+        truckToEdit: {},
       };
     default:
       return state;

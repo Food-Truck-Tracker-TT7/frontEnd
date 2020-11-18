@@ -11,7 +11,6 @@ import {
 import Search from './Search';
 import Locate from './Locate';
 import parseLocation from '../utils/parseLocation'; //takes in location string and returns a location object
-import stringifyLocation from '../utils/stringifyLocation';
 import { fetchTrucks, updateDinerLocation } from '../store/actions';
 
 import FoodTruckMarker from '../images/foodtruckmarker.png';
@@ -28,22 +27,22 @@ const options = {
 };
 
 const Map = props => {
-  const { user, userType, trucks, fetchTrucks, updateDinerLocation } = props;
+  const { user, userType, trucks, fetchTrucks } = props;
+  const [center, setCenter] = useState(
+    parseLocation('43.6034958,-110.7363361')
+  );
 
   useEffect(() => {
     fetchTrucks();
     if (userType === 'diner') {
       navigator.geolocation.getCurrentPosition(position => {
-        updateDinerLocation(user.dinerId, stringifyLocation(position));
+        setCenter({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
       });
     }
   }, []);
-
-  const [center, setCenter] = useState(
-    userType === 'diner'
-      ? parseLocation(user.currentLocation)
-      : parseLocation('43.6034958,-110.7363361')
-  );
 
   const mapRef = useRef();
   const onMapLoad = useCallback(map => {
