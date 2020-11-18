@@ -6,10 +6,9 @@ import { logoutUser } from '../store/actions';
 import StyledHeader from '../styles/StyledHeader';
 
 const Header = props => {
-  const { user, isLoggedIn, logoutUser } = props;
+  const { isLoggedIn, logoutUser } = props;
 
   const logout = () => {
-    localStorage.clear();
     logoutUser();
   };
   return (

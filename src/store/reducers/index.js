@@ -10,6 +10,7 @@ import {
   LOGOUT_USER,
   SET_USER_TYPE,
   FETCH_TRUCKS_OWNED,
+  SET_FAVORITE_TRUCKS,
   EDIT_TRUCK,
   TRUCK_UPDATED,
   SET_MENU_ITEM_TO_EDIT,
@@ -20,15 +21,16 @@ const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
   isLoading: false,
+  isLoggedIn: user ? true : false,
   error: '',
   user: user ? user : {},
   userType: userType ? userType : '',
   trucks: [],
   currentTruck: {},
   trucksOwned: [],
-  isLoggedIn: user ? true : false,
-  menu: [],
+  favoriteTrucks: [],
   truckToEdit: false,
+  menu: [],
   menuItemToEdit: false,
 };
 
@@ -38,6 +40,8 @@ export const reducer = (state = initialState, action) => {
       return { ...state, isLoading: true };
     case ERROR:
       return { ...state, error: action.payload, isLoading: false };
+    case LOGOUT_USER:
+      return { ...initialState, isLoggedIn: false, user: {}, userType: '' };
     case SET_USER:
       return {
         ...state,
@@ -48,23 +52,10 @@ export const reducer = (state = initialState, action) => {
       };
     case SET_USER_TYPE:
       return { ...state, userType: action.payload };
-    case LOGOUT_USER:
-      return {
-        ...state,
-        user: {},
-        isLoggedIn: false,
-      };
     case SET_TRUCKS:
       return {
         ...state,
         trucks: action.payload,
-        isLoading: false,
-        error: '',
-      };
-    case ADD_TRUCK:
-      return {
-        ...state,
-        trucks: [...state.trucks, action.payload],
         isLoading: false,
         error: '',
       };
@@ -77,12 +68,10 @@ export const reducer = (state = initialState, action) => {
         truckToEdit: false,
         menuItemToEdit: false,
       };
-    case SET_MENU:
-      return { ...state, menu: action.payload, isLoading: false, error: '' };
-    case ADD_MENU_ITEM:
+    case ADD_TRUCK:
       return {
         ...state,
-        menu: [state.menu, action.payload],
+        trucks: [...state.trucks, action.payload],
         isLoading: false,
         error: '',
       };
@@ -93,6 +82,18 @@ export const reducer = (state = initialState, action) => {
         isLoading: false,
         error: '',
       };
+    case SET_FAVORITE_TRUCKS:
+      return {
+        ...state,
+        favoriteTrucks: action.payload,
+        isLoading: false,
+        error: '',
+      };
+    case TRUCK_UPDATED:
+      return {
+        ...state,
+        truckToEdit: false,
+      };
     case EDIT_TRUCK:
       return {
         ...state,
@@ -100,9 +101,14 @@ export const reducer = (state = initialState, action) => {
         isLoading: false,
         error: '',
       };
-    case TRUCK_UPDATED:
+    case SET_MENU:
+      return { ...state, menu: action.payload, isLoading: false, error: '' };
+    case ADD_MENU_ITEM:
       return {
         ...state,
+        menu: [state.menu, action.payload],
+        isLoading: false,
+        error: '',
       };
     case SET_MENU_ITEM_TO_EDIT:
       return {
