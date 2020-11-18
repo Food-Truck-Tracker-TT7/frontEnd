@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { fetchOperatorTruck, deleteTruck, editTruck } from '../store/actions';
+import StyledOpDashboard from '../styles/StyledOpDashboard';
 
 function OperatorDashboard(props) {
   const {
@@ -17,7 +18,7 @@ function OperatorDashboard(props) {
   }, []);
 
   return (
-    <>
+    <StyledOpDashboard>
       <div>
         <h2>{user.username}</h2>
         <p>email: {user.email}</p>
@@ -53,7 +54,7 @@ function OperatorDashboard(props) {
           <p>No trucks yet!</p>
         )}
       </div>
-    </>
+    </StyledOpDashboard>
   );
 }
 

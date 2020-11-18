@@ -12,6 +12,7 @@ const StyledOpDashboard = styled.div`
   h2 {
     text-align: center;
     font-size: 3.8rem;
+    margin-bottom: 1rem;
   }
   p {
     text-align: center;
