@@ -34,6 +34,7 @@ function App(props) {
         <PrivateRoute path='/addtruck' component={AddTruck} />
         <PrivateRoute path='/addmenuitem' component={MenuItem} />
         <PrivateRoute path='/edittruck' component={AddTruck} />
+        <PrivateRoute path='/editmenuitem' component={MenuItem} />
         <Route path='/' component={Welcome} />
       </Switch>
     </>

@@ -34,14 +34,12 @@ const Map = props => {
 
   useEffect(() => {
     fetchTrucks();
-    if (userType === 'diner') {
-      navigator.geolocation.getCurrentPosition(position => {
-        setCenter({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
+    navigator.geolocation.getCurrentPosition(position => {
+      setCenter({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
       });
-    }
+    });
   }, []);
 
   const mapRef = useRef();

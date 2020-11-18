@@ -118,7 +118,7 @@ function AddTruck(props) {
 
   return (
     <div>
-      <h2>Add truck page</h2>
+      <h2>{truckToEdit ? 'Edit' : 'Add'} A Truck</h2>
       <form onSubmit={formSubmit}>
         <div>
           <label htmlFor='name'>
@@ -182,7 +182,7 @@ function AddTruck(props) {
           <button onClick={getLocation}>Get Current Location</button>
         </div>
         <button type='submit' disabled={buttonDisabled}>
-          Add Truck
+          {truckToEdit ? 'Submit Edit' : 'Add Truck'}
         </button>
       </form>
     </div>
