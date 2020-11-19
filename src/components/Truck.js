@@ -67,39 +67,38 @@ function Truck(props) {
           : null}
       </p>
       <p>{error}</p>
-      <div>
-        {diner ? (
-          <div>
-            <button onClick={addFavorite}>Add To Favorites</button>
-            <form onSubmit={handleSubmit}>
-              <label>
-                Leave A Rating:
-                <select
-                  name='customerrating'
-                  value={customerRating}
-                  onChange={handleChange}
-                >
-                  <option value='5'>5</option>
-                  <option value='4'>4</option>
-                  <option value='3'>3</option>
-                  <option value='2'>2</option>
-                  <option value='1'>1</option>
-                </select>
-              </label>
-              <button>Submit</button>
-            </form>
-          </div>
-        ) : null}
-        <div className='menu'>
-          <h3 className='menuheader'>Menu</h3>
-          {truckOwner ? <Link to='/addmenuitem'>Add A Menu Item</Link> : null}
-          <div className='menuItems'>
-            {currentTruck.menu
-              ? currentTruck.menu.map(menuItem => (
-                  <DisplayMenuItems key={menuItem.id} menuItem={menuItem} />
-                ))
-              : null}
-          </div>
+
+      {diner ? (
+        <div className='dinneroptions'>
+          <button onClick={addFavorite}>Add To Favorites</button>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Leave A Rating:
+              <select
+                name='customerrating'
+                value={customerRating}
+                onChange={handleChange}
+              >
+                <option value='5'>5</option>
+                <option value='4'>4</option>
+                <option value='3'>3</option>
+                <option value='2'>2</option>
+                <option value='1'>1</option>
+              </select>
+            </label>
+            <button>Submit</button>
+          </form>
+        </div>
+      ) : null}
+      <div className='menu'>
+        <h3 className='menuheader'>Menu</h3>
+        {truckOwner ? <Link to='/addmenuitem'>Add A Menu Item</Link> : null}
+        <div className='menuItems'>
+          {currentTruck.menu
+            ? currentTruck.menu.map(menuItem => (
+                <DisplayMenuItems key={menuItem.id} menuItem={menuItem} />
+              ))
+            : null}
         </div>
       </div>
     </StyledTruck>

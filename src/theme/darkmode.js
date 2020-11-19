@@ -12,4 +12,9 @@ export default {
   width: '11rem',
   background: 'transparent',
   border: '2px solid black',
+  fontSizes: {
+    small: '1.5rem', //for buttons
+    medium: '2rem', //for regular text
+    large: '3rem', //for titles
+  },
 };
