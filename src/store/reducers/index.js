@@ -48,7 +48,13 @@ export const reducer = (state = initialState, action) => {
     case ERROR:
       return { ...state, error: action.payload, isLoading: false };
     case LOGOUT_USER:
-      return { ...initialState, isLoggedIn: false, user: {}, userType: '' };
+      return {
+        ...initialState,
+        isLoggedIn: false,
+        user: {},
+        userType: '',
+        darkMode: state.darkMode,
+      };
     case SET_DARK_MODE:
       return {
         ...state,

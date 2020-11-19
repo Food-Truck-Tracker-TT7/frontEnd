@@ -66,16 +66,17 @@ function DisplayMenuItem(props) {
       {itemPhotos.map(photo => (
         <p key={photo}>
           <img src={photo} alt='menu item' />
-          <div>
-            <button
-              onClick={() => {
-                console.log(photo);
-                deleteItemPhoto(currentTruck.id, id, photo);
-              }}
-            >
-              Remove Photo
-            </button>
-          </div>
+          {truckOwner ? (
+            <div>
+              <button
+                onClick={() => {
+                  deleteItemPhoto(currentTruck.id, id, photo);
+                }}
+              >
+                Remove Photo
+              </button>
+            </div>
+          ) : null}
         </p>
       ))}
       <h3>{itemName}</h3>

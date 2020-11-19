@@ -7,6 +7,9 @@ const StyledHeader = styled.header`
   border-bottom: 0.1rem solid ${props => props.theme.accentColor};
   font-size: 2rem;
   background-color: ${props => props.theme.backgroundColor};
+  img {
+    width: 50px;
+  }
   a {
     text-decoration: none;
     color: ${props => props.theme.textColor};

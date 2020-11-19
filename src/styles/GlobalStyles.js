@@ -79,6 +79,16 @@ body {
   background: white;
   border: 1px solid black;
   z-index: 10;
+  cursor: pointer;
+}
+.searchResults {
+  background-color: white;
+  border: 1px solid black;
+  margin: 0;
+  font-size: 1.6rem;
+  li {
+	  cursor: pointer;
+  }
 }
 
 `;
