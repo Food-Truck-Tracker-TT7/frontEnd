@@ -34,11 +34,10 @@ function Truck(props) {
 
   const [customerRating, setCustomerRating] = useState('5');
 
+  const departure = new Date(currentTruck.departureTime);
+
   const addFavorite = () => {
-    addFavoriteTruck(user.dinerId, {
-      ...currentTruck,
-      truckId: currentTruck.id,
-    });
+    addFavoriteTruck(user.dinerId, currentTruck.id);
   };
   const handleChange = e => {
     setCustomerRating(e.target.value);
@@ -49,7 +48,6 @@ function Truck(props) {
     addCustomerRating(currentTruck.id, user.dinerId, customerRating);
   };
 
-  if (isLoading) return <h2>Loading...</h2>;
   return (
     <StyledTruck>
       <h2>{currentTruck.name}</h2>
@@ -66,6 +64,7 @@ function Truck(props) {
           ? currentTruck.customerRatings.length
           : null}
       </p>
+      <p>Departure Time: {departure.toString()}</p>
       <p>{error}</p>
 
       {diner ? (

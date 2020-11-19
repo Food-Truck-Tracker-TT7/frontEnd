@@ -18,7 +18,7 @@ function FavoriteTruckCard(props) {
   const { push } = useHistory();
 
   const removeFavorites = () => {
-    console.log(id);
+    console.log('Id that is being passed in: ', id);
     deleteFavoriteTruck(user.dinerId, id);
   };
   const locateTruck = () => {
@@ -33,7 +33,7 @@ function FavoriteTruckCard(props) {
         </p>
       </Link>
       <p>{cuisineType}</p>
-      <p>{customerRatingsAvg}</p>
+      <p>Average Rating: {customerRatingsAvg}</p>
       <button onClick={locateTruck}>Find Truck</button>
       <button onClick={removeFavorites}>Remove From Favorites</button>
     </StyledFavoriteTruckCard>

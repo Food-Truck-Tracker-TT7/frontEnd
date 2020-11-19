@@ -18,11 +18,12 @@ function OperatorDashboard(props) {
     editTruck,
     setDarkMode,
     darkMode,
+    update,
   } = props;
   const { push } = useHistory();
   useEffect(() => {
     fetchOperatorTruck(user.operatorId);
-  }, []);
+  }, [update]);
   const toggleMode = () => {
     if (darkMode) {
       setDarkMode();
@@ -89,6 +90,7 @@ const mapStateToProps = state => {
     user: state.user,
     trucksOwned: state.trucksOwned,
     darkMode: state.darkMode,
+    update: state.update,
   };
 };
 

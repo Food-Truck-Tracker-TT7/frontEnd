@@ -91,6 +91,22 @@ body {
   }
 }
 
+.infowindow{
+  width: 30rem;
+  font-size: 1.6rem;
+  h2{
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+  img{
+    width: 75%;
+  }
+  a{
+    text-decoration: none;
+    color: black;
+  }
+}
+
 `;
 
 export default GlobalStyles;

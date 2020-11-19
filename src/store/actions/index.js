@@ -171,7 +171,7 @@ export const deleteTruck = (truckId, redirectTo) => {
     axiosWithAuth()
       .delete(`/trucks/${truckId}`)
       .then(res => {
-        redirectTo('/map');
+        dispatch({ type: UPDATE });
       })
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
@@ -323,20 +323,7 @@ export const updateDinerLocation = (dinerId, currentLocation) => {
   };
 };
 
-// Add a truck to a diner's list of favorite trucks
-export const addFavoriteTruck = (dinerId, truck) => {
-  return dispatch => {
-    axiosWithAuth()
-      .post(`/diners/${dinerId}/favoriteTrucks`, truck)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        dispatch({ type: ERROR, payload: err.message });
-      });
-  };
-};
-
+// Fetches an array of trucks for a diner with the given diner id
 export const fetchFavoriteTrucks = dinerId => {
   return dispatch => {
     dispatch({ type: LOADING });
@@ -350,12 +337,26 @@ export const fetchFavoriteTrucks = dinerId => {
       });
   };
 };
+// Add a truck to a diner's list of favorite trucks
+export const addFavoriteTruck = (dinerId, truckId) => {
+  return dispatch => {
+    axiosWithAuth()
+      .post(`/diners/${dinerId}/favoriteTrucks`, { truckId })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        dispatch({ type: ERROR, payload: err.message });
+      });
+  };
+};
 
 // Removes a favorite truck with a given truck id from a diner with a given diner id
 export const deleteFavoriteTruck = (dinerId, truckId) => {
+  console.log('Id object being created:', { truckId });
   return dispatch => {
     axiosWithAuth()
-      .delete(`/diners/${dinerId}/favoriteTrucks`, truckId)
+      .delete(`/diners/${dinerId}/favoriteTrucks`, { truckId })
       .then(res => {
         dispatch({ type: SET_FAVORITE_TRUCKS, payload: res.data });
       })
