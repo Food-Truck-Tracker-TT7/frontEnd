@@ -125,16 +125,22 @@ const Map = props => {
               setSelected(null);
             }}
           >
-            <div>
+            <div className='infowindow'>
               <h2>
-                <Link to={`/truck/${selected.id}`}>{selected.name}</Link>
+                <Link to={`/truck/${selected.id}`}>
+                  {selected.name}
+                  <img
+                    src={selected.imageOfTruck}
+                    alt='food truck'
+                    width='100px'
+                  />
+                </Link>
               </h2>
-              <img src={selected.imageOfTruck} alt='food truck' width='100px' />
+
               <p>Food Type: {selected.cuisineType}</p>
               <p>Average Rating: {selected.customerRatingsAvg}/5</p>
               <p>
-                Departure Time:{' '}
-                {new Date(selected.departureTime).toLocaleTimeString()}
+                Departure Time: {new Date(selected.departureTime).toString()}
               </p>
             </div>
           </InfoWindow>

@@ -19,6 +19,7 @@ function AddTruck(props) {
           imageOfTruck: '',
           cuisineType: '',
           currentLocation: '',
+          departureTime: '',
         }
   );
   //managing error state
@@ -79,7 +80,7 @@ function AddTruck(props) {
     imageOfTruck: yup.string().required('URL Link required'),
     cuisineType: yup.string().required('Cuisine type is required'),
     currentLocation: yup.string().required('Location is required'),
-    // operatorId: yup.string().required('ID is required'),
+    departureTime: yup.string(),
   });
 
   useEffect(() => {
@@ -97,12 +98,15 @@ function AddTruck(props) {
   //onSubmit function
   const formSubmit = event => {
     event.preventDefault();
+    const departureTime = new Date(formState.departureTime);
+    console.log(Date.parse(departureTime));
     const newTruck = {
       name: formState.name.trim(),
       imageOfTruck: formState.imageOfTruck,
       cuisineType: formState.cuisineType.trim(),
       currentLocation: formState.currentLocation,
       operatorId: user.operatorId,
+      departureTime: Date.parse(departureTime),
     };
     truckToEdit
       ? updateTruck(truckToEdit.id, newTruck, push)
@@ -117,7 +121,7 @@ function AddTruck(props) {
       });
     });
   };
-
+  console.log(formState);
   return (
     <StyledAddTruck>
       <div className='container'>
@@ -188,6 +192,17 @@ function AddTruck(props) {
           </div>
           <div>
             <button onClick={getLocation}>Get Current Location</button>
+          </div>
+          <div>
+            <label>
+              <span>Departure Time</span>
+              <input
+                name='departureTime'
+                type='datetime-local'
+                onChange={inputChange}
+                value={formState.departureTime}
+              />
+            </label>
           </div>
           <div>
             <button type='submit' disabled={buttonDisabled}>

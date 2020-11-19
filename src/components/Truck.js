@@ -64,7 +64,7 @@ function Truck(props) {
           ? currentTruck.customerRatings.length
           : null}
       </p>
-      <p>Departure Time: {departure.toLocaleTimeString()}</p>
+      <p>Departure Time: {departure.toString()}</p>
       <p>{error}</p>
 
       {diner ? (

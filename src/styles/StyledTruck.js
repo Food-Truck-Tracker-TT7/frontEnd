@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 const Truckstyles = styled.div`
   color: ${props => props.theme.textColor};
-  border: 1px solid black;
   box-sizing: border-box;
   width: 100%;
   display: flex;
@@ -14,7 +13,7 @@ const Truckstyles = styled.div`
     width: 100%;
   }
   .truckImg {
-    width: 50%;
+    width: 30%;
   }
   h2 {
     text-align: center;
@@ -22,9 +21,10 @@ const Truckstyles = styled.div`
     padding: 1rem 0rem;
   }
   .menuheader {
+    width: 30%;
     text-align: center;
     font-size: 3.2rem;
-    margin-bottom: 1rem;
+    margin: 1% auto;
     color: ${props => props.theme.accentColor};
     background-color: ${props => props.theme.CTAColor};
   }
