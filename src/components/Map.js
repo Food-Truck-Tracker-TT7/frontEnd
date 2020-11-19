@@ -36,6 +36,7 @@ const Map = props => {
     updateDinerLocation,
     findTruck,
   } = props;
+
   const [center, setCenter] = useState(
     parseLocation('43.6034958,-110.7363361')
   );
@@ -44,17 +45,24 @@ const Map = props => {
     fetchTrucks();
     findTruck
       ? setCenter(parseLocation(findTruck))
-      : navigator.geolocation.getCurrentPosition(position => {
-          setCenter({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-          if (userType === 'diner') {
-            updateDinerLocation(user.dinerId, {
-              currentLocation: stringifyLocation(position),
+      : navigator.geolocation.getCurrentPosition(
+          position => {
+            setCenter({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
             });
+            if (userType === 'diner') {
+              updateDinerLocation(user.dinerId, {
+                currentLocation: stringifyLocation(position),
+              });
+            }
+          },
+          () => {
+            if (userType === 'diner') {
+              setCenter(parseLocation(user.currentLocation));
+            }
           }
-        });
+        );
   }, []);
 
   const mapRef = useRef();

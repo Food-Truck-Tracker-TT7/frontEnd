@@ -57,7 +57,7 @@ const Search = props => {
           placeholder='Enter an address.'
         />
         <ComboboxPopover>
-          <ComboboxList>
+          <ComboboxList className='searchResults'>
             {status === 'OK' &&
               data.map(suggestion => (
                 <ComboboxOption

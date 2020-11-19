@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { deleteFavoriteTruck, findTruck } from '../store/actions';
 import { Link, useHistory } from 'react-router-dom';
 
+import StyledFavoriteTruckCard from '../styles/StyledFavoriteTruckCard';
+
 function FavoriteTruckCard(props) {
   const {
     id,
@@ -23,18 +25,18 @@ function FavoriteTruckCard(props) {
     findTruck(currentLocation, push);
   };
   return (
-    <div>
+    <StyledFavoriteTruckCard>
       <Link to={`/truck/${id}`}>
         <h2>{name}</h2>
         <p>
-          <img src={imageOfTruck} alt='food truck' width='100px' />
+          <img src={imageOfTruck} alt='food truck' />
         </p>
       </Link>
       <p>{cuisineType}</p>
       <p>{customerRatingsAvg}</p>
       <button onClick={locateTruck}>Find Truck</button>
       <button onClick={removeFavorites}>Remove From Favorites</button>
-    </div>
+    </StyledFavoriteTruckCard>
   );
 }
 

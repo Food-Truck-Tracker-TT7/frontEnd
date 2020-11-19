@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { fetchDiner, fetchOperator } from '../store/actions';
 import WelcomeStyle from '../styles/StyledWelcome';
 
+import logolight from '../images/logolight.PNG';
+
 function Welcome(props) {
   const { fetchDiner, fetchOperator, user, isLoggedIn } = props;
   useEffect(() => {
@@ -18,9 +20,15 @@ function Welcome(props) {
 
   return (
     <WelcomeStyle>
-      {isLoggedIn
-        ? `Welcome ${user.username}!`
-        : 'Welcome To Food Truck Tracker!'}
+      <h2>
+        {isLoggedIn
+          ? `Welcome ${user.username}!`
+          : 'Welcome To Food Truck Tracker!'}
+      </h2>
+      <div>
+        <img src={logolight} alt='food truck tracker' />
+      </div>
+      <h3>Find The Food You Love!</h3>
     </WelcomeStyle>
   );
 }
