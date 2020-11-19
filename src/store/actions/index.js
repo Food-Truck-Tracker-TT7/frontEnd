@@ -87,7 +87,9 @@ export const loginUser = (loginInfo, redirectTo) => {
 // logs the user out
 export const logoutUser = () => {
   return dispatch => {
-    localStorage.clear();
+    localStorage.removeItem('user');
+    localStorage.removeItem('userType');
+    localStorage.removeItem('token');
     dispatch({ type: LOGOUT_USER });
   };
 };

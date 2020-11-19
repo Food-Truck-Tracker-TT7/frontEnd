@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { fetchOperatorTruck, deleteTruck, editTruck } from '../store/actions';
+import {
+  fetchOperatorTruck,
+  deleteTruck,
+  editTruck,
+  setDarkMode,
+} from '../store/actions';
 import StyledOpDashboard from '../styles/StyledOpDashboard';
 
 function OperatorDashboard(props) {
@@ -11,17 +16,38 @@ function OperatorDashboard(props) {
     fetchOperatorTruck,
     deleteTruck,
     editTruck,
+    setDarkMode,
+    darkMode,
   } = props;
   const { push } = useHistory();
   useEffect(() => {
     fetchOperatorTruck(user.operatorId);
   }, []);
-
+  const toggleMode = () => {
+    if (darkMode) {
+      setDarkMode();
+      localStorage.removeItem('darkmode');
+    } else {
+      setDarkMode();
+      localStorage.setItem('darkmode', 'true');
+    }
+  };
   return (
     <StyledOpDashboard>
       <div>
         <h2>{user.username}</h2>
         <p>email: {user.email}</p>
+        <p>Choose Your Theme:</p>
+        <div>
+          Light Mode
+          <div className='dark-mode__toggle'>
+            <div
+              onClick={toggleMode}
+              className={darkMode ? 'toggle toggled' : 'toggle'}
+            />
+          </div>
+          Dark Mode
+        </div>
       </div>
       <div>
         <h3>Your Trucks</h3>
@@ -62,6 +88,7 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     trucksOwned: state.trucksOwned,
+    darkMode: state.darkMode,
   };
 };
 
@@ -69,4 +96,5 @@ export default connect(mapStateToProps, {
   fetchOperatorTruck,
   deleteTruck,
   editTruck,
+  setDarkMode,
 })(OperatorDashboard);

@@ -11,6 +11,7 @@ const StyledOpDashboard = styled.div`
   }
   p {
     text-align: center;
+    margin: 1%;
   }
   a {
     text-decoration: underline dotted ${props => props.theme.accentColor};
@@ -19,6 +20,30 @@ const StyledOpDashboard = styled.div`
   flex-direction: column;
   align-items: center;
   font-size: 2.4rem;
+  .dark-mode__toggle {
+    display: inline-block;
+    background: ${props => props.theme.accentColor};
+    border-radius: 50px;
+    border: 1px solid black;
+    height: 20px;
+    position: relative;
+    width: 40px;
+    margin: 0 auto;
+  }
+
+  .toggle {
+    background: ${props => props.theme.CTAColor};
+    border-radius: 50px;
+    height: 18px;
+    left: 0;
+    position: absolute;
+    transition: 0.2s;
+    width: 20px;
+  }
+
+  .toggled {
+    left: 18px;
+  }
 `;
 
 export default StyledOpDashboard;
