@@ -8,6 +8,7 @@ import {
 } from '../store/actions';
 
 import AddPhoto from './AddPhoto';
+import StyledMenuItem from '../styles/StyledMenuItem';
 
 function DisplayMenuItem(props) {
   const {
@@ -61,18 +62,20 @@ function DisplayMenuItem(props) {
   };
 
   return (
-    <>
+    <StyledMenuItem>
       {itemPhotos.map(photo => (
         <p key={photo}>
           <img src={photo} alt='menu item' />
-          <button
-            onClick={() => {
-              console.log(photo);
-              deleteItemPhoto(currentTruck.id, id, photo);
-            }}
-          >
-            Remove Photo
-          </button>
+          <div>
+            <button
+              onClick={() => {
+                console.log(photo);
+                deleteItemPhoto(currentTruck.id, id, photo);
+              }}
+            >
+              Remove Photo
+            </button>
+          </div>
         </p>
       ))}
       <h3>{itemName}</h3>
@@ -110,7 +113,7 @@ function DisplayMenuItem(props) {
           </form>
         </div>
       ) : null}
-    </>
+    </StyledMenuItem>
   );
 }
 const mapStateToProps = state => {

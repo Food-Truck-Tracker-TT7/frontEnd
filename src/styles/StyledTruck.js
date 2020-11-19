@@ -1,14 +1,19 @@
 import styled from 'styled-components';
 
 const Truckstyles = styled.div`
-  color: ${(props) => props.theme.textColor};
-  height: 100vh;
+  color: ${props => props.theme.textColor};
   box-sizing: border-box;
-
-  *, div, ul, body, html {
-    background-color: ${(props) => props.theme.backgroundColor};
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 2rem;
+  ul {
+    background-color: ${props => props.theme.backgroundColor};
     width: 100%;
-    /* border: 1px solid green; */
+  }
+  .truckImg {
+    width: 50%;
   }
   h2 {
     text-align: center;
@@ -19,6 +24,8 @@ const Truckstyles = styled.div`
     text-align: center;
     font-size: 3.2rem;
     margin-bottom: 1rem;
+    color: ${props => props.theme.accentColor};
+    background-color: ${props => props.theme.CTAColor};
   }
   li {
     padding: 0 1rem;
@@ -28,35 +35,38 @@ const Truckstyles = styled.div`
     margin-bottom: 1rem;
   }
   p {
-    color: ${(props) => props.theme.textColor};
-    font-size: 2.2rem;
+    color: ${props => props.theme.textColor};
+    font-size: 2rem;
     text-align: center;
-    padding: .25rem 0;
+    padding: 0.25rem 0;
   }
   li {
     font-size: 1.8rem;
   }
-  span{
-    color: ${(props) => props.theme.accentColor};
+  span {
+    color: ${props => props.theme.accentColor};
   }
   a,
   button {
-    /* text-decoration: underline dotted ${(props) =>
-      props.theme.accentColor}; */
-    color: ${(props) => props.theme.accentColor};
-    background-color: ${(props) => props.theme.CTAColor};
-    padding: .5rem;
-    width: 10%;
+    color: ${props => props.theme.accentColor};
+    background-color: ${props => props.theme.CTAColor};
+    padding: 0.5rem;
+    width: 40%;
   }
-  .buttondiv{
+  .buttondiv {
     display: flex;
     justify-content: center;
     width: 100%;
   }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 2.4rem;
+  .menu {
+    width: 100%;
+    text-align: center;
+    .menuItems {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+  }
 `;
 
 export default Truckstyles;
