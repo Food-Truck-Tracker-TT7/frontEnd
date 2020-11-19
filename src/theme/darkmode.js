@@ -1,8 +1,8 @@
 export default {
   backgroundColor: '#072622',
-  textColor: '#8b72be',
+  textColor: '#A0182F',
   accentColor: '#A68026',
-  CTAColor: '#780602',
+  CTAColor: '#393E41',
   blackColor: '#171311',
   whiteColor: '#F1F0CC',
   display: 'inline-block',
