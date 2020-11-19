@@ -132,6 +132,10 @@ const Map = props => {
               <img src={selected.imageOfTruck} alt='food truck' width='100px' />
               <p>Food Type: {selected.cuisineType}</p>
               <p>Average Rating: {selected.customerRatingsAvg}/5</p>
+              <p>
+                Departure Time:{' '}
+                {new Date(selected.departureTime).toLocaleTimeString()}
+              </p>
             </div>
           </InfoWindow>
         ) : null}

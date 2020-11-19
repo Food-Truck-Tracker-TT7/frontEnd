@@ -91,6 +91,7 @@ body {
   }
 }
 
+
 `;
 
 export default GlobalStyles;
