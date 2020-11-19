@@ -16,12 +16,15 @@ import {
   SET_MENU_ITEM_TO_EDIT,
   UPDATE,
   SET_FIND_TRUCK,
+  SET_DARK_MODE,
 } from '../actions';
 
 const userType = localStorage.getItem('userType');
 const user = JSON.parse(localStorage.getItem('user'));
+const darkMode = localStorage.getItem('darkmode');
 
 const initialState = {
+  darkMode: darkMode ? true : false,
   isLoading: false,
   isLoggedIn: user ? true : false,
   error: '',
@@ -46,6 +49,11 @@ export const reducer = (state = initialState, action) => {
       return { ...state, error: action.payload, isLoading: false };
     case LOGOUT_USER:
       return { ...initialState, isLoggedIn: false, user: {}, userType: '' };
+    case SET_DARK_MODE:
+      return {
+        ...state,
+        darkMode: !state.darkMode,
+      };
     case SET_USER:
       return {
         ...state,

@@ -22,6 +22,7 @@ export const FETCH_TRUCKS_OWNED = 'FETCH_TRUCKS_OWNED';
 export const SET_MENU = 'SET_MENU';
 export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
 export const SET_MENU_ITEM_TO_EDIT = 'SET_MENU_ITEM_TO_EDIT';
+export const SET_DARK_MODE = 'SET_DARK_MODE';
 
 // Action creators
 
@@ -88,6 +89,12 @@ export const logoutUser = () => {
   return dispatch => {
     localStorage.clear();
     dispatch({ type: LOGOUT_USER });
+  };
+};
+
+export const setDarkMode = () => {
+  return dispatch => {
+    dispatch({ type: SET_DARK_MODE });
   };
 };
 
