@@ -1,25 +1,28 @@
 import styled from 'styled-components';
 
-const StyledOpDashboard = styled.div`
-  background-color: ${props => props.theme.backgroundColor};
+const StyledDinerDashboard = styled.div`
+  font-size: 2rem;
   color: ${props => props.theme.textColor};
-  box-sizing: border-box;
-  h2 {
+  .dinerinfo {
     text-align: center;
-    font-size: 3.8rem;
-    margin-bottom: 1rem;
+    width: 50%;
+    margin: 2% auto;
+
+    h2 {
+      font-size: 3.5rem;
+    }
+    h3 {
+      margin: 3%auto;
+      color: ${props => props.theme.accentColor};
+      background-color: ${props => props.theme.backgroundColor};
+      font-size: 2.5rem;
+    }
+    .favtrucks {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
   }
-  p {
-    text-align: center;
-    margin: 1%;
-  }
-  a {
-    text-decoration: underline dotted ${props => props.theme.accentColor};
-  }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 2.4rem;
   .dark-mode__toggle {
     display: inline-block;
     background: ${props => props.theme.accentColor};
@@ -44,6 +47,9 @@ const StyledOpDashboard = styled.div`
   .toggled {
     left: 18px;
   }
+  p {
+    margin: 1%;
+  }
 `;
 
-export default StyledOpDashboard;
+export default StyledDinerDashboard;

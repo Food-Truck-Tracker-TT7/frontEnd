@@ -17,10 +17,12 @@ export const SET_TRUCK = 'SET_TRUCK';
 export const ADD_TRUCK = 'ADD_TRUCK';
 export const EDIT_TRUCK = 'EDIT_TRUCK';
 export const TRUCK_UPDATED = 'TRUCK_UPDATED';
+export const SET_FIND_TRUCK = 'SET_FIND_TRUCK';
 export const FETCH_TRUCKS_OWNED = 'FETCH_TRUCKS_OWNED';
 export const SET_MENU = 'SET_MENU';
 export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
 export const SET_MENU_ITEM_TO_EDIT = 'SET_MENU_ITEM_TO_EDIT';
+export const SET_DARK_MODE = 'SET_DARK_MODE';
 
 // Action creators
 
@@ -85,8 +87,16 @@ export const loginUser = (loginInfo, redirectTo) => {
 // logs the user out
 export const logoutUser = () => {
   return dispatch => {
-    localStorage.clear();
+    localStorage.removeItem('user');
+    localStorage.removeItem('userType');
+    localStorage.removeItem('token');
     dispatch({ type: LOGOUT_USER });
+  };
+};
+
+export const setDarkMode = () => {
+  return dispatch => {
+    dispatch({ type: SET_DARK_MODE });
   };
 };
 
@@ -371,6 +381,7 @@ export const addCustomerRating = (truckId, dinerId, rating) => {
   };
 };
 
+// Adds a rating to a given menu item with a given truck id from a diner with a given diner id
 export const addCustomerMenuItemRating = (
   truckId,
   menuItemId,
@@ -391,6 +402,13 @@ export const addCustomerMenuItemRating = (
       .catch(err => {
         dispatch({ type: ERROR, payload: err.message });
       });
+  };
+};
+
+export const findTruck = (truckLocation, redirectTo) => {
+  return dispatch => {
+    dispatch({ type: SET_FIND_TRUCK, payload: truckLocation });
+    redirectTo('/map');
   };
 };
 

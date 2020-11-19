@@ -28,24 +28,33 @@ const options = {
 };
 
 const Map = props => {
-  const { user, userType, trucks, fetchTrucks, updateDinerLocation } = props;
+  const {
+    user,
+    userType,
+    trucks,
+    fetchTrucks,
+    updateDinerLocation,
+    findTruck,
+  } = props;
   const [center, setCenter] = useState(
     parseLocation('43.6034958,-110.7363361')
   );
 
   useEffect(() => {
     fetchTrucks();
-    navigator.geolocation.getCurrentPosition(position => {
-      setCenter({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      });
-      if (userType === 'diner') {
-        updateDinerLocation(user.dinerId, {
-          currentLocation: stringifyLocation(position),
+    findTruck
+      ? setCenter(parseLocation(findTruck))
+      : navigator.geolocation.getCurrentPosition(position => {
+          setCenter({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+          if (userType === 'diner') {
+            updateDinerLocation(user.dinerId, {
+              currentLocation: stringifyLocation(position),
+            });
+          }
         });
-      }
-    });
   }, []);
 
   const mapRef = useRef();
@@ -112,6 +121,7 @@ const Map = props => {
               <h2>
                 <Link to={`/truck/${selected.id}`}>{selected.name}</Link>
               </h2>
+              <img src={selected.imageOfTruck} alt='food truck' width='100px' />
               <p>Food Type: {selected.cuisineType}</p>
               <p>Average Rating: {selected.customerRatingsAvg}/5</p>
             </div>
@@ -127,6 +137,7 @@ const mapStateToProps = state => {
     user: state.user,
     userType: state.userType,
     trucks: state.trucks,
+    findTruck: state.findTruck,
   };
 };
 

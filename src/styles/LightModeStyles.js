@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Login from "../components/Login";
+import styled from 'styled-components';
+import Login from '../components/Login';
 
 // Locate button
 export const LocateBtn = styled.button`

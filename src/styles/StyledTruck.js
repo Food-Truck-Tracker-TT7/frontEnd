@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const Truckstyles = styled.div`
   color: ${props => props.theme.textColor};
+  border: 1px solid black;
   box-sizing: border-box;
   width: 100%;
   display: flex;
@@ -66,6 +67,11 @@ const Truckstyles = styled.div`
       justify-content: space-between;
       flex-wrap: wrap;
     }
+  }
+  .dinneroptions {
+    text-align: center;
+    width: 30%;
+    margin: 2% auto;
   }
 `;
 
