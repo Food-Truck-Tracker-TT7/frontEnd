@@ -7,7 +7,7 @@ import {
 } from '../store/actions';
 import { useParams, Link } from 'react-router-dom';
 import DisplayMenuItems from '../components/DisplayMenuItem';
-import Truckstyles from '../styles/StyledTruck';
+import StyledTruck from '../styles/StyledTruck';
 
 function Truck(props) {
   const { id } = useParams();
@@ -51,9 +51,13 @@ function Truck(props) {
 
   if (isLoading) return <h2>Loading...</h2>;
   return (
-    <>
+    <StyledTruck>
       <h2>{currentTruck.name}</h2>
-      <img src={currentTruck.imageOfTruck} alt='food truck' />
+      <img
+        src={currentTruck.imageOfTruck}
+        alt='food truck'
+        className='truckImg'
+      />
       <p>Cuisine Type: {currentTruck.cuisineType}</p>
       <p>Customer Rating: {currentTruck.customerRatingsAvg}/5</p>
       <p>
@@ -86,15 +90,19 @@ function Truck(props) {
             </form>
           </div>
         ) : null}
-        <h3>Menu</h3>
-        {truckOwner ? <Link to='/addmenuitem'>Add A Menu Item</Link> : null}
-        {currentTruck.menu
-          ? currentTruck.menu.map(menuItem => (
-              <DisplayMenuItems key={menuItem.id} menuItem={menuItem} />
-            ))
-          : null}
+        <div className='menu'>
+          <h3 className='menuheader'>Menu</h3>
+          {truckOwner ? <Link to='/addmenuitem'>Add A Menu Item</Link> : null}
+          <div className='menuItems'>
+            {currentTruck.menu
+              ? currentTruck.menu.map(menuItem => (
+                  <DisplayMenuItems key={menuItem.id} menuItem={menuItem} />
+                ))
+              : null}
+          </div>
+        </div>
       </div>
-    </>
+    </StyledTruck>
   );
 }
 
