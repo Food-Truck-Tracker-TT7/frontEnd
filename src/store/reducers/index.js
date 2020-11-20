@@ -132,7 +132,8 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         filteredTrucks: state.trucks.filter(
-          truck => truck.cuisineType === action.payload
+          truck =>
+            truck.cuisineType.toLowerCase() === action.payload.toLowerCase()
         ),
       };
     case CLEAR_FILTERED_TRUCKS:
