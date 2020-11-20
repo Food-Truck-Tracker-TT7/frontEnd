@@ -19,7 +19,6 @@ function Signup(props) {
     password: '',
     email: '',
     usertype: '',
-    currentLocation: '',
   };
   const [signupInput, setSignupInput] = useState(initialState);
   const [validationError, setValidationError] = useState({});
@@ -46,7 +45,6 @@ function Signup(props) {
           username: signupInput.username.trim(),
           password: signupInput.password,
           email: signupInput.email.trim(),
-          currentLocation: signupInput.currentLocation,
         },
         push
       );
@@ -126,79 +124,76 @@ function Signup(props) {
       <h2>Signup Page</h2>
       <div>{error}</div>
       <form>
-        <div className="radio">
-        <label htmlFor="usertype">
-          {" "}
-          Diner
-          <input
-            type="radio"
-            name="usertype"
-            id="diner"
-            value="diner"
-            checked={signupInput.usertype === "diner" ? true : false}
-            onChange={onChangeFunc}
-          />
-        </label>{" "}
-        {}
-        <label htmlFor="usertype">
-          {" "}
-          Operator
-          <input
-            type="radio"
-            name="usertype"
-            id="operator"
-            value="operator"
-            checked={signupInput.usertype === "operator" ? true : false}
-            onChange={onChangeFunc}
-          />
-        </label>
-        </div>
-        <br />
-        <div className="inputs">
-          <label htmlFor="username">
-            {"Username"}
+        <div className='radio'>
+          <label htmlFor='usertype'>
+            {' '}
+            Diner
             <input
-              type="text"
-              id="username"
-              name="username"
-              value={signupInput.username}
-              onChange={onChangeFunc}
-            />{" "}
-            <br/>
-            {validationError.username}
-          </label>
-          <br />
-          <label htmlFor="password">
-            {"Password"}
-            <input
-              type="text"
-              id="password"
-              name="password"
-              value={signupInput.password}
-              onChange={onChangeFunc}
-            />{" "}
-            {validationError.password}
-          </label>
-          <br />
-          <label htmlFor="email">
-            {"Email"}
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={signupInput.email}
+              type='radio'
+              name='usertype'
+              id='diner'
+              value='diner'
+              checked={signupInput.usertype === 'diner' ? true : false}
               onChange={onChangeFunc}
             />
-            {validationError.email}
+          </label>{' '}
+          {}
+          <label htmlFor='usertype'>
+            {' '}
+            Operator
+            <input
+              type='radio'
+              name='usertype'
+              id='operator'
+              value='operator'
+              checked={signupInput.usertype === 'operator' ? true : false}
+              onChange={onChangeFunc}
+            />
           </label>
-          </div>
-          <br />
-        {/* {signupInput.usertype === 'diner' ? (
+        </div>
+        <br />
+        <div className='inputs'>
           <div>
-            <p>Current Location: {signupInput.currentLocation}</p>
-            <button onClick={getLocation}>Get Current Location</button>
+            <label htmlFor='username'>
+              {'Username'}
+              <input
+                type='text'
+                id='username'
+                name='username'
+                value={signupInput.username}
+                onChange={onChangeFunc}
+              />
+              <p>{validationError.username}</p>
+            </label>
           </div>
-        ) : null} */}
+          <div>
+            <label htmlFor='password'>
+              {'Password'}
+              <input
+                type='password'
+                id='password'
+                name='password'
+                value={signupInput.password}
+                onChange={onChangeFunc}
+              />
+              <p>{validationError.password}</p>.
+            </label>
+          </div>
+          <div>
+            <label htmlFor='email'>
+              {'Email'}
+              <input
+                type='email'
+                id='email'
+                name='email'
+                value={signupInput.email}
+                onChange={onChangeFunc}
+              />
+              <p> {validationError.email}</p>
+            </label>
+          </div>
+        </div>
+        <br />
         <button disabled={submitBtn} onClick={onSubmitFunc}>
           Submit
         </button>

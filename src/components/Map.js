@@ -20,7 +20,7 @@ import FoodTruckMarker from '../images/foodtruckmarker.png';
 const libraries = ['places'];
 const mapContainerStyle = {
   width: '100vw',
-  height: '90vh',
+  height: '91vh',
 };
 
 const options = {
@@ -97,7 +97,7 @@ const Map = props => {
       <Locate panTo={panTo} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        zoom={10}
+        zoom={13}
         center={center}
         options={options}
         onLoad={onMapLoad}

@@ -14,10 +14,16 @@ const StyledOwnedTruckCard = styled.div`
   img {
     width: 75%;
   }
-
-  button {
-    background-color: ${props => props.theme.CTAColor};
-    color: ${props => props.theme.accentColor};
+  .buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    button {
+      display: inline-block;
+      width: 25%;
+      background-color: ${props => props.theme.CTAColor};
+      color: ${props => props.theme.accentColor};
+    }
   }
 `;
 

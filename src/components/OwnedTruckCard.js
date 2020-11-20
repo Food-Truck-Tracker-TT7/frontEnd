@@ -18,7 +18,7 @@ function OwnedTruckCard(props) {
         Departure Time: {departure.toLocaleDateString()}{' '}
         {departure.toLocaleTimeString()}
       </p>
-      <div>
+      <div className='buttons'>
         <button
           onClick={() => {
             editTruck(truck, push);

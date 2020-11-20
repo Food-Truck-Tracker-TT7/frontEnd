@@ -53,7 +53,8 @@ html {
 }
 
 body {
-	background-color: ${props => props.theme.backgroundColor}
+	background-color: ${props => props.theme.backgroundColor};
+  margin:0;
 }
 
 .search {
