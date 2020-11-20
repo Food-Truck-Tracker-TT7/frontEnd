@@ -82,7 +82,7 @@ const Map = props => {
   const [selected, setSelected] = useState(null);
 
   const { isLoaded, loadError } = useLoadScript({
-    // googleMapsApiKey: process.env.REACT_APP_API_KEY,
+    googleMapsApiKey: process.env.REACT_APP_API_KEY,
     libraries: libraries,
   });
 
