@@ -36,11 +36,11 @@ const initialState = {
   currentTruck: {},
   trucksOwned: [],
   favoriteTrucks: [],
-  truckToEdit: false,
-  findTruck: false,
+  truckToEdit: null,
+  findTruck: null,
   filteredTrucks: null,
   menu: [],
-  menuItemToEdit: false,
+  menuItemToEdit: null,
   update: false,
 };
 
@@ -79,7 +79,7 @@ export const reducer = (state = initialState, action) => {
         trucks: action.payload,
         isLoading: false,
         error: '',
-        findTruck: false,
+        findTruck: null,
       };
     case SET_TRUCK:
       return {
@@ -87,8 +87,8 @@ export const reducer = (state = initialState, action) => {
         currentTruck: action.payload,
         isLoading: false,
         error: '',
-        truckToEdit: false,
-        menuItemToEdit: false,
+        truckToEdit: null,
+        menuItemToEdit: null,
       };
     case ADD_TRUCK:
       return {
@@ -114,7 +114,7 @@ export const reducer = (state = initialState, action) => {
     case TRUCK_UPDATED:
       return {
         ...state,
-        truckToEdit: false,
+        truckToEdit: null,
       };
     case SET_FIND_TRUCK:
       return {

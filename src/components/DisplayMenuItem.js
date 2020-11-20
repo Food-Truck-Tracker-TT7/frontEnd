@@ -6,6 +6,7 @@ import {
   addCustomerMenuItemRating,
   deleteItemPhoto,
 } from '../store/actions';
+import { useHistory } from 'react-router-dom';
 
 import AddPhoto from './AddPhoto';
 import StyledMenuItem from '../styles/StyledMenuItem';
@@ -31,6 +32,8 @@ function DisplayMenuItem(props) {
     customerRatingsAvg,
   } = menuItem;
 
+  const { push } = useHistory();
+
   const truckOwner =
     userType === 'operator' && user.operatorId === currentTruck.operatorId
       ? true
@@ -45,6 +48,7 @@ function DisplayMenuItem(props) {
 
   const handleEdit = () => {
     editMenuItem(menuItem);
+    push('/editmenuitem');
   };
 
   const handleChange = e => {
