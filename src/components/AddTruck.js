@@ -4,6 +4,18 @@ import { connect } from 'react-redux';
 import { addTruck, updateTruck } from '../store/actions';
 import { useHistory } from 'react-router-dom';
 import stringifyLocation from '../utils/stringifyLocation';
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from 'use-places-autocomplete';
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from '@reach/combobox';
+import parseLocation from '../utils/parseLocation';
 
 import StyledAddTruck from '../styles/StyledAddTruck';
 
@@ -121,7 +133,22 @@ function AddTruck(props) {
       });
     });
   };
-  console.log(formState);
+
+  const userLocation = parseLocation('43.6034958,-110.7363361');
+
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      location: { lat: () => userLocation.lat, lng: () => userLocation.lng },
+      radius: 200 * 1000,
+    },
+  });
+
   return (
     <StyledAddTruck>
       <div className='container'>
@@ -190,6 +217,42 @@ function AddTruck(props) {
               ) : null}
             </label>
           </div>
+          <Combobox
+            onSelect={async address => {
+              setValue(address, false);
+              clearSuggestions();
+              try {
+                const results = await getGeocode({ address });
+                const { lat, lng } = await getLatLng(results[0]);
+                setFormSate({
+                  ...formState,
+                  currentLocation: `${lat},${lng}`,
+                });
+              } catch (error) {
+                console.log(error);
+              }
+            }}
+          >
+            <ComboboxInput
+              value={value}
+              onChange={e => {
+                setValue(e.target.value);
+              }}
+              disabled={!ready}
+              placeholder='Enter an address.'
+            />
+            <ComboboxPopover>
+              <ComboboxList className='searchResults'>
+                {status === 'OK' &&
+                  data.map(suggestion => (
+                    <ComboboxOption
+                      key={suggestion.id}
+                      value={suggestion.description}
+                    />
+                  ))}
+              </ComboboxList>
+            </ComboboxPopover>
+          </Combobox>
           <div>
             <button onClick={getLocation}>Get Current Location</button>
           </div>
