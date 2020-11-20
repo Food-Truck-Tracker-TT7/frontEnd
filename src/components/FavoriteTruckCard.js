@@ -35,7 +35,7 @@ function FavoriteTruckCard(props) {
       <p>{cuisineType}</p>
       <p>Average Rating: {customerRatingsAvg}</p>
       <button onClick={locateTruck}>Find Truck</button>
-      <button onClick={removeFavorites}>Remove From Favorites</button>
+      {/* <button onClick={removeFavorites}>Remove From Favorites</button> */}
     </StyledFavoriteTruckCard>
   );
 }

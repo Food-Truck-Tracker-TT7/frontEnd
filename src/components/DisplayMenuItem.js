@@ -68,9 +68,9 @@ function DisplayMenuItem(props) {
   return (
     <StyledMenuItem>
       {itemPhotos.map(photo => (
-        <p key={photo}>
+        <div key={photo}>
           <img src={photo} alt='menu item' />
-          {truckOwner ? (
+          {/* {truckOwner ? (
             <div>
               <button
                 onClick={() => {
@@ -80,8 +80,8 @@ function DisplayMenuItem(props) {
                 Remove Photo
               </button>
             </div>
-          ) : null}
-        </p>
+          ) : null} */}
+        </div>
       ))}
       <h3>{itemName}</h3>
       <ul>
