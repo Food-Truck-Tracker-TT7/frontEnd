@@ -65,6 +65,23 @@ body {
   max-width: 400px;
   z-index: 10;
 }
+.filter {
+  display: block;
+  position: absolute;
+  top: 10rem;
+  left: 15rem;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 300px;
+  z-index: 10;
+  input{
+    width: 100%;
+    font-size: 1.8rem;
+  }
+  button{
+    background-color: white;
+  }
+}
 
 .search input {
   padding: 0.5rem;
@@ -80,6 +97,7 @@ body {
   border: 1px solid black;
   z-index: 10;
   cursor: pointer;
+  font-size: 1.6rem;
 }
 .searchResults {
   background-color: white;

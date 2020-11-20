@@ -19,6 +19,8 @@ export const EDIT_TRUCK = 'EDIT_TRUCK';
 export const TRUCK_UPDATED = 'TRUCK_UPDATED';
 export const SET_FIND_TRUCK = 'SET_FIND_TRUCK';
 export const FETCH_TRUCKS_OWNED = 'FETCH_TRUCKS_OWNED';
+export const SET_FILTERED_TRUCKS = 'SET_FILTERED_TRUCKS';
+export const CLEAR_FILTERED_TRUCKS = 'CLEAR_FILTERED_TRUCKS';
 export const SET_MENU = 'SET_MENU';
 export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
 export const SET_MENU_ITEM_TO_EDIT = 'SET_MENU_ITEM_TO_EDIT';
@@ -184,6 +186,19 @@ export const editTruck = (truck, redirectTo) => {
   return dispatch => {
     dispatch({ type: EDIT_TRUCK, payload: truck });
     redirectTo('/edittruck');
+  };
+};
+
+export const setFilteredTrucks = cuiseType => {
+  return dispatch => {
+    dispatch({ type: SET_FILTERED_TRUCKS, payload: cuiseType });
+  };
+};
+
+export const clearFilteredTrucks = () => {
+  console.log('click actions');
+  return dispatch => {
+    dispatch({ type: CLEAR_FILTERED_TRUCKS });
   };
 };
 

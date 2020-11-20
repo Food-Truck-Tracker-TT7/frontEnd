@@ -14,7 +14,6 @@ function Truck(props) {
   const {
     user,
     userType,
-    isLoading,
     currentTruck,
     fetchTruck,
     addFavoriteTruck,
@@ -64,7 +63,10 @@ function Truck(props) {
           ? currentTruck.customerRatings.length
           : null}
       </p>
-      <p>Departure Time: {departure.toString()}</p>
+      <p>
+        Departure Time: {departure.toLocaleDateString()}{' '}
+        {departure.toLocaleTimeString()}
+      </p>
       <p>{error}</p>
 
       {diner ? (
@@ -108,7 +110,6 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     currentTruck: state.currentTruck,
-    isLoading: state.isLoading,
     userType: state.userType,
     error: state.error,
     update: state.update,

@@ -1,26 +1,19 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import {
-  fetchOperatorTruck,
-  deleteTruck,
-  editTruck,
-  setDarkMode,
-} from '../store/actions';
+import { Link } from 'react-router-dom';
+import { fetchOperatorTruck, setDarkMode } from '../store/actions';
 import StyledOpDashboard from '../styles/StyledOpDashboard';
+import OwnedTruckCard from './OwnedTruckCard';
 
 function OperatorDashboard(props) {
   const {
     user,
     trucksOwned,
     fetchOperatorTruck,
-    deleteTruck,
-    editTruck,
     setDarkMode,
     darkMode,
     update,
   } = props;
-  const { push } = useHistory();
   useEffect(() => {
     fetchOperatorTruck(user.operatorId);
   }, [update]);
@@ -50,33 +43,13 @@ function OperatorDashboard(props) {
           Dark Mode
         </div>
       </div>
-      <div>
-        <h3>Your Trucks</h3>
-        <Link to='/addtruck'>Add A Truck</Link>
+      <h3>Your Trucks</h3>
+      <Link to='/addtruck'>Add A Truck</Link>
+      <div className='trucklist'>
         {trucksOwned ? (
-          <ul>
-            {trucksOwned.map(truck => (
-              <li key={truck.id}>
-                <Link to={`/truck/${truck.id}`}>{truck.name}</Link>
-                <div>
-                  <button
-                    onClick={() => {
-                      editTruck(truck, push);
-                    }}
-                  >
-                    Edit Truck
-                  </button>
-                  <button
-                    onClick={() => {
-                      deleteTruck(truck.id, push);
-                    }}
-                  >
-                    Delete Truck
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+          trucksOwned.map(truck => (
+            <OwnedTruckCard key={truck.id} truck={truck} />
+          ))
         ) : (
           <p>No trucks yet!</p>
         )}
@@ -96,7 +69,5 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   fetchOperatorTruck,
-  deleteTruck,
-  editTruck,
   setDarkMode,
 })(OperatorDashboard);

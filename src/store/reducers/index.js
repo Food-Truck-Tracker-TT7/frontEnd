@@ -11,12 +11,14 @@ import {
   SET_USER_TYPE,
   FETCH_TRUCKS_OWNED,
   SET_FAVORITE_TRUCKS,
+  CLEAR_FILTERED_TRUCKS,
   EDIT_TRUCK,
   TRUCK_UPDATED,
   SET_MENU_ITEM_TO_EDIT,
   UPDATE,
   SET_FIND_TRUCK,
   SET_DARK_MODE,
+  SET_FILTERED_TRUCKS,
 } from '../actions';
 
 const userType = localStorage.getItem('userType');
@@ -36,6 +38,7 @@ const initialState = {
   favoriteTrucks: [],
   truckToEdit: false,
   findTruck: false,
+  filteredTrucks: null,
   menu: [],
   menuItemToEdit: false,
   update: false,
@@ -124,6 +127,18 @@ export const reducer = (state = initialState, action) => {
         truckToEdit: action.payload,
         isLoading: false,
         error: '',
+      };
+    case SET_FILTERED_TRUCKS:
+      return {
+        ...state,
+        filteredTrucks: state.trucks.filter(
+          truck => truck.cuisineType === action.payload
+        ),
+      };
+    case CLEAR_FILTERED_TRUCKS:
+      return {
+        ...state,
+        filteredTrucks: null,
       };
     case SET_MENU:
       return { ...state, menu: action.payload, isLoading: false, error: '' };

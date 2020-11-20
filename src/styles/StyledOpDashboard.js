@@ -9,12 +9,17 @@ const StyledOpDashboard = styled.div`
     font-size: 3.8rem;
     margin-bottom: 1rem;
   }
+  h3 {
+    font-size: 3rem;
+    margin: 1%;
+  }
   p {
     text-align: center;
     margin: 1%;
   }
   a {
     text-decoration: underline dotted ${props => props.theme.accentColor};
+    color: ${props => props.theme.textColor};
   }
   display: flex;
   flex-direction: column;
@@ -43,6 +48,12 @@ const StyledOpDashboard = styled.div`
 
   .toggled {
     left: 18px;
+  }
+  .trucklist {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin: 1%;
   }
 `;
 

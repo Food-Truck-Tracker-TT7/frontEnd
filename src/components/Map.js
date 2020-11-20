@@ -13,6 +13,7 @@ import Locate from './Locate';
 import parseLocation from '../utils/parseLocation'; //takes in location string and returns a location object
 import stringifyLocation from '../utils/stringifyLocation';
 import { fetchTrucks, updateDinerLocation } from '../store/actions';
+import CuisineFilter from './CuisineFilter';
 
 import FoodTruckMarker from '../images/foodtruckmarker.png';
 
@@ -35,6 +36,7 @@ const Map = props => {
     fetchTrucks,
     updateDinerLocation,
     findTruck,
+    filteredTrucks,
   } = props;
 
   const [center, setCenter] = useState(
@@ -83,12 +85,14 @@ const Map = props => {
     // googleMapsApiKey: process.env.REACT_APP_API_KEY,
     libraries: libraries,
   });
+
   if (loadError) return 'Error Loading Map';
 
   if (!isLoaded) return 'Loading';
 
   return (
     <>
+      <CuisineFilter />
       <Search panTo={panTo} />
       <Locate panTo={panTo} />
       <GoogleMap
@@ -99,24 +103,44 @@ const Map = props => {
         onLoad={onMapLoad}
       >
         {/* Create markers for each truck */}
-        {trucks.map(truck => {
-          return (
-            <Marker
-              icon={{
-                url: FoodTruckMarker,
-                scaledSize: new window.google.maps.Size(50, 50),
-                origin: new window.google.maps.Point(0, 0),
-                anchor: new window.google.maps.Point(25, 25),
-              }}
-              key={truck.id}
-              position={parseLocation(truck.currentLocation)}
-              onClick={() => {
-                setCenter(parseLocation(truck.currentLocation));
-                setSelected(truck);
-              }}
-            />
-          );
-        })}
+
+        {filteredTrucks
+          ? filteredTrucks.map(truck => {
+              return (
+                <Marker
+                  icon={{
+                    url: FoodTruckMarker,
+                    scaledSize: new window.google.maps.Size(50, 50),
+                    origin: new window.google.maps.Point(0, 0),
+                    anchor: new window.google.maps.Point(25, 25),
+                  }}
+                  key={truck.id}
+                  position={parseLocation(truck.currentLocation)}
+                  onClick={() => {
+                    setCenter(parseLocation(truck.currentLocation));
+                    setSelected(truck);
+                  }}
+                />
+              );
+            })
+          : trucks.map(truck => {
+              return (
+                <Marker
+                  icon={{
+                    url: FoodTruckMarker,
+                    scaledSize: new window.google.maps.Size(50, 50),
+                    origin: new window.google.maps.Point(0, 0),
+                    anchor: new window.google.maps.Point(25, 25),
+                  }}
+                  key={truck.id}
+                  position={parseLocation(truck.currentLocation)}
+                  onClick={() => {
+                    setCenter(parseLocation(truck.currentLocation));
+                    setSelected(truck);
+                  }}
+                />
+              );
+            })}
 
         {selected ? (
           <InfoWindow
@@ -140,7 +164,9 @@ const Map = props => {
               <p>Food Type: {selected.cuisineType}</p>
               <p>Average Rating: {selected.customerRatingsAvg}/5</p>
               <p>
-                Departure Time: {new Date(selected.departureTime).toString()}
+                Departure Time:{' '}
+                {new Date(selected.departureTime).toLocaleDateString()}{' '}
+                {new Date(selected.departureTime).toLocaleTimeString()}
               </p>
             </div>
           </InfoWindow>
@@ -156,6 +182,7 @@ const mapStateToProps = state => {
     userType: state.userType,
     trucks: state.trucks,
     findTruck: state.findTruck,
+    filteredTrucks: state.filteredTrucks,
   };
 };
 
