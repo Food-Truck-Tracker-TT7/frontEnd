@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '../store/actions';
 
@@ -11,6 +11,7 @@ const Header = props => {
   const logout = () => {
     logoutUser();
   };
+
   return (
     <StyledHeader>
       <h1>
