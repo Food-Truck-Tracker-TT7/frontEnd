@@ -43,7 +43,7 @@ function App(props) {
           <PrivateRoute path='/addmenuitem' component={MenuItem} />
           <PrivateRoute path='/edittruck' component={AddTruck} />
           <PrivateRoute path='/editmenuitem' component={MenuItem} />
-          <Route path='/' component={Welcome} />
+          <Route exact path='/' component={Welcome} />
         </Switch>
       </ThemeProvider>
     </>

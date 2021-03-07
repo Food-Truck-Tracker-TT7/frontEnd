@@ -65,7 +65,14 @@ const Map = props => {
             }
           }
         );
-  }, []);
+  }, [
+    fetchTrucks,
+    findTruck,
+    updateDinerLocation,
+    user.currentLocation,
+    user.dinerId,
+    userType,
+  ]);
 
   const mapRef = useRef();
   const onMapLoad = useCallback(map => {
@@ -165,8 +172,12 @@ const Map = props => {
               <p>Average Rating: {selected.customerRatingsAvg}/5</p>
               <p>
                 Departure Time:{' '}
-                {new Date(selected.departureTime).toLocaleDateString()}{' '}
-                {new Date(selected.departureTime).toLocaleTimeString()}
+                {new Date(
+                  parseInt(selected.departureTime)
+                ).toLocaleDateString()}{' '}
+                {new Date(
+                  parseInt(selected.departureTime)
+                ).toLocaleTimeString()}
               </p>
             </div>
           </InfoWindow>
