@@ -17,7 +17,7 @@ function FavoriteTruckCard(props) {
   } = props.truck;
   const { user, deleteFavoriteTruck, findTruck } = props;
   const { push } = useHistory();
-  const departure = new Date(departureTime);
+  const departure = new Date(parseInt(departureTime));
 
   const removeFavorites = () => {
     console.log('Id that is being passed in: ', id);
