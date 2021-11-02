@@ -33,7 +33,7 @@ function Truck(props) {
 
   const [customerRating, setCustomerRating] = useState('5');
 
-  const departure = new Date(currentTruck.departureTime);
+  const departure = new Date(parseInt(currentTruck.departureTime));
 
   const addFavorite = () => {
     addFavoriteTruck(user.dinerId, currentTruck.id);

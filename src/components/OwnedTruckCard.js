@@ -8,7 +8,7 @@ import StyledOwnedTruckCard from '../styles/StyledOwnedTruckCard';
 function OwnedTruckCard(props) {
   const { truck, deleteTruck, editTruck } = props;
   const { push } = useHistory();
-  const departure = new Date(truck.departureTime);
+  const departure = new Date(parseInt(truck.departureTime));
   return (
     <StyledOwnedTruckCard>
       <Link to={`/truck/${truck.id}`}>{truck.name}</Link>
