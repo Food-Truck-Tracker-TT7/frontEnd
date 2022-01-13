@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { setFilteredTrucks, clearFilteredTrucks } from '../store/actions';
+import {
+  setFilteredTrucksCuisine,
+  clearFilteredTrucks,
+} from '../store/actions';
 
 function CuisineFilter(props) {
-  const { setFilteredTrucks, clearFilteredTrucks } = props;
+  const { setFilteredTrucksCuisine, clearFilteredTrucks } = props;
   const [filterValue, setFilterValue] = useState('');
   const handleSubmit = e => {
     e.preventDefault();
-    setFilteredTrucks(filterValue);
+    setFilteredTrucksCuisine(filterValue);
   };
   const handleClear = () => {
     clearFilteredTrucks();
@@ -34,5 +37,5 @@ export default connect(
   () => {
     return {};
   },
-  { setFilteredTrucks, clearFilteredTrucks }
+  { setFilteredTrucksCuisine, clearFilteredTrucks }
 )(CuisineFilter);

@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { addDiner, addOperator } from '../store/actions';
 import stringifyLocation from '../utils/stringifyLocation';
 import StyledSignup from '../styles/StyledSignup';
+import Form from 'react-bootstrap/Form';
 
 function Signup(props) {
   const { error, addDiner, addOperator } = props;

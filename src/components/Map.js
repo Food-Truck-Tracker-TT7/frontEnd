@@ -14,6 +14,7 @@ import parseLocation from '../utils/parseLocation'; //takes in location string a
 import stringifyLocation from '../utils/stringifyLocation';
 import { fetchTrucks, updateDinerLocation } from '../store/actions';
 import CuisineFilter from './CuisineFilter';
+import RatingFilter from './RatingFilter';
 
 import FoodTruckMarker from '../images/foodtruckmarker.png';
 
@@ -100,6 +101,7 @@ const Map = props => {
   return (
     <>
       <CuisineFilter />
+      <RatingFilter />
       <Search panTo={panTo} />
       <Locate panTo={panTo} />
       <GoogleMap

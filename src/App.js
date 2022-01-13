@@ -17,15 +17,15 @@ import Truck from './components/Truck';
 import AddTruck from './components/AddTruck';
 import MenuItem from './components/MenuItem';
 
-import GlobalStyles from './styles/GlobalStyles';
-// import './styles/App.css';
+//import GlobalStyles from './styles/GlobalStyles';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App(props) {
   const { userType, darkMode } = props;
   return (
     <>
       <ThemeProvider theme={darkMode ? darkmode : lightmode}>
-        <GlobalStyles />
+        {/* <GlobalStyles /> */}
         <Header />
 
         <Switch>

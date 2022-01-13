@@ -19,7 +19,8 @@ export const EDIT_TRUCK = 'EDIT_TRUCK';
 export const TRUCK_UPDATED = 'TRUCK_UPDATED';
 export const SET_FIND_TRUCK = 'SET_FIND_TRUCK';
 export const FETCH_TRUCKS_OWNED = 'FETCH_TRUCKS_OWNED';
-export const SET_FILTERED_TRUCKS = 'SET_FILTERED_TRUCKS';
+export const SET_FILTERED_TRUCKS_CUISINE = 'SET_FILTERED_TRUCKS_CUISINE';
+export const SET_FILTERED_TRUCKS_RATING = 'SET_FILTERED_TRUCKS_RATING';
 export const CLEAR_FILTERED_TRUCKS = 'CLEAR_FILTERED_TRUCKS';
 export const SET_MENU = 'SET_MENU';
 export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
@@ -189,9 +190,15 @@ export const editTruck = (truck, redirectTo) => {
   };
 };
 
-export const setFilteredTrucks = cuiseType => {
+export const setFilteredTrucksCuisine = cuiseType => {
   return dispatch => {
-    dispatch({ type: SET_FILTERED_TRUCKS, payload: cuiseType });
+    dispatch({ type: SET_FILTERED_TRUCKS_CUISINE, payload: cuiseType });
+  };
+};
+
+export const setFilteredTrucksRating = rating => {
+  return dispatch => {
+    dispatch({ type: SET_FILTERED_TRUCKS_RATING, payload: rating });
   };
 };
 

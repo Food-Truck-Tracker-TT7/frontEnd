@@ -18,7 +18,8 @@ import {
   UPDATE,
   SET_FIND_TRUCK,
   SET_DARK_MODE,
-  SET_FILTERED_TRUCKS,
+  SET_FILTERED_TRUCKS_CUISINE,
+  SET_FILTERED_TRUCKS_RATING,
 } from '../actions';
 
 const userType = localStorage.getItem('userType');
@@ -128,12 +129,19 @@ export const reducer = (state = initialState, action) => {
         isLoading: false,
         error: '',
       };
-    case SET_FILTERED_TRUCKS:
+    case SET_FILTERED_TRUCKS_CUISINE:
       return {
         ...state,
         filteredTrucks: state.trucks.filter(
           truck =>
             truck.cuisineType.toLowerCase() === action.payload.toLowerCase()
+        ),
+      };
+    case SET_FILTERED_TRUCKS_RATING:
+      return {
+        ...state,
+        filteredTrucks: state.trucks.filter(
+          truck => truck.customerRatingsAvg >= action.payload
         ),
       };
     case CLEAR_FILTERED_TRUCKS:
