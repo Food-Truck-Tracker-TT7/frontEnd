@@ -1,19 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchFavoriteTrucks, setDarkMode } from '../store/actions';
+import { fetchFavoriteTrucks } from '../store/actions';
 import FavoriteTruckCard from './FavoriteTruckCard';
 
 import { Card, Container, Row, Col } from 'react-bootstrap';
 
 function DinerDashboard(props) {
-  const {
-    user,
-    fetchFavoriteTrucks,
-    favoriteTrucks,
-    isLoading,
-    darkMode,
-    setDarkMode,
-  } = props;
+  const { user, fetchFavoriteTrucks, favoriteTrucks, isLoading } = props;
 
   useEffect(() => {
     fetchFavoriteTrucks(user.dinerId);
@@ -22,17 +15,17 @@ function DinerDashboard(props) {
   if (isLoading) return <h2>Loading...</h2>;
 
   return (
-    <Container>
+    <Container fluid='md' className='text-center'>
       <Card>
         <Card.Header>{user.username}</Card.Header>
         <Card.Body>
           <Card.Text>Email: {user.email}</Card.Text>
           <Card.Title>Favorite Trucks</Card.Title>
-          <Row>
+          <Row className='d-flex justify-content-center'>
             {favoriteTrucks &&
               favoriteTrucks.map(truck => (
-                <Col>
-                  <FavoriteTruckCard key={truck.id} truck={truck} />
+                <Col key={truck.id} md={4}>
+                  <FavoriteTruckCard truck={truck} />
                 </Col>
               ))}
           </Row>
@@ -47,10 +40,9 @@ const mapStateToProps = state => {
     user: state.user,
     favoriteTrucks: state.favoriteTrucks,
     isLoading: state.isLoading,
-    darkMode: state.darkMode,
   };
 };
 
-export default connect(mapStateToProps, { fetchFavoriteTrucks, setDarkMode })(
+export default connect(mapStateToProps, { fetchFavoriteTrucks })(
   DinerDashboard
 );

@@ -7,6 +7,7 @@ import {
   InfoWindow,
   useLoadScript,
 } from '@react-google-maps/api';
+import { useHistory } from 'react-router-dom';
 
 import Search from './Search';
 import Locate from './Locate';
@@ -14,16 +15,12 @@ import parseLocation from '../utils/parseLocation';
 import stringifyLocation from '../utils/stringifyLocation';
 import { fetchTrucks, updateDinerLocation } from '../store/actions';
 import CuisineFilter from './CuisineFilter';
-import RatingFilter from './RatingFilter';
 
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
+import { Container, Row, Col, Card, ListGroup, Button } from 'react-bootstrap';
 
 import FoodTruckMarker from '../images/foodtruckmarker.png';
 
-// const libraries = ['places'];
+const libraries = ['places'];
 const mapContainerStyle = {
   width: '100%',
   height: '94vh',
@@ -96,7 +93,10 @@ const Map = props => {
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
+    libraries: libraries,
   });
+
+  const { push } = useHistory();
 
   if (loadError) return 'Error Loading Map';
 
@@ -104,9 +104,17 @@ const Map = props => {
 
   return (
     <Container fluid className='p-0'>
-      {/* <CuisineFilter />
-      <Search panTo={panTo} />
-      <Locate panTo={panTo} /> */}
+      <Row className='map-elements text-center'>
+        <Col>
+          <CuisineFilter />
+        </Col>
+        <Col>
+          <Search panTo={panTo} />
+        </Col>
+        <Col>
+          <Locate panTo={panTo} />
+        </Col>
+      </Row>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={13}
@@ -156,6 +164,7 @@ const Map = props => {
 
         {selected && (
           <InfoWindow
+            className='z-top'
             position={parseLocation(selected.currentLocation)}
             onCloseClick={() => {
               setSelected(null);
@@ -184,9 +193,15 @@ const Map = props => {
                     </ListGroup.Item>
                   </ListGroup>
                 </Card.Text>
-                <Card.Link href={`truck/${selected.id}`}>
-                  <Button variant='primary'>More Info</Button>
-                </Card.Link>
+
+                <Button
+                  variant='primary'
+                  onClick={() => {
+                    push(`/truck/${selected.id}`);
+                  }}
+                >
+                  More Info
+                </Button>
               </Card.Body>
             </Card>
           </InfoWindow>

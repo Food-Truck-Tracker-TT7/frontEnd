@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import { connect } from 'react-redux';
 import { loginUser } from '../store/actions';
@@ -11,6 +11,7 @@ import {
   Form,
   Button,
   FloatingLabel,
+  Alert,
 } from 'react-bootstrap';
 
 function Login(props) {
@@ -102,15 +103,16 @@ function Login(props) {
 
   return (
     <Container fluid='md'>
+      {error && (
+        <Alert variant='danger' className='text-center'>
+          {error}
+        </Alert>
+      )}
       <Form onSubmit={formSubmit} className='m-3'>
         <Row className='d-flex justify-content-center'>
           <Col md={6}>
             <Form.Group>
-              <FloatingLabel
-                controlId='username'
-                label='Username'
-                className='my-2'
-              >
+              <FloatingLabel label='Username' className='my-2'>
                 <Form.Control
                   type='text'
                   placeholder='Enter username'
@@ -129,11 +131,7 @@ function Login(props) {
         </Row>
         <Row className='d-flex justify-content-center'>
           <Col md={6}>
-            <FloatingLabel
-              controlId='password'
-              label='Password'
-              className='my-2'
-            >
+            <FloatingLabel label='Password' className='my-2'>
               <Form.Control
                 type='password'
                 placeholder='Enter password'

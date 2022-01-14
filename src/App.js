@@ -18,13 +18,14 @@ import AddTruck from './components/AddTruck';
 import MenuItem from './components/MenuItem';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '@reach/combobox/styles.css';
+import './styles/styles.css';
 
 function App(props) {
   const { userType, darkMode } = props;
   return (
     <>
       <ThemeProvider theme={darkMode ? darkmode : lightmode}>
-        {/* <GlobalStyles /> */}
         <Header />
 
         <Switch>

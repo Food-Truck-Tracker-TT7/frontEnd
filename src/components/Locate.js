@@ -1,11 +1,12 @@
 import React from 'react';
-import { LocateBtn } from '../styles/LightModeStyles';
+import Button from 'react-bootstrap/Button';
 
 export default function Locate(props) {
   const { panTo } = props;
   return (
-    <button
-      className='locate'
+    <Button
+      className='inline'
+      variant='primary'
       onClick={() => {
         navigator.geolocation.getCurrentPosition(position => {
           panTo({
@@ -16,6 +17,6 @@ export default function Locate(props) {
       }}
     >
       Locate Me
-    </button>
+    </Button>
   );
 }

@@ -34,41 +34,41 @@ const Search = props => {
   });
 
   return (
-    <div className='search'>
-      <Combobox
-        onSelect={async address => {
-          setValue(address, false);
-          clearSuggestions();
-          try {
-            const results = await getGeocode({ address });
-            const { lat, lng } = await getLatLng(results[0]);
-            panTo({ lat, lng });
-          } catch (error) {
-            console.log(error);
-          }
+    <Combobox
+      className='inline w-50 reach-search'
+      onSelect={async address => {
+        setValue(address, false);
+        clearSuggestions();
+        try {
+          const results = await getGeocode({ address });
+          const { lat, lng } = await getLatLng(results[0]);
+          panTo({ lat, lng });
+        } catch (error) {
+          console.log(error);
+        }
+      }}
+    >
+      <ComboboxInput
+        className='w-100 reach-search'
+        value={value}
+        onChange={e => {
+          setValue(e.target.value);
         }}
-      >
-        <ComboboxInput
-          value={value}
-          onChange={e => {
-            setValue(e.target.value);
-          }}
-          disabled={!ready}
-          placeholder='Enter an address.'
-        />
-        <ComboboxPopover>
-          <ComboboxList className='searchResults'>
-            {status === 'OK' &&
-              data.map(suggestion => (
-                <ComboboxOption
-                  key={suggestion.id}
-                  value={suggestion.description}
-                />
-              ))}
-          </ComboboxList>
-        </ComboboxPopover>
-      </Combobox>
-    </div>
+        disabled={!ready}
+        placeholder='Enter an address.'
+      />
+      <ComboboxPopover>
+        <ComboboxList className='searchResults'>
+          {status === 'OK' &&
+            data.map(suggestion => (
+              <ComboboxOption
+                key={suggestion.id}
+                value={suggestion.description}
+              />
+            ))}
+        </ComboboxList>
+      </ComboboxPopover>
+    </Combobox>
   );
 };
 

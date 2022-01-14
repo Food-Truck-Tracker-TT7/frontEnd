@@ -1,11 +1,11 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { connect } from "react-redux";
-import { logoutUser } from "../store/actions";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logoutUser } from '../store/actions';
 
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav } from 'react-bootstrap';
 
-const Header = (props) => {
+const Header = props => {
   const { isLoggedIn, logoutUser } = props;
 
   const logout = () => {
@@ -15,21 +15,27 @@ const Header = (props) => {
   const { push } = useHistory();
 
   return (
-    <Navbar bg="primary" variant="dark">
+    <Navbar bg='primary' variant='dark'>
       <Container>
-        <Navbar.Brand href="/">Food Truck Tracker</Navbar.Brand>
+        <Navbar.Brand
+          onClick={() => {
+            push('/');
+          }}
+        >
+          Food Truck Tracker
+        </Navbar.Brand>
         {isLoggedIn ? (
-          <Nav className="me-auto">
+          <Nav className='me-auto'>
             <Nav.Link
               onClick={() => {
-                push("/dashboard");
+                push('/dashboard');
               }}
             >
               Dashboard
             </Nav.Link>
             <Nav.Link
               onClick={() => {
-                push("/map");
+                push('/map');
               }}
             >
               Map
@@ -37,17 +43,17 @@ const Header = (props) => {
             <Nav.Link onClick={logout}>Logout</Nav.Link>
           </Nav>
         ) : (
-          <Nav className="me-auto">
+          <Nav className='me-auto'>
             <Nav.Link
               onClick={() => {
-                push("/signup");
+                push('/signup');
               }}
             >
               Sign Up
             </Nav.Link>
             <Nav.Link
               onClick={() => {
-                push("/login");
+                push('/login');
               }}
             >
               Log In
@@ -56,39 +62,9 @@ const Header = (props) => {
         )}
       </Container>
     </Navbar>
-
-    // <Container>
-    //   <Row>
-    //     <Col>
-    //       <Link to='/'>Food Truck Tracker</Link>
-    //     </Col>
-    //     {isLoggedIn ? (
-    //       <Col>
-    //         <Row>
-    //           <Col>
-    //             <Link to='/dashboard'>Dashboard</Link>
-    //           </Col>
-    //           <Col>
-    //             <Link to='/map'>Map</Link>
-    //           </Col>
-    //           <Col>
-    //             <Link to='/' onClick={logout}>
-    //               Logout
-    //             </Link>
-    //           </Col>
-    //         </Row>
-    //       </Col>
-    //     ) : (
-    //       <nav>
-    //         <Link to='/login'>Login</Link>
-    //         <Link to='/signup'>Sign Up</Link>
-    //       </nav>
-    //     )}
-    //   </Row>
-    // </Container>
   );
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     user: state.user,
     isLoggedIn: state.isLoggedIn,

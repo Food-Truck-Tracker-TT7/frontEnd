@@ -1,0 +1,21 @@
+.inline {
+  display: inline-block;
+}
+
+.map-elements {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 6vh;
+  z-index: 2;
+  width: 100%;
+}
+
+.reach-search {
+  height: 6vh;
+}
+
+.z-top {
+  z-index: 10;
+}

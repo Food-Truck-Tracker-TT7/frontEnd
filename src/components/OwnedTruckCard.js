@@ -1,35 +1,48 @@
-import React from "react";
-import { connect } from "react-redux";
-import { deleteTruck, editTruck } from "../store/actions";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { deleteTruck, editTruck } from '../store/actions';
+import { useHistory } from 'react-router-dom';
 
-import Card from "react-bootstrap/Card";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 
 function OwnedTruckCard(props) {
   const { truck, deleteTruck, editTruck } = props;
   const { push } = useHistory();
   return (
     <Container>
-      <Card style={{ width: "18rem" }}>
-        <Card.Header>{truck.name}</Card.Header>
+      <Card style={{ width: '18rem' }}>
+        <Card.Header
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            push(`/truck/${truck.id}`);
+          }}
+        >
+          {truck.name}
+        </Card.Header>
         <Card.Body>
           <Card.Img src={truck.imageOfTruck} />
           <Card.Text>
-            Departure Time:{" "}
+            Departure Time:{' '}
             {new Date(parseInt(truck.departureTime)).toLocaleString()}
           </Card.Text>
           <Button
-            variant="primary"
+            variant='primary'
             onClick={() => {
               editTruck(truck, push);
             }}
-            className="m-2"
+            className='m-2'
           >
             Edit
           </Button>
-          <Button variant="primary" onClick={deleteTruck} className="m-2">
+          <Button
+            variant='primary'
+            onClick={() => {
+              deleteTruck(truck.id);
+            }}
+            className='m-2'
+          >
             Delete
           </Button>
         </Card.Body>
@@ -38,4 +51,9 @@ function OwnedTruckCard(props) {
   );
 }
 
-export default connect(() => {}, { deleteTruck, editTruck })(OwnedTruckCard);
+export default connect(
+  () => {
+    return {};
+  },
+  { deleteTruck, editTruck }
+)(OwnedTruckCard);

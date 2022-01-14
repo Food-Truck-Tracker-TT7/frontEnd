@@ -26,8 +26,6 @@ import {
 } from '@reach/combobox';
 import parseLocation from '../utils/parseLocation';
 
-import StyledAddTruck from '../styles/StyledAddTruck';
-
 import '@reach/combobox/styles.css';
 
 function AddTruck(props) {
@@ -241,10 +239,10 @@ function AddTruck(props) {
           </Col>
         </Row>
 
-        {/* <Row>
-          <Col>
+        <Row className='d-flex justify-content-center'>
+          <Col md={6}>
             <Combobox
-              onSelect={async (address) => {
+              onSelect={async address => {
                 setValue(address, false);
                 clearSuggestions();
                 try {
@@ -261,16 +259,16 @@ function AddTruck(props) {
             >
               <ComboboxInput
                 value={value}
-                onChange={(e) => {
+                onChange={e => {
                   setValue(e.target.value);
                 }}
                 disabled={!ready}
-                placeholder="Enter an address."
+                placeholder='Enter an address.'
               />
               <ComboboxPopover>
-                <ComboboxList className="searchResults">
-                  {status === "OK" &&
-                    data.map((suggestion) => (
+                <ComboboxList className='searchResults'>
+                  {status === 'OK' &&
+                    data.map(suggestion => (
                       <ComboboxOption
                         key={suggestion.id}
                         value={suggestion.description}
@@ -280,7 +278,7 @@ function AddTruck(props) {
               </ComboboxPopover>
             </Combobox>
           </Col>
-        </Row> */}
+        </Row>
 
         <Row className='d-flex justify-content-center'>
           <Col md={6}>

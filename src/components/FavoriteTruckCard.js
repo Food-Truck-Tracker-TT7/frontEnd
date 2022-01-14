@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deleteFavoriteTruck, findTruck } from '../store/actions';
+import { findTruck } from '../store/actions';
 import { useHistory } from 'react-router-dom';
 
 import Card from 'react-bootstrap/Card';
@@ -17,7 +17,7 @@ function FavoriteTruckCard(props) {
     imageOfTruck,
     departureTime,
   } = props.truck;
-  const { user, deleteFavoriteTruck, findTruck } = props;
+  const { findTruck } = props;
   const { push } = useHistory();
 
   const locateTruck = () => {
@@ -26,7 +26,14 @@ function FavoriteTruckCard(props) {
   return (
     <Container>
       <Card style={{ width: '18rem' }}>
-        <Card.Header>{name}</Card.Header>
+        <Card.Header
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            push(`/truck/${id}`);
+          }}
+        >
+          {name}
+        </Card.Header>
         <Card.Body>
           <Card.Img src={imageOfTruck} />
           <Card.Text>
@@ -34,8 +41,8 @@ function FavoriteTruckCard(props) {
           </Card.Text>
           <Card.Text>{cuisineType}</Card.Text>
           <Card.Text>Rating: {customerRatingsAvg}</Card.Text>
-          <Button variant='primary' onclick={locateTruck} className='m-2'>
-            Delete
+          <Button variant='primary' onClick={locateTruck} className='m-2'>
+            Find Truck
           </Button>
         </Card.Body>
       </Card>
@@ -49,6 +56,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { deleteFavoriteTruck, findTruck })(
-  FavoriteTruckCard
-);
+export default connect(mapStateToProps, { findTruck })(FavoriteTruckCard);

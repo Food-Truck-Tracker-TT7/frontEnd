@@ -81,7 +81,6 @@ export const loginUser = (loginInfo, redirectTo) => {
         redirectTo('/map');
       })
       .catch(err => {
-        console.log('Error:', err);
         dispatch({ type: ERROR, payload: err.message });
       });
   };
@@ -169,7 +168,7 @@ export const updateTruck = (truckId, truckInfo, redirectTo) => {
 };
 
 //Delete a truck with a given truck ID
-export const deleteTruck = (truckId, redirectTo) => {
+export const deleteTruck = truckId => {
   return dispatch => {
     axiosWithAuth()
       .delete(`/trucks/${truckId}`)

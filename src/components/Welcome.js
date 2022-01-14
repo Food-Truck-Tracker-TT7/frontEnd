@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchDiner, fetchOperator } from '../store/actions';
-import WelcomeStyle from '../styles/StyledWelcome';
+
+import { Container, Row, Col, Image } from 'react-bootstrap';
 
 import logolight from '../images/logolight.PNG';
 
@@ -19,17 +20,29 @@ function Welcome(props) {
   }, []);
 
   return (
-    <WelcomeStyle>
-      <h2>
-        {isLoggedIn
-          ? `Welcome ${user.username}!`
-          : 'Welcome To Food Truck Tracker!'}
-      </h2>
-      <div>
-        <img src={logolight} alt='food truck tracker' />
-      </div>
-      <h3>Find The Food You Love!</h3>
-    </WelcomeStyle>
+    <Container className='text-center'>
+      <Row>
+        <Col>
+          <h1>Welcome To Food Truck Tracker</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Image src={logolight} alt='food truck tracker'></Image>
+        </Col>
+      </Row>
+    </Container>
+    // <WelcomeStyle>
+    //   <h2>
+    //     {isLoggedIn
+    //       ? `Welcome ${user.username}!`
+    //       : 'Welcome To Food Truck Tracker!'}
+    //   </h2>
+    //   <div>
+    //     <img src={logolight} alt='food truck tracker' />
+    //   </div>
+    //   <h3>Find The Food You Love!</h3>
+    // </WelcomeStyle>
   );
 }
 

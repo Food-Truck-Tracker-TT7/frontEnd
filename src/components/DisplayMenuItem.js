@@ -1,25 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import {
   deleteMenuItem,
   editMenuItem,
   addCustomerMenuItemRating,
-  deleteItemPhoto,
 } from '../store/actions';
 import { useHistory } from 'react-router-dom';
 
 import AddPhoto from './AddPhoto';
-import StyledMenuItem from '../styles/StyledMenuItem';
 
 import {
   Card,
   Container,
-  Row,
-  Col,
   Button,
   Form,
   Carousel,
   ListGroup,
+  Image,
 } from 'react-bootstrap';
 
 function DisplayMenuItem(props) {
@@ -31,7 +28,6 @@ function DisplayMenuItem(props) {
     deleteMenuItem,
     editMenuItem,
     addCustomerMenuItemRating,
-    deleteItemPhoto,
   } = props;
   const {
     id,
@@ -78,8 +74,8 @@ function DisplayMenuItem(props) {
         <Card.Body>
           <Carousel>
             {itemPhotos.map(photo => (
-              <Carousel.Item style={{ height: '10rem' }}>
-                <img className='d-block w-100' src={photo} alt='food' />
+              <Carousel.Item key={photo}>
+                <Image fluid src={photo} alt='food' />
               </Carousel.Item>
             ))}
           </Carousel>
@@ -105,69 +101,20 @@ function DisplayMenuItem(props) {
               </ListGroup.Item>
             )}
           </ListGroup>
-          <Button variant='primary' onClick={handleEdit} className='m-2'>
-            Edit Item
-          </Button>
-          <Button variant='primary' onClick={handleDelete}>
-            Delete Item
-          </Button>
+          {truckOwner && (
+            <Button variant='primary' onClick={handleEdit} className='m-2'>
+              Edit Item
+            </Button>
+          )}
+          {truckOwner && (
+            <Button variant='primary' onClick={handleDelete}>
+              Delete Item
+            </Button>
+          )}
+          {truckOwner && <AddPhoto menuItem={menuItem} />}
         </Card.Body>
       </Card>
     </Container>
-
-    // <StyledMenuItem>
-    //   {itemPhotos.map(photo => (
-    //     <div key={photo}>
-    //       <img src={photo} alt='menu item' />
-    //       {/* {truckOwner ? (
-    //         <div>
-    //           <button
-    //             onClick={() => {
-    //               deleteItemPhoto(currentTruck.id, id, photo);
-    //             }}
-    //           >
-    //             Remove Photo
-    //           </button>
-    //         </div>
-    //       ) : null} */}
-    //     </div>
-    //   ))}
-    //   <h3>{itemName}</h3>
-    //   <ul>
-    //     <li>Price: ${itemPrice}</li>
-    //     <li>Average Rating: {customerRatingsAvg}/5</li>
-    //     <li>Number of Ratings: {customerRatings.length} </li>
-    //     <li>Description: {itemDescription} </li>
-    //   </ul>
-    //   {truckOwner ? (
-    //     <div>
-    //       <button onClick={handleEdit}>Edit Menu Item</button>
-    //       <button onClick={handleDelete}>Delete Menu Item</button>
-    //       <AddPhoto menuItem={menuItem} />
-    //     </div>
-    //   ) : null}
-    //   {diner ? (
-    //     <div>
-    //       <form onSubmit={handleSubmit}>
-    //         <label>
-    //           Leave A Rating:
-    //           <select
-    //             name='customerrating'
-    //             value={customerRating}
-    //             onChange={handleChange}
-    //           >
-    //             <option value='5'>5</option>
-    //             <option value='4'>4</option>
-    //             <option value='3'>3</option>
-    //             <option value='2'>2</option>
-    //             <option value='1'>1</option>
-    //           </select>
-    //         </label>
-    //         <button>Submit</button>
-    //       </form>
-    //     </div>
-    //   ) : null}
-    // </StyledMenuItem>
   );
 }
 const mapStateToProps = state => {
@@ -182,5 +129,4 @@ export default connect(mapStateToProps, {
   deleteMenuItem,
   editMenuItem,
   addCustomerMenuItemRating,
-  deleteItemPhoto,
 })(DisplayMenuItem);
