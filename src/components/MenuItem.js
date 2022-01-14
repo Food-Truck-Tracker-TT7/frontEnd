@@ -24,6 +24,7 @@ function MenuItem(props) {
   const [btnState, setBtnState] = useState(true);
 
   const onSubmitFunc = (e) => {
+    console.log(props)
     e.preventDefault();
     const newMenuItem = {
       itemName: input.itemName.trim(),

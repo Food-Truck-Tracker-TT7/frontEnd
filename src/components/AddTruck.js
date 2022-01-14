@@ -122,7 +122,6 @@ function AddTruck(props) {
   const formSubmit = event => {
     event.preventDefault();
     const departureTime = new Date(formState.departureTime);
-    console.log(Date.parse(departureTime));
     const newTruck = {
       name: formState.name.trim(),
       imageOfTruck: formState.imageOfTruck,

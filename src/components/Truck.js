@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import {
   fetchTruck,
   addFavoriteTruck,
   addCustomerRating,
-} from '../store/actions';
-import { useParams } from 'react-router-dom';
-import DisplayMenuItems from '../components/DisplayMenuItem';
+} from "../store/actions";
+import { useParams, useHistory } from "react-router-dom";
+import DisplayMenuItems from "../components/DisplayMenuItem";
 
-import { Card, Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Card, Container, Row, Col, Button, Form } from "react-bootstrap";
 
 function Truck(props) {
   const { id } = useParams();
@@ -22,9 +22,9 @@ function Truck(props) {
     addCustomerRating,
     update,
   } = props;
-  const diner = userType === 'diner' ? true : false;
+  const diner = userType === "diner" ? true : false;
   const truckOwner =
-    userType === 'operator' && user.operatorId === currentTruck.operatorId
+    userType === "operator" && user.operatorId === currentTruck.operatorId
       ? true
       : false;
 
@@ -32,11 +32,13 @@ function Truck(props) {
     fetchTruck(id);
   }, [update]);
 
+  const { push } = useHistory();
+
   const addFavorite = () => {
     addFavoriteTruck(user.dinerId, currentTruck.id);
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     e.preventDefault();
     addCustomerRating(currentTruck.id, user.dinerId, e.target.value);
   };
@@ -49,49 +51,53 @@ function Truck(props) {
           <Card.Img src={currentTruck.imageOfTruck} />
           <Card.Text>Cuisine Type: {currentTruck.cuisineType}</Card.Text>
           <Card.Text>
-            Customer Rating:{' '}
+            Customer Rating:{" "}
             {currentTruck.customerRatingsAvg
               ? currentTruck.customerRatingsAvg
-              : 'N/A'}
+              : "N/A"}
           </Card.Text>
           <Card.Text>
-            Number of Reviews:{' '}
+            Number of Reviews:{" "}
             {currentTruck.customerRatings
               ? currentTruck.customerRatings.length
               : 0}
           </Card.Text>
           {diner && (
-            <Button onClick={addFavorite} className='my-2'>
+            <Button onClick={addFavorite} className="my-2">
               Add To Favorites
             </Button>
           )}
           <Card.Text>Review Truck</Card.Text>
           {diner && (
-            <Form.Select onChange={handleChange} className='my-2'>
-              <option value='1'>1 - Worst</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
-              <option value='5'>5 - Best</option>
+            <Form.Select onChange={handleChange} className="my-2">
+              <option value="1">1 - Worst</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5 - Best</option>
             </Form.Select>
           )}
           <Card.Text>
-            Departure Time:{' '}
+            Departure Time:{" "}
             {new Date(parseInt(currentTruck.departureTime)).toLocaleString()}
           </Card.Text>
           <Card.Title>Menu</Card.Title>
           {truckOwner && (
-            <Card.Link href='/addmenuitem'>
-              <Button variant='primary' className='my-2'>
-                Add Menu Item
-              </Button>
-            </Card.Link>
+            <Button
+              variant="primary"
+              className="my-2"
+              onClick={() => {
+                push("/addmenuitem");
+              }}
+            >
+              Add Menu Item
+            </Button>
           )}
           <Row>
             {currentTruck.menu &&
-              currentTruck.menu.map(menuItem => (
-                <Col>
-                  <DisplayMenuItems key={menuItem.id} menuItem={menuItem} />
+              currentTruck.menu.map((menuItem) => (
+                <Col key={menuItem.id}>
+                  <DisplayMenuItems menuItem={menuItem} />
                 </Col>
               ))}
           </Row>
@@ -101,7 +107,7 @@ function Truck(props) {
   );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     user: state.user,
     currentTruck: state.currentTruck,
