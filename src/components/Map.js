@@ -10,7 +10,7 @@ import {
 
 import Search from './Search';
 import Locate from './Locate';
-import parseLocation from '../utils/parseLocation'; //takes in location string and returns a location object
+import parseLocation from '../utils/parseLocation';
 import stringifyLocation from '../utils/stringifyLocation';
 import { fetchTrucks, updateDinerLocation } from '../store/actions';
 import CuisineFilter from './CuisineFilter';
@@ -23,7 +23,7 @@ import Container from 'react-bootstrap/Container';
 
 import FoodTruckMarker from '../images/foodtruckmarker.png';
 
-const libraries = ['places'];
+// const libraries = ['places'];
 const mapContainerStyle = {
   width: '100%',
   height: '94vh',
@@ -96,7 +96,6 @@ const Map = props => {
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
-    libraries: libraries,
   });
 
   if (loadError) return 'Error Loading Map';

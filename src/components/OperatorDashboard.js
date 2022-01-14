@@ -1,19 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchOperatorTruck, setDarkMode } from '../store/actions';
+import { fetchOperatorTruck } from '../store/actions';
 import OwnedTruckCard from './OwnedTruckCard';
 
 import { Card, Container, Row, Col } from 'react-bootstrap';
 
 function OperatorDashboard(props) {
-  const {
-    user,
-    trucksOwned,
-    fetchOperatorTruck,
-    setDarkMode,
-    darkMode,
-    update,
-  } = props;
+  const { user, trucksOwned, fetchOperatorTruck, update } = props;
   useEffect(() => {
     fetchOperatorTruck(user.operatorId);
   }, [update]);
@@ -28,8 +21,8 @@ function OperatorDashboard(props) {
           <Row>
             {trucksOwned &&
               trucksOwned.map(truck => (
-                <Col>
-                  <OwnedTruckCard key={truck.id} truck={truck} />
+                <Col key={truck.id}>
+                  <OwnedTruckCard truck={truck} />
                 </Col>
               ))}
           </Row>
@@ -39,16 +32,12 @@ function OperatorDashboard(props) {
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    user: state.user,
-    trucksOwned: state.trucksOwned,
-    darkMode: state.darkMode,
-    update: state.update,
-  };
-};
+const mapStateToProps = state => ({
+  user: state.user,
+  trucksOwned: state.trucksOwned,
+  update: state.update,
+});
 
 export default connect(mapStateToProps, {
   fetchOperatorTruck,
-  setDarkMode,
 })(OperatorDashboard);

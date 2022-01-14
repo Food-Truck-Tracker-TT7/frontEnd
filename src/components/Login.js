@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import { connect } from 'react-redux';
 import { loginUser } from '../store/actions';
@@ -103,8 +103,8 @@ function Login(props) {
   return (
     <Container fluid='md'>
       <Form onSubmit={formSubmit} className='m-3'>
-        <Row>
-          <Col>
+        <Row className='d-flex justify-content-center'>
+          <Col md={6}>
             <Form.Group>
               <FloatingLabel
                 controlId='username'
@@ -127,8 +127,8 @@ function Login(props) {
             </Form.Group>
           </Col>
         </Row>
-        <Row>
-          <Col>
+        <Row className='d-flex justify-content-center'>
+          <Col md={6}>
             <FloatingLabel
               controlId='password'
               label='Password'
@@ -149,9 +149,18 @@ function Login(props) {
             </Form.Control.Feedback>
           </Col>
         </Row>
-        <Button variant='primary' type='submit' size='lg'>
-          Log In
-        </Button>
+        <Row className='d-flex justify-content-center'>
+          <Col md={2}>
+            <Button
+              variant='primary'
+              type='submit'
+              size='lg'
+              disabled={buttonDisabled}
+            >
+              Log In
+            </Button>
+          </Col>
+        </Row>
       </Form>
     </Container>
   );

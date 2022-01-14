@@ -29,7 +29,7 @@ function OwnedTruckCard(props) {
           >
             Edit
           </Button>
-          <Button variant='primary' onclick={deleteTruck} className='m-2'>
+          <Button variant='primary' onClick={deleteTruck} className='m-2'>
             Delete
           </Button>
         </Card.Body>

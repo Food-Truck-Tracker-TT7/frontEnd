@@ -4,6 +4,15 @@ import { connect } from 'react-redux';
 import { addTruck, updateTruck } from '../store/actions';
 import { useHistory } from 'react-router-dom';
 import stringifyLocation from '../utils/stringifyLocation';
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  FloatingLabel,
+} from 'react-bootstrap';
+
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -152,132 +161,175 @@ function AddTruck(props) {
   });
 
   return (
-    <StyledAddTruck>
-      <div className='container'>
-        <h2>{truckToEdit ? 'Edit' : 'Add'} A Truck</h2>
-        <h2 className='error'>{error}</h2>
-        <form onSubmit={formSubmit}>
-          <div>
-            <label htmlFor='name'>
-              <span>Name</span>
-              <input
-                id='name'
-                type='text'
-                name='name'
-                value={formState.name}
-                placeholder='Trucks Name'
-                onChange={inputChange}
-              />
-              {errors.name.length > 0 ? <p>{errors.name}</p> : null}
-            </label>
-          </div>
-          <div>
-            <label htmlFor='imageOfTruck'>
-              <span>Picture of Truck</span>
-              <input
+    <Container fluid='md'>
+      <Form onSubmit={formSubmit} className='m-3'>
+        <Row className='d-flex justify-content-center'>
+          <Col md={6}>
+            <Form.Group>
+              <FloatingLabel label='Name' className='my-2'>
+                <Form.Control
+                  type='text'
+                  placeholder='Trucks Name'
+                  id='name'
+                  name='name'
+                  value={formState.name}
+                  onChange={inputChange}
+                  isInvalid={errors.name}
+                />
+              </FloatingLabel>
+              <Form.Control.Feedback type='invlaid' className='text-danger m-0'>
+                {errors.name}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row className='d-flex justify-content-center'>
+          <Col md={6}>
+            <FloatingLabel label='Picture of Truck' className='my-2'>
+              <Form.Control
                 id='imageOfTruck'
                 type='text'
                 name='imageOfTruck'
                 value={formState.imageOfTruck}
                 placeholder='Add URL Link of your picture'
                 onChange={inputChange}
+                isInvalid={errors.imageOfTruck}
               />
-              {errors.imageOfTruck.length > 0 ? (
-                <p>{errors.imageOfTruck}</p>
-              ) : null}
-            </label>
-          </div>
-          <div>
-            <label htmlFor='cuisineType'>
-              <span>Cuisine Type</span>
-              <input
+            </FloatingLabel>
+            <Form.Control.Feedback type='invlaid' className='text-danger m-0'>
+              {errors.imageOfTruck}
+            </Form.Control.Feedback>
+          </Col>
+        </Row>
+
+        <Row className='d-flex justify-content-center'>
+          <Col md={6}>
+            <FloatingLabel label='Cuisine Type' className='my-2'>
+              <Form.Control
                 id='cuisineType'
                 type='text'
                 name='cuisineType'
                 value={formState.cuisineType}
                 placeholder='Type of Cuisine'
                 onChange={inputChange}
+                isInvalid={errors.cuisineType}
               />
-              {errors.cuisineType.length > 0 ? (
-                <p>{errors.cuisineType}</p>
-              ) : null}
-            </label>
-          </div>
-          <div>
-            <label htmlFor='currentLocation'>
-              <span>Truck's Location</span>
-              <input
+            </FloatingLabel>
+            <Form.Control.Feedback
+              type='invlaid'
+              className='text-danger m-0'
+            ></Form.Control.Feedback>
+          </Col>
+        </Row>
+
+        <Row className='d-flex justify-content-center'>
+          <Col md={6}>
+            <FloatingLabel label="Truck's Location" className='my-2'>
+              <Form.Control
                 id='currentLocation'
                 type='text'
                 name='currentLocation'
                 value={formState.currentLocation}
                 placeholder='Location'
                 onChange={inputChange}
-                disabled={!ready}
+                isInvalid={errors.currentLocation}
               />
-              {errors.currentLocation.length > 0 ? (
-                <p>{errors.currentLocation}</p>
-              ) : null}
-            </label>
-          </div>
-          <Combobox
-            onSelect={async address => {
-              setValue(address, false);
-              clearSuggestions();
-              try {
-                const results = await getGeocode({ address });
-                const { lat, lng } = await getLatLng(results[0]);
-                setFormSate({
-                  ...formState,
-                  currentLocation: `${lat},${lng}`,
-                });
-              } catch (error) {
-                console.log(error);
-              }
-            }}
-          >
-            <ComboboxInput
-              value={value}
-              onChange={e => {
-                setValue(e.target.value);
+            </FloatingLabel>
+            <Form.Control.Feedback type='invlaid' className='text-danger m-0'>
+              {errors.currentLocation}
+            </Form.Control.Feedback>
+          </Col>
+        </Row>
+
+        {/* <Row>
+          <Col>
+            <Combobox
+              onSelect={async (address) => {
+                setValue(address, false);
+                clearSuggestions();
+                try {
+                  const results = await getGeocode({ address });
+                  const { lat, lng } = await getLatLng(results[0]);
+                  setFormSate({
+                    ...formState,
+                    currentLocation: `${lat},${lng}`,
+                  });
+                } catch (error) {
+                  console.log(error);
+                }
               }}
-              disabled={!ready}
-              placeholder='Enter an address.'
-            />
-            <ComboboxPopover>
-              <ComboboxList className='searchResults'>
-                {status === 'OK' &&
-                  data.map(suggestion => (
-                    <ComboboxOption
-                      key={suggestion.id}
-                      value={suggestion.description}
-                    />
-                  ))}
-              </ComboboxList>
-            </ComboboxPopover>
-          </Combobox>
-          <div>
-            <button onClick={getLocation}>Get Current Location</button>
-          </div>
-          <div>
-            <label>
-              <span>Departure Time</span>
-              <input
-                name='departureTime'
-                type='datetime-local'
-                onChange={inputChange}
-                value={formState.departureTime}
+            >
+              <ComboboxInput
+                value={value}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                }}
+                disabled={!ready}
+                placeholder="Enter an address."
               />
-            </label>
-          </div>
-          <div>
-            <button type='submit' disabled={buttonDisabled}>
+              <ComboboxPopover>
+                <ComboboxList className="searchResults">
+                  {status === "OK" &&
+                    data.map((suggestion) => (
+                      <ComboboxOption
+                        key={suggestion.id}
+                        value={suggestion.description}
+                      />
+                    ))}
+                </ComboboxList>
+              </ComboboxPopover>
+            </Combobox>
+          </Col>
+        </Row> */}
+
+        <Row className='d-flex justify-content-center'>
+          <Col md={6}>
+            <Button
+              variant='primary'
+              size='lg'
+              className='my-2'
+              onClick={getLocation}
+            >
+              Get Current Location
+            </Button>
+          </Col>
+        </Row>
+
+        <Row className='d-flex justify-content-center'>
+          <Col md={6}>
+            <Form.Group>
+              <FloatingLabel label='Departure Time' className='my-2'>
+                <Form.Control
+                  name='departureTime'
+                  type='datetime-local'
+                  id='departureTime'
+                  onChange={inputChange}
+                  value={formState.departureTime}
+                  isInvalid={errors.departureTime}
+                />
+              </FloatingLabel>
+              <Form.Control.Feedback type='invlaid' className='text-danger m-0'>
+                {errors.departureTime}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row className='d-flex justify-content-center'>
+          <Col md={6}>
+            <Button
+              variant='primary'
+              type='submit'
+              size='lg'
+              className='my-2'
+              disabled={buttonDisabled}
+            >
               {truckToEdit ? 'Submit Edit' : 'Add Truck'}
-            </button>
-          </div>
-        </form>
-      </div>
-    </StyledAddTruck>
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    </Container>
   );
 }
 const mapStateToProps = state => {
