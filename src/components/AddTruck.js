@@ -283,6 +283,19 @@ function AddTruck(props) {
 
         <Row>
           <Col>
+            <Button
+              variant="primary"
+              size="lg"
+              className="my-2"
+              onClick={getLocation}
+            >
+              Get Current Location
+            </Button>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col>
             <Form.Group>
               <FloatingLabel label="Departure Time" className="my-2">
                 <Form.Control
@@ -305,131 +318,6 @@ function AddTruck(props) {
         </Button>
       </Form>
     </Container>
-    // <StyledAddTruck>
-    //   <div className="container">
-    //     <h2>{truckToEdit ? "Edit" : "Add"} A Truck</h2>
-    //     <h2 className="error">{error}</h2>
-    //     <form onSubmit={formSubmit}>
-    //       <div>
-    //         <label htmlFor="name">
-    //           <span>Name</span>
-    //           <input
-    //             id="name"
-    //             type="text"
-    //             name="name"
-    //             value={formState.name}
-    //             placeholder="Trucks Name"
-    //             onChange={inputChange}
-    //           />
-    //           {errors.name.length > 0 ? <p>{errors.name}</p> : null}
-    //         </label>
-    //       </div>
-    //       <div>
-    //         <label htmlFor="imageOfTruck">
-    //           <span>Picture of Truck</span>
-    //           <input
-    //             id="imageOfTruck"
-    //             type="text"
-    //             name="imageOfTruck"
-    //             value={formState.imageOfTruck}
-    //             placeholder="Add URL Link of your picture"
-    //             onChange={inputChange}
-    //           />
-    //           {errors.imageOfTruck.length > 0 ? (
-    //             <p>{errors.imageOfTruck}</p>
-    //           ) : null}
-    //         </label>
-    //       </div>
-    //       <div>
-    //         <label htmlFor="cuisineType">
-    //           <span>Cuisine Type</span>
-    //           <input
-    //             id="cuisineType"
-    //             type="text"
-    //             name="cuisineType"
-    //             value={formState.cuisineType}
-    //             placeholder="Type of Cuisine"
-    //             onChange={inputChange}
-    //           />
-    //           {errors.cuisineType.length > 0 ? (
-    //             <p>{errors.cuisineType}</p>
-    //           ) : null}
-    //         </label>
-    //       </div>
-    //       <div>
-    //         <label htmlFor="currentLocation">
-    //           <span>Truck's Location</span>
-    //           <input
-    //             id="currentLocation"
-    //             type="text"
-    //             name="currentLocation"
-    //             value={formState.currentLocation}
-    //             placeholder="Location"
-    //             onChange={inputChange}
-    //           />
-    //           {errors.currentLocation.length > 0 ? (
-    //             <p>{errors.currentLocation}</p>
-    //           ) : null}
-    //         </label>
-    //       </div>
-    //       <Combobox
-    //         onSelect={async (address) => {
-    //           setValue(address, false);
-    //           clearSuggestions();
-    //           try {
-    //             const results = await getGeocode({ address });
-    //             const { lat, lng } = await getLatLng(results[0]);
-    //             setFormSate({
-    //               ...formState,
-    //               currentLocation: `${lat},${lng}`,
-    //             });
-    //           } catch (error) {
-    //             console.log(error);
-    //           }
-    //         }}
-    //       >
-    //         <ComboboxInput
-    //           value={value}
-    //           onChange={(e) => {
-    //             setValue(e.target.value);
-    //           }}
-    //           disabled={!ready}
-    //           placeholder="Enter an address."
-    //         />
-    //         <ComboboxPopover>
-    //           <ComboboxList className="searchResults">
-    //             {status === "OK" &&
-    //               data.map((suggestion) => (
-    //                 <ComboboxOption
-    //                   key={suggestion.id}
-    //                   value={suggestion.description}
-    //                 />
-    //               ))}
-    //           </ComboboxList>
-    //         </ComboboxPopover>
-    //       </Combobox>
-    //       <div>
-    //         <button onClick={getLocation}>Get Current Location</button>
-    //       </div>
-    //       <div>
-    //         <label>
-    //           <span>Departure Time</span>
-    //           <input
-    //             name="departureTime"
-    //             type="datetime-local"
-    //             onChange={inputChange}
-    //             value={formState.departureTime}
-    //           />
-    //         </label>
-    //       </div>
-    //       <div>
-    //         <button type="submit" disabled={buttonDisabled}>
-    //           {truckToEdit ? "Submit Edit" : "Add Truck"}
-    //         </button>
-    //       </div>
-    //     </form>
-    //   </div>
-    // </StyledAddTruck>
   );
 }
 const mapStateToProps = (state) => {
