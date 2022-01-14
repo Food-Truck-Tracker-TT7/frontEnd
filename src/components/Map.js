@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+
 import { connect } from 'react-redux';
 import {
   GoogleMap,
@@ -16,12 +16,17 @@ import { fetchTrucks, updateDinerLocation } from '../store/actions';
 import CuisineFilter from './CuisineFilter';
 import RatingFilter from './RatingFilter';
 
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+
 import FoodTruckMarker from '../images/foodtruckmarker.png';
 
 const libraries = ['places'];
 const mapContainerStyle = {
-  width: '100vw',
-  height: '91vh',
+  width: '100%',
+  height: '94vh',
 };
 
 const options = {
@@ -99,11 +104,10 @@ const Map = props => {
   if (!isLoaded) return 'Loading';
 
   return (
-    <>
-      <CuisineFilter />
-      <RatingFilter />
+    <Container fluid className='p-0'>
+      {/* <CuisineFilter />
       <Search panTo={panTo} />
-      <Locate panTo={panTo} />
+      <Locate panTo={panTo} /> */}
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={13}
@@ -151,41 +155,45 @@ const Map = props => {
               );
             })}
 
-        {selected ? (
+        {selected && (
           <InfoWindow
             position={parseLocation(selected.currentLocation)}
             onCloseClick={() => {
               setSelected(null);
             }}
           >
-            <div className='infowindow'>
-              <h2>
-                <Link to={`/truck/${selected.id}`}>
-                  {selected.name}
-                  <img
-                    src={selected.imageOfTruck}
-                    alt='food truck'
-                    width='100px'
-                  />
-                </Link>
-              </h2>
-
-              <p>Food Type: {selected.cuisineType}</p>
-              <p>Average Rating: {selected.customerRatingsAvg}/5</p>
-              <p>
-                Departure Time:{' '}
-                {new Date(
-                  parseInt(selected.departureTime)
-                ).toLocaleDateString()}{' '}
-                {new Date(
-                  parseInt(selected.departureTime)
-                ).toLocaleTimeString()}
-              </p>
-            </div>
+            <Card style={{ width: '18rem' }}>
+              <Card.Img variant='top' src={selected.imageOfTruck} />
+              <Card.Body>
+                <Card.Title>{selected.name}</Card.Title>
+                <Card.Text>
+                  <ListGroup variant='flush'>
+                    <ListGroup.Item>
+                      Food Type: {selected.cuisineType}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      Average Rating:{' '}
+                      {selected.customerRatingsAvg
+                        ? selected.customerRatingsAvg
+                        : 'N/A'}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      Departure Time:{' '}
+                      {new Date(
+                        parseInt(selected.departureTime)
+                      ).toLocaleString()}
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Card.Text>
+                <Card.Link href={`truck/${selected.id}`}>
+                  <Button variant='primary'>More Info</Button>
+                </Card.Link>
+              </Card.Body>
+            </Card>
           </InfoWindow>
-        ) : null}
+        )}
       </GoogleMap>
-    </>
+    </Container>
   );
 };
 

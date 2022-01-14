@@ -17,7 +17,6 @@ import Truck from './components/Truck';
 import AddTruck from './components/AddTruck';
 import MenuItem from './components/MenuItem';
 
-//import GlobalStyles from './styles/GlobalStyles';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App(props) {

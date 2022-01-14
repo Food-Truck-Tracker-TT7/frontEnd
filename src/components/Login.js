@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import { connect } from 'react-redux';
 import { loginUser } from '../store/actions';
@@ -153,48 +153,6 @@ function Login(props) {
           Log In
         </Button>
       </Form>
-
-      {/* <p className='loginTitle'>Log In</p>
-      <p>{error}</p>
-      <form onSubmit={formSubmit}>
-        <div className='loginForm'>
-          <label htmlFor='username'>
-            Username
-            <input
-              id='username'
-              name='username'
-              value={formState.username}
-              onChange={inputChange}
-            />
-            {errors.username.length > 0 ? <p>{errors.username}</p> : null}
-          </label>
-        </div>
-        <div className='loginForm'>
-          <label htmlFor='password'>
-            Password
-            <input
-              id='password'
-              name='password'
-              value={formState.password}
-              onChange={inputChange}
-            />
-            {errors.password.length > 0 ? <p>{errors.password}</p> : null}
-          </label>
-        </div>
-        <LoginBtn type='submit' disabled={buttonDisabled}>
-          Log In
-        </LoginBtn>
-        <p>
-          <Link className='loginLink' to='/signup'>
-            Not a member?
-          </Link>
-        </p>
-        <p>
-          <Link className='loginLink' to='/'>
-            Home Page
-          </Link>
-        </p>
-      </form> */}
     </Container>
   );
 }

@@ -1,40 +1,40 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { deleteTruck, editTruck } from '../store/actions';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-import StyledOwnedTruckCard from '../styles/StyledOwnedTruckCard';
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 
 function OwnedTruckCard(props) {
   const { truck, deleteTruck, editTruck } = props;
   const { push } = useHistory();
-  const departure = new Date(parseInt(truck.departureTime));
   return (
-    <StyledOwnedTruckCard>
-      <Link to={`/truck/${truck.id}`}>{truck.name}</Link>
-      <img src={truck.imageOfTruck} alt='food truck' />
-
-      <p>
-        Departure Time: {departure.toLocaleDateString()}{' '}
-        {departure.toLocaleTimeString()}
-      </p>
-      <div className='buttons'>
-        <button
-          onClick={() => {
-            editTruck(truck, push);
-          }}
-        >
-          Edit Truck
-        </button>
-        <button
-          onClick={() => {
-            deleteTruck(truck.id, push);
-          }}
-        >
-          Delete Truck
-        </button>
-      </div>
-    </StyledOwnedTruckCard>
+    <Container>
+      <Card>
+        <Card.Header>{truck.name}</Card.Header>
+        <Card.Body>
+          <Card.Img src={truck.imageOfTruck} />
+          <Card.Text>
+            Departure Time:{' '}
+            {new Date(parseInt(truck.departureTime)).toLocaleString()}
+          </Card.Text>
+          <Button
+            variant='primary'
+            onClick={() => {
+              editTruck(truck, push);
+            }}
+            className='m-2'
+          >
+            Edit
+          </Button>
+          <Button variant='primary' onclick={deleteTruck} className='m-2'>
+            Delete
+          </Button>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 }
 
