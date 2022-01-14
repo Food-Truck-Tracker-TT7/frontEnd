@@ -12,7 +12,7 @@ function OwnedTruckCard(props) {
   const { push } = useHistory();
   return (
     <Container>
-      <Card>
+      <Card style={{ width: '18rem' }}>
         <Card.Header>{truck.name}</Card.Header>
         <Card.Body>
           <Card.Img src={truck.imageOfTruck} />

@@ -19,6 +19,8 @@ import parseLocation from '../utils/parseLocation';
 
 import StyledAddTruck from '../styles/StyledAddTruck';
 
+import '@reach/combobox/styles.css';
+
 function AddTruck(props) {
   const { user, addTruck, updateTruck, truckToEdit, error } = props;
   const { push } = useHistory();
@@ -211,6 +213,7 @@ function AddTruck(props) {
                 value={formState.currentLocation}
                 placeholder='Location'
                 onChange={inputChange}
+                disabled={!ready}
               />
               {errors.currentLocation.length > 0 ? (
                 <p>{errors.currentLocation}</p>

@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchFavoriteTrucks, setDarkMode } from '../store/actions';
 import FavoriteTruckCard from './FavoriteTruckCard';
-import StyledDinerDashboard from '../styles/StyledDinerDashboard';
+
+import { Card, Container, Row, Col } from 'react-bootstrap';
 
 function DinerDashboard(props) {
   const {
@@ -18,44 +19,26 @@ function DinerDashboard(props) {
     fetchFavoriteTrucks(user.dinerId);
   }, []);
 
-  const toggleMode = () => {
-    if (darkMode) {
-      setDarkMode();
-      localStorage.removeItem('darkmode');
-    } else {
-      setDarkMode();
-      localStorage.setItem('darkmode', 'true');
-    }
-  };
-
   if (isLoading) return <h2>Loading...</h2>;
 
   return (
-    <StyledDinerDashboard>
-      <div className='dinerinfo'>
-        <h2>{user.username}</h2>
-        <p>email: {user.email}</p>
-        <p>Choose Your Theme:</p>
-        <div>
-          Light Mode
-          <div className='dark-mode__toggle'>
-            <div
-              onClick={toggleMode}
-              className={darkMode ? 'toggle toggled' : 'toggle'}
-            />
-          </div>
-          Dark Mode
-        </div>
-        <h3>Favorite Trucks</h3>
-        <div className='favtrucks'>
-          {favoriteTrucks
-            ? favoriteTrucks.map(truck => (
-                <FavoriteTruckCard key={truck.id} truck={truck} />
-              ))
-            : null}
-        </div>
-      </div>
-    </StyledDinerDashboard>
+    <Container>
+      <Card>
+        <Card.Header>{user.username}</Card.Header>
+        <Card.Body>
+          <Card.Text>Email: {user.email}</Card.Text>
+          <Card.Title>Favorite Trucks</Card.Title>
+          <Row>
+            {favoriteTrucks &&
+              favoriteTrucks.map(truck => (
+                <Col>
+                  <FavoriteTruckCard key={truck.id} truck={truck} />
+                </Col>
+              ))}
+          </Row>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 }
 
