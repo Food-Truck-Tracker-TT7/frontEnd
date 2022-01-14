@@ -58,6 +58,7 @@ function MenuItem(props) {
         setErrorState({ ...errorState, [e.target.name]: ifErr.errors[0] });
       });
   };
+
   useEffect(() => {
     formSchema.isValid(input).then((valid) => {
       setBtnState(!valid);
@@ -67,8 +68,8 @@ function MenuItem(props) {
   return (
     <Container fluid="md">
       <Form onSubmit={onSubmitFunc}>
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <Form.Group>
               <FloatingLabel label="Item Name" className="my-2">
                 <Form.Control
@@ -88,8 +89,8 @@ function MenuItem(props) {
           </Col>
         </Row>
 
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <Form.Group>
               <FloatingLabel label="Item Description" className="my-2">
                 <Form.Control
@@ -109,8 +110,8 @@ function MenuItem(props) {
           </Col>
         </Row>
 
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <Form.Group>
               <FloatingLabel label="Item Price" className="my-2">
                 <Form.Control
@@ -129,9 +130,18 @@ function MenuItem(props) {
             </Form.Group>
           </Col>
         </Row>
-        <Button variant="primary" type="submit" size="lg" disabled={btnState}>
-          Submit
-        </Button>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
+            <Button
+              variant="primary"
+              type="submit"
+              size="lg"
+              disabled={btnState}
+            >
+              Submit
+            </Button>
+          </Col>
+        </Row>
       </Form>
     </Container>
     // <MenuBodyStyle>

@@ -102,36 +102,24 @@ function Signup(props) {
     });
   };
 
-  console.log(signupInput);
-
   //*Yup validation
   const formSchema = yup.object().shape({
-    username: yup
-      .string()
-      .required(
-        "This is not some fly by night app. All who wish to pass must supply a username"
-      ),
-    password: yup
-      .string()
-      .required(
-        "We promise to keep your password a secret, but you do need to supply one"
-      ),
+    username: yup.string().required("Please provide a valid username"),
+    password: yup.string().required("Please provide a valid password"),
     email: yup
       .string()
-      .email(
-        "Not so fast trickster! I know an email when I see one and this ain't it. Try again hot shot!"
-      )
-      .required("Who doesn't have an email address?"),
+      .email("Please provide a valid email")
+      .required("Valid email required"),
     usertype: yup
       .string()
-      .oneOf(["diner", "operator"], "You must select an account type."),
+      .oneOf(["diner", "operator"], "Please select an account type"),
   });
 
   return (
     <Container fluid="md">
       <Form onSubmit={onSubmitFunc} className="m-3">
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <Form.Group>
               <FloatingLabel
                 controlId="username"
@@ -155,8 +143,8 @@ function Signup(props) {
           </Col>
         </Row>
 
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <Form.Group>
               <FloatingLabel controlId="email" label="Email" className="my-2">
                 <Form.Control
@@ -176,8 +164,8 @@ function Signup(props) {
           </Col>
         </Row>
 
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <Form.Group>
               <FloatingLabel
                 controlId="password"
@@ -201,8 +189,8 @@ function Signup(props) {
           </Col>
         </Row>
 
-        <Row className="mt-2">
-          <Col>
+        <Row className="mt-2 d-flex justify-content-center">
+          <Col md={6}>
             <Form.Check
               inline
               type="radio"
@@ -224,90 +212,21 @@ function Signup(props) {
             />
           </Col>
         </Row>
-        <Button variant="primary" type="submit" size="lg" className="my-2">
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
+        <Button
+          variant="primary"
+          type="submit"
+          size="lg"
+          className="my-2"
+          disabled={submitBtn}
+          >
           Sign Up
         </Button>
+            </Col>
+          </Row>
       </Form>
     </Container>
-    // <StyledSignup>
-    //   <h2>Signup Page</h2>
-    //   <div>{error}</div>
-    //   <form>
-    //     <div className='radio'>
-    //       <label htmlFor='usertype'>
-    //         {' '}
-    //         Diner
-    //         <input
-    //           type='radio'
-    //           name='usertype'
-    //           id='diner'
-    //           value='diner'
-    //           checked={signupInput.usertype === 'diner' ? true : false}
-    //           onChange={onChangeFunc}
-    //         />
-    //       </label>{' '}
-    //       {}
-    //       <label htmlFor='usertype'>
-    //         {' '}
-    //         Operator
-    //         <input
-    //           type='radio'
-    //           name='usertype'
-    //           id='operator'
-    //           value='operator'
-    //           checked={signupInput.usertype === 'operator' ? true : false}
-    //           onChange={onChangeFunc}
-    //         />
-    //       </label>
-    //     </div>
-    //     <br />
-    //     <div className='inputs'>
-    //       <div>
-    //         <label htmlFor='username'>
-    //           {'Username'}
-    //           <input
-    //             type='text'
-    //             id='username'
-    //             name='username'
-    //             value={signupInput.username}
-    //             onChange={onChangeFunc}
-    //           />
-    //           <p>{validationError.username}</p>
-    //         </label>
-    //       </div>
-    //       <div>
-    //         <label htmlFor='password'>
-    //           {'Password'}
-    //           <input
-    //             type='password'
-    //             id='password'
-    //             name='password'
-    //             value={signupInput.password}
-    //             onChange={onChangeFunc}
-    //           />
-    //           <p>{validationError.password}</p>.
-    //         </label>
-    //       </div>
-    //       <div>
-    //         <label htmlFor='email'>
-    //           {'Email'}
-    //           <input
-    //             type='email'
-    //             id='email'
-    //             name='email'
-    //             value={signupInput.email}
-    //             onChange={onChangeFunc}
-    //           />
-    //           <p> {validationError.email}</p>
-    //         </label>
-    //       </div>
-    //     </div>
-    //     <br />
-    //     <button disabled={submitBtn} onClick={onSubmitFunc}>
-    //       Submit
-    //     </button>
-    //   </form>
-    // </StyledSignup>
   );
 }
 

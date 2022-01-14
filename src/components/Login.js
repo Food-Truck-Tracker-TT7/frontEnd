@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import * as yup from 'yup';
-import { connect } from 'react-redux';
-import { loginUser } from '../store/actions';
+import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
+import * as yup from "yup";
+import { connect } from "react-redux";
+import { loginUser } from "../store/actions";
 
 import {
   Container,
@@ -11,38 +11,38 @@ import {
   Form,
   Button,
   FloatingLabel,
-} from 'react-bootstrap';
+} from "react-bootstrap";
 
 function Login(props) {
   const { loginUser, error } = props;
   const { push } = useHistory();
   //manage state for the form inputs
   const [formState, setFormSate] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
   //managing error state
   const [errors, setErrors] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
 
   //submit state checks whether the form can be submited
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
   //inline validation on one key/value pair at a time
-  const validateChange = event => {
+  const validateChange = (event) => {
     //.reach is in the yup library
     //returns a promise
     yup
       .reach(formSchema, event.target.name)
       .validate(event.target.value)
-      .then(valid => {
+      .then((valid) => {
         //value from valid comes from .validate
         //if the input is passing formSchema
-        setErrors({ ...errors, [event.target.name]: '' });
+        setErrors({ ...errors, [event.target.name]: "" });
       })
-      .catch(error => {
+      .catch((error) => {
         //if the input is breakign formSchema
         //capture the error message
         setErrors({ ...errors, [event.target.name]: error.errors[0] });
@@ -52,7 +52,7 @@ function Login(props) {
   };
 
   //onChange function
-  const inputChange = event => {
+  const inputChange = (event) => {
     //allows us to pass around synthertic events
     event.persist();
 
@@ -71,8 +71,8 @@ function Login(props) {
   //object is coming from yup library
   //shape function takes in an object {}
   const formSchema = yup.object().shape({
-    username: yup.string().required('Username is required'),
-    password: yup.string().required('Password is required'),
+    username: yup.string().required("Username is required"),
+    password: yup.string().required("Password is required"),
     // accountType: yup.string().oneOf(["diner", "operator"]),
   });
 
@@ -81,7 +81,7 @@ function Login(props) {
     //checking formSchema against formState
     //comparing the keys and the values
     //returns a promise
-    formSchema.isValid(formState).then(valid => {
+    formSchema.isValid(formState).then((valid) => {
       //we can check the process has been completed
       setButtonDisabled(!valid);
     });
@@ -89,7 +89,7 @@ function Login(props) {
   //do something every time formState changes
 
   //onSubmit function
-  const formSubmit = event => {
+  const formSubmit = (event) => {
     event.preventDefault();
     loginUser(
       {
@@ -101,57 +101,66 @@ function Login(props) {
   };
 
   return (
-    <Container fluid='md'>
-      <Form onSubmit={formSubmit} className='m-3'>
-        <Row>
-          <Col>
+    <Container fluid="md">
+      <Form onSubmit={formSubmit} className="m-3">
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <Form.Group>
               <FloatingLabel
-                controlId='username'
-                label='Username'
-                className='my-2'
+                controlId="username"
+                label="Username"
+                className="my-2"
               >
                 <Form.Control
-                  type='text'
-                  placeholder='Enter username'
-                  id='username'
-                  name='username'
+                  type="text"
+                  placeholder="Enter username"
+                  id="username"
+                  name="username"
                   value={formState.username}
                   onChange={inputChange}
                   isInvalid={errors.username}
                 />
               </FloatingLabel>
-              <Form.Control.Feedback type='invlaid' className='text-danger m-0'>
+              <Form.Control.Feedback type="invlaid" className="text-danger m-0">
                 {errors.username}
               </Form.Control.Feedback>
             </Form.Group>
           </Col>
         </Row>
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <FloatingLabel
-              controlId='password'
-              label='Password'
-              className='my-2'
+              controlId="password"
+              label="Password"
+              className="my-2"
             >
               <Form.Control
-                type='password'
-                placeholder='Enter password'
-                id='password'
-                name='password'
+                type="password"
+                placeholder="Enter password"
+                id="password"
+                name="password"
                 value={formState.password}
                 onChange={inputChange}
                 isInvalid={errors.password}
               />
             </FloatingLabel>
-            <Form.Control.Feedback type='invlaid' className='text-danger'>
+            <Form.Control.Feedback type="invlaid" className="text-danger">
               {errors.password}
             </Form.Control.Feedback>
           </Col>
         </Row>
-        <Button variant='primary' type='submit' size='lg'>
-          Log In
-        </Button>
+        <Row className="d-flex justify-content-center">
+          <Col md={2}>
+            <Button
+              variant="primary"
+              type="submit"
+              size="lg"
+              disabled={buttonDisabled}
+            >
+              Log In
+            </Button>
+          </Col>
+        </Row>
       </Form>
 
       {/* <p className='loginTitle'>Log In</p>
@@ -198,7 +207,7 @@ function Login(props) {
     </Container>
   );
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     error: state.error,
   };

@@ -161,8 +161,8 @@ function AddTruck(props) {
   return (
     <Container fluid="md">
       <Form onSubmit={formSubmit} className="m-3">
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <Form.Group>
               <FloatingLabel label="Name" className="my-2">
                 <Form.Control
@@ -182,8 +182,8 @@ function AddTruck(props) {
           </Col>
         </Row>
 
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <FloatingLabel label="Picture of Truck" className="my-2">
               <Form.Control
                 id="imageOfTruck"
@@ -201,8 +201,8 @@ function AddTruck(props) {
           </Col>
         </Row>
 
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <FloatingLabel label="Cuisine Type" className="my-2">
               <Form.Control
                 id="cuisineType"
@@ -221,8 +221,8 @@ function AddTruck(props) {
           </Col>
         </Row>
 
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <FloatingLabel label="Truck's Location" className="my-2">
               <Form.Control
                 id="currentLocation"
@@ -281,8 +281,8 @@ function AddTruck(props) {
           </Col>
         </Row> */}
 
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <Button
               variant="primary"
               size="lg"
@@ -294,8 +294,8 @@ function AddTruck(props) {
           </Col>
         </Row>
 
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
             <Form.Group>
               <FloatingLabel label="Departure Time" className="my-2">
                 <Form.Control
@@ -313,9 +313,19 @@ function AddTruck(props) {
             </Form.Group>
           </Col>
         </Row>
-        <Button variant="primary" type="submit" size="lg" className="my-2">
-          {truckToEdit ? "Submit Edit" : "Add Truck"}
-        </Button>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
+            <Button
+              variant="primary"
+              type="submit"
+              size="lg"
+              className="my-2"
+              disabled={buttonDisabled}
+            >
+              {truckToEdit ? "Submit Edit" : "Add Truck"}
+            </Button>
+          </Col>
+        </Row>
       </Form>
     </Container>
   );
