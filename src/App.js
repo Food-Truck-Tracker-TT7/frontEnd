@@ -17,15 +17,15 @@ import Truck from './components/Truck';
 import AddTruck from './components/AddTruck';
 import MenuItem from './components/MenuItem';
 
-import GlobalStyles from './styles/GlobalStyles';
-// import './styles/App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@reach/combobox/styles.css';
+import './styles/styles.css';
 
 function App(props) {
   const { userType, darkMode } = props;
   return (
     <>
       <ThemeProvider theme={darkMode ? darkmode : lightmode}>
-        <GlobalStyles />
         <Header />
 
         <Switch>
@@ -43,7 +43,7 @@ function App(props) {
           <PrivateRoute path='/addmenuitem' component={MenuItem} />
           <PrivateRoute path='/edittruck' component={AddTruck} />
           <PrivateRoute path='/editmenuitem' component={MenuItem} />
-          <Route path='/' component={Welcome} />
+          <Route exact path='/' component={Welcome} />
         </Switch>
       </ThemeProvider>
     </>

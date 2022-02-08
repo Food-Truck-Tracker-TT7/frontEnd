@@ -1,73 +1,54 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { fetchOperatorTruck, setDarkMode } from '../store/actions';
-import StyledOpDashboard from '../styles/StyledOpDashboard';
+import { fetchOperatorTruck } from '../store/actions';
 import OwnedTruckCard from './OwnedTruckCard';
+import { useHistory } from 'react-router-dom';
+
+import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 
 function OperatorDashboard(props) {
-  const {
-    user,
-    trucksOwned,
-    fetchOperatorTruck,
-    setDarkMode,
-    darkMode,
-    update,
-  } = props;
+  const { user, trucksOwned, fetchOperatorTruck, update } = props;
   useEffect(() => {
     fetchOperatorTruck(user.operatorId);
   }, [update]);
-  const toggleMode = () => {
-    if (darkMode) {
-      setDarkMode();
-      localStorage.removeItem('darkmode');
-    } else {
-      setDarkMode();
-      localStorage.setItem('darkmode', 'true');
-    }
-  };
+
+  const { push } = useHistory();
+
   return (
-    <StyledOpDashboard>
-      <div>
-        <h2>{user.username}</h2>
-        <p>email: {user.email}</p>
-        <p>Choose Your Theme:</p>
-        <div>
-          Light Mode
-          <div className='dark-mode__toggle'>
-            <div
-              onClick={toggleMode}
-              className={darkMode ? 'toggle toggled' : 'toggle'}
-            />
-          </div>
-          Dark Mode
-        </div>
-      </div>
-      <h3>Your Trucks</h3>
-      <Link to='/addtruck'>Add A Truck</Link>
-      <div className='trucklist'>
-        {trucksOwned ? (
-          trucksOwned.map(truck => (
-            <OwnedTruckCard key={truck.id} truck={truck} />
-          ))
-        ) : (
-          <p>No trucks yet!</p>
-        )}
-      </div>
-    </StyledOpDashboard>
+    <Container fluid='md' className='text-center'>
+      <Card>
+        <Card.Header>{user.username}</Card.Header>
+        <Card.Body>
+          <Card.Text>Email: {user.email}</Card.Text>
+          <Button
+            variant='primary'
+            onClick={() => {
+              push('/addtruck');
+            }}
+          >
+            Add Truck
+          </Button>
+          <Card.Title className='m-3'>Owned Trucks</Card.Title>
+          <Row className='d-flex justify-content-center'>
+            {trucksOwned &&
+              trucksOwned.map(truck => (
+                <Col key={truck.id} md={4}>
+                  <OwnedTruckCard truck={truck} />
+                </Col>
+              ))}
+          </Row>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    user: state.user,
-    trucksOwned: state.trucksOwned,
-    darkMode: state.darkMode,
-    update: state.update,
-  };
-};
+const mapStateToProps = state => ({
+  user: state.user,
+  trucksOwned: state.trucksOwned,
+  update: state.update,
+});
 
 export default connect(mapStateToProps, {
   fetchOperatorTruck,
-  setDarkMode,
 })(OperatorDashboard);

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+
 import { connect } from 'react-redux';
 import {
   GoogleMap,
@@ -7,20 +7,23 @@ import {
   InfoWindow,
   useLoadScript,
 } from '@react-google-maps/api';
+import { useHistory } from 'react-router-dom';
 
 import Search from './Search';
 import Locate from './Locate';
-import parseLocation from '../utils/parseLocation'; //takes in location string and returns a location object
+import parseLocation from '../utils/parseLocation';
 import stringifyLocation from '../utils/stringifyLocation';
 import { fetchTrucks, updateDinerLocation } from '../store/actions';
 import CuisineFilter from './CuisineFilter';
+
+import { Container, Row, Col, Card, ListGroup, Button } from 'react-bootstrap';
 
 import FoodTruckMarker from '../images/foodtruckmarker.png';
 
 const libraries = ['places'];
 const mapContainerStyle = {
-  width: '100vw',
-  height: '91vh',
+  width: '100%',
+  height: '94vh',
 };
 
 const options = {
@@ -65,7 +68,14 @@ const Map = props => {
             }
           }
         );
-  }, []);
+  }, [
+    fetchTrucks,
+    findTruck,
+    updateDinerLocation,
+    user.currentLocation,
+    user.dinerId,
+    userType,
+  ]);
 
   const mapRef = useRef();
   const onMapLoad = useCallback(map => {
@@ -86,15 +96,25 @@ const Map = props => {
     libraries: libraries,
   });
 
+  const { push } = useHistory();
+
   if (loadError) return 'Error Loading Map';
 
   if (!isLoaded) return 'Loading';
 
   return (
-    <>
-      <CuisineFilter />
-      <Search panTo={panTo} />
-      <Locate panTo={panTo} />
+    <Container fluid className='p-0'>
+      <Row className='map-elements text-center'>
+        <Col>
+          <CuisineFilter />
+        </Col>
+        <Col>
+          <Search panTo={panTo} />
+        </Col>
+        <Col>
+          <Locate panTo={panTo} />
+        </Col>
+      </Row>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={13}
@@ -142,37 +162,52 @@ const Map = props => {
               );
             })}
 
-        {selected ? (
+        {selected && (
           <InfoWindow
+            className='z-top'
             position={parseLocation(selected.currentLocation)}
             onCloseClick={() => {
               setSelected(null);
             }}
           >
-            <div className='infowindow'>
-              <h2>
-                <Link to={`/truck/${selected.id}`}>
-                  {selected.name}
-                  <img
-                    src={selected.imageOfTruck}
-                    alt='food truck'
-                    width='100px'
-                  />
-                </Link>
-              </h2>
+            <Card style={{ width: '18rem' }}>
+              <Card.Img variant='top' src={selected.imageOfTruck} />
+              <Card.Body>
+                <Card.Title>{selected.name}</Card.Title>
+                <Card.Text>
+                  <ListGroup variant='flush'>
+                    <ListGroup.Item>
+                      Food Type: {selected.cuisineType}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      Average Rating:{' '}
+                      {selected.customerRatingsAvg
+                        ? selected.customerRatingsAvg
+                        : 'N/A'}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      Departure Time:{' '}
+                      {new Date(
+                        parseInt(selected.departureTime)
+                      ).toLocaleString()}
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Card.Text>
 
-              <p>Food Type: {selected.cuisineType}</p>
-              <p>Average Rating: {selected.customerRatingsAvg}/5</p>
-              <p>
-                Departure Time:{' '}
-                {new Date(selected.departureTime).toLocaleDateString()}{' '}
-                {new Date(selected.departureTime).toLocaleTimeString()}
-              </p>
-            </div>
+                <Button
+                  variant='primary'
+                  onClick={() => {
+                    push(`/truck/${selected.id}`);
+                  }}
+                >
+                  More Info
+                </Button>
+              </Card.Body>
+            </Card>
           </InfoWindow>
-        ) : null}
+        )}
       </GoogleMap>
-    </>
+    </Container>
   );
 };
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '../store/actions';
 
-import StyledHeader from '../styles/StyledHeader';
+import { Navbar, Container, Nav } from 'react-bootstrap';
 
 const Header = props => {
   const { isLoggedIn, logoutUser } = props;
@@ -11,26 +11,57 @@ const Header = props => {
   const logout = () => {
     logoutUser();
   };
+
+  const { push } = useHistory();
+
   return (
-    <StyledHeader>
-      <h1>
-        <Link to='/'>Food Truck Tracker</Link>
-      </h1>
-      {isLoggedIn ? (
-        <nav>
-          <Link to='/dashboard'>Dashboard</Link>
-          <Link to='/map'>Map</Link>
-          <Link to='/welcome' onClick={logout}>
-            Logout
-          </Link>
-        </nav>
-      ) : (
-        <nav>
-          <Link to='/login'>Login</Link>
-          <Link to='/signup'>Sign Up</Link>
-        </nav>
-      )}
-    </StyledHeader>
+    <Navbar bg='primary' variant='dark'>
+      <Container>
+        <Navbar.Brand
+          onClick={() => {
+            push('/');
+          }}
+        >
+          Food Truck Tracker
+        </Navbar.Brand>
+        {isLoggedIn ? (
+          <Nav className='me-auto'>
+            <Nav.Link
+              onClick={() => {
+                push('/dashboard');
+              }}
+            >
+              Dashboard
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                push('/map');
+              }}
+            >
+              Map
+            </Nav.Link>
+            <Nav.Link onClick={logout}>Logout</Nav.Link>
+          </Nav>
+        ) : (
+          <Nav className='me-auto'>
+            <Nav.Link
+              onClick={() => {
+                push('/signup');
+              }}
+            >
+              Sign Up
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                push('/login');
+              }}
+            >
+              Log In
+            </Nav.Link>
+          </Nav>
+        )}
+      </Container>
+    </Navbar>
   );
 };
 const mapStateToProps = state => {

@@ -1,7 +1,7 @@
 export default {
-  backgroundColor: '#072622',
-  textColor: '#A0182F',
-  accentColor: '#A68026',
+  backgroundColor: '#000000',
+  textColor: '#FFFFFF',
+  accentColor: '#8E05C2',
   CTAColor: '#393E41',
   blackColor: '#171311',
   whiteColor: '#F1F0CC',
